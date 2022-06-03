@@ -1,0 +1,3 @@
+[submodule "deps/terminal-sequences-wrapper"]
+	path = deps/terminal-sequences-wrapper
+	url = https://github.com/vzze/terminal-sequences-wrapper
