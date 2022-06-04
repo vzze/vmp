@@ -1,4 +1,4 @@
-if(Test-Path -Path "~/vmp") {
+if((Test-Path -Path "~/vmp")) {
     $path = [System.Environment]::GetEnvironmentVariable(
         "PATH",
         "Machine"

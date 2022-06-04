@@ -1,4 +1,4 @@
-if(!Test-Path -Path "~/vmp") {
+if(!(Test-Path -Path "~/vmp")) {
     New-Item -Path "~/vmp" -ItemType "directory"
     New-Item -Path "~/vmp/Songs" -ItemType "directory"
     New-Item -Path "~/vmp/Queues" -ItemType "directory"
