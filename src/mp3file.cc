@@ -77,12 +77,8 @@ void loadMP3Files() {
 
     std::filesystem::path mp3loc = std::string(home) + "\\vmp\\Songs";
 
-    auto fiterator = std::filesystem::directory_iterator(mp3loc);
-
-    for(auto begin = std::filesystem::begin(fiterator); begin != std::filesystem::end(fiterator);) {
-        auto mp3path = *begin;
-        mp3_list.push_back(mp3path.path().string());
-        files[mp3path.path().string()] = {mp3path};
-        begin++;
+    for(auto & f : std::filesystem::directory_iterator(mp3loc)) {
+        mp3_list.push_back(f.path().string());
+        files[f.path().string()] = {f};
     }
 }
