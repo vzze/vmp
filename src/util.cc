@@ -6,8 +6,10 @@ void download(std::vector<std::string> & args) {
 
 void listMP3s(std::vector<std::string> & args) {
     size_t num = 0;
-    for(auto & str : mp3_list)
-        std::cout << ++num << ". " << str << '\n';
+    for(auto str : mp3_list) {
+        str = str.substr(str.find("\\Songs\\") + 7);
+        std::cout << ++num << ". " << str.substr(0, str.find(".mp3")) << '\n';
+    }
 }
 
 void createQ(std::vector<std::string> & args) {
@@ -137,7 +139,7 @@ void peekQ(std::vector<std::string> & args) {
         size_t num = 0;
 
         for(auto & n : q.pFiles)
-            std::cout << ++num << ". " << n.string() << '\n';
+            std::cout << ++num << ". " << n.filename().string().substr(0, n.filename().string().find(".mp3")) << '\n';
     } catch (...) {
         std::cout << "No Queue with the name: \"" << queueName << "\"\n";
     }
