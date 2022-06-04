@@ -24,3 +24,8 @@ Run build script, then the install script.
 * `queue delete [Name]` Deletes the queue
 * `queue list` Lists all of the created queues
 * `queue peek` Lists all of the songs in a queue
+
+#### Known Issues
+```
+Does not support file names that contain wide characters.
+```
