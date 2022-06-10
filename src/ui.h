@@ -7,6 +7,11 @@
 
 extern std::vector<std::future<void>> song_q;
 
+void UpdateVol();
+void UpdateShuffle();
+void UpdateLoop();
+void UpdatePause();
+
 void DrawUi();
 
 void KeyCallback(int code);

@@ -8,32 +8,61 @@ bool _shuffleEnabled = false;
 bool _internal_FirstShuffle = false;
 
 void NewSongCallback(std::string s) {
-    DrawUi();
+    console::cursor::Position(1, 1);
+    printf("Playing: %s", s.c_str());
+    console::text::mod::EraseInLine();
 }
 
-void DrawUi() {
-    console::text::mod::EraseInDisplay(2);
-    console::cursor::HorizontalVerticalPosition();
-
-    printf("Playing: %s\n", currently_playing.c_str());
+void UpdateVol() {
+    console::cursor::Position(2, 1);
     printf("Volume: %i", fVolume);
+    console::text::mod::EraseInLine();
+}
 
+void UpdateShuffle() {
     console::cursor::Position(console::GetRows() - 3, 1);
 
     if(_shuffleEnabled)
-        printf("[h] Shuffle | Enabled\n");
+        printf("[h] Shuffle | Enabled");
     else
-        printf("[h] Shuffle | Disabled\n");
+        printf("[h] Shuffle | Disabled");
+    console::text::mod::EraseInLine();
+}
+
+void UpdateLoop() {
+    console::cursor::Position(console::GetRows() - 2, 1);
 
     if(to_loop)
-        printf("[l] Loop | Looping Track\n");
+        printf("[l] Looping Track");
     else
-        printf("[l] Loop | Not looping\n");
+        printf("[l] Not looping");
+    console::text::mod::EraseInLine();
+}
 
+void UpdatePause() {
+    console::cursor::Position(console::GetRows() - 1, 1);
     if(_internal_pause)
-        printf("[p] Pause/Resume | Current status: Paused\n");
+        printf("[p] Current status: Paused");
     else
-        printf("[p] Pause/Resume | Current status: Playing\n");
+        printf("[p] Current status: Playing");
+    console::text::mod::EraseInLine();
+}
+
+void DrawUi() {
+    UpdateVol();
+
+    console::cursor::Position(3, 1);
+    console::text::mod::EraseInLine();
+
+    UpdateShuffle();
+
+    console::cursor::Position(console::GetRows() - 4, 1);
+    console::text::mod::EraseInLine();
+
+    UpdateLoop();
+    UpdatePause();
+
+    console::cursor::Position(console::GetRows(), 1);
 
     printf("[s] Skip | [q] Quit.");
 }
@@ -43,30 +72,30 @@ void KeyCallback(int code) {
         fVolume -= 10;
         if(fVolume < 0)
             fVolume = 0;
-        DrawUi();
+        UpdateVol();
     }
 
     if(code == (int)console::keys::SPECIAL_KEYS::UP_ARROWN) {
         fVolume += 10;
         if(fVolume > 1000)
             fVolume = 1000;
-        DrawUi();
+        UpdateVol();
     }
 
     if(code == 'l') {
         to_loop = !to_loop;
-        DrawUi();
+        UpdateLoop();
     }
 
     if(code == 'p') {
         paused = true;
         _internal_pause = !_internal_pause;
-        DrawUi();
+        UpdatePause();
     }
 
     if(code == 'h') {
         _shuffleEnabled = !_shuffleEnabled;
-        DrawUi();
+        UpdateShuffle();
     }
 
     if(code == 's') {
@@ -81,6 +110,7 @@ void KeyCallback(int code) {
 }
 
 void ResizeCallback(int col, int rows) {
+    NewSongCallback(currently_playing);
     DrawUi();
 }
 
@@ -91,6 +121,7 @@ void initUi(std::vector<std::string> & args) {
     console::SetKeyCallback(KeyCallback);
     console::SetWindowBufferResizeCallback(ResizeCallback);
     console::cursor::HorizontalVerticalPosition();
+    console::text::mod::EraseInDisplay(2);
     console::cursor::Hide();
 
     printf("Loading ...");
