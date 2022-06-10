@@ -35,11 +35,6 @@ void NewSongCallback(std::string s) {
     SetTextColor(console::text::VALUE::BFG_YELLOW);
     printf(":");
     SetTextColor();
-    /* if(s.size() + 9 > console::GetColumns() / 2) { */
-    /*     s = s.substr(0,  console::GetColumns() / 2 - 10); */
-    /*     auto it = s.rbegin(); */
-    /*     *it = '.'; ++it; *it = '.'; ++it; *it = '.'; */
-    /* } */
     printf(" %s", s.c_str());
     console::text::mod::EraseInLine();
 }
@@ -126,17 +121,10 @@ void DrawUi() {
     printf(" Quit.");
     console::text::mod::EraseInLine();
 
-    /* for(size_t row = 4; row < console::GetRows() - 5; row++) { */
-    /*     console::cursor::Position(row, 1); */
-    /*     console::text::mod::EraseInLine(); */
-    /* } */
-
-    /* size_t row = 1; */
-    /* while(row <= console::GetRows()) { */
-    /*     console::cursor::Position(row, console::GetColumns() / 2); */
-    /*     printf("|"); */
-    /*     ++row; */
-    /* } */
+    for(size_t row = 4; row < console::GetRows() - 5; row++) {
+        console::cursor::Position(row, 1);
+        console::text::mod::EraseInLine();
+    }
 }
 
 void KeyCallback(int code) {
