@@ -7,6 +7,9 @@
 
 extern std::vector<std::future<void>> song_q;
 
+void SetTextColor(console::text::VALUE val = console::text::VALUE::FG_DEFAULT);
+void PrintButton(char button);
+
 void UpdateVol();
 void UpdateShuffle();
 void UpdateLoop();

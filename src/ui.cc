@@ -7,44 +7,96 @@ bool _internal_pause = false;
 bool _shuffleEnabled = false;
 bool _internal_FirstShuffle = false;
 
+void SetTextColor(console::text::VALUE val) {
+    console::text::fmt::SetGR(
+        console::text::VALUE::NO_BOLD_BRIGHT,
+        console::text::VALUE::NO_UNDERLINE,
+        console::text::VALUE::POSITIVE,
+        val
+    );
+}
+
+void PrintButton(char button) {
+    SetTextColor(console::text::VALUE::BFG_YELLOW);
+    printf("[");
+
+    SetTextColor();
+    printf("%c", button);
+
+    SetTextColor(console::text::VALUE::BFG_YELLOW);
+    printf("]");
+
+    SetTextColor();
+}
+
 void NewSongCallback(std::string s) {
     console::cursor::Position(1, 1);
-    printf("Playing: %s", s.c_str());
+    printf("Playing");
+    SetTextColor(console::text::VALUE::BFG_YELLOW);
+    printf(":");
+    SetTextColor();
+    if(s.size() + 9 > console::GetColumns() / 2) {
+        s = s.substr(0,  console::GetColumns() / 2 - 9);
+        auto it = s.rbegin();
+        *it = '.'; ++it; *it = '.'; ++it; *it = '.';
+    }
+    printf(" %s", s.c_str());
     console::text::mod::EraseInLine();
 }
 
 void UpdateVol() {
     console::cursor::Position(2, 1);
-    printf("Volume: %i", fVolume);
+    printf("Volume");
+    SetTextColor(console::text::VALUE::BFG_YELLOW);
+    printf(":");
+    SetTextColor();
+    printf(" %i", fVolume);
     console::text::mod::EraseInLine();
 }
 
 void UpdateShuffle() {
-    console::cursor::Position(console::GetRows() - 3, 1);
+    console::cursor::Position(console::GetRows() - 4, 1);
+
+    PrintButton('h');
+
+    printf(" Shuffle");
+    SetTextColor(console::text::VALUE::BFG_YELLOW);
+    printf(":");
+    SetTextColor();
 
     if(_shuffleEnabled)
-        printf("[h] Shuffle | Enabled");
+        printf(" Enabled");
     else
-        printf("[h] Shuffle | Disabled");
+        printf(" Disabled");
     console::text::mod::EraseInLine();
 }
 
 void UpdateLoop() {
-    console::cursor::Position(console::GetRows() - 2, 1);
+    console::cursor::Position(console::GetRows() - 3, 1);
+
+    PrintButton('l');
 
     if(to_loop)
-        printf("[l] Looping Track");
+        printf(" Looping Track");
     else
-        printf("[l] Not looping");
+        printf(" Not looping");
     console::text::mod::EraseInLine();
 }
 
 void UpdatePause() {
-    console::cursor::Position(console::GetRows() - 1, 1);
+    console::cursor::Position(console::GetRows() - 2, 1);
+
+    PrintButton('p');
+
+    printf(" Current status");
+    SetTextColor(console::text::VALUE::BFG_YELLOW);
+    printf(":");
+    SetTextColor();
+
     if(_internal_pause)
-        printf("[p] Current status: Paused");
+        printf(" Paused");
     else
-        printf("[p] Current status: Playing");
+        printf(" Playing");
     console::text::mod::EraseInLine();
 }
 
@@ -56,15 +108,35 @@ void DrawUi() {
 
     UpdateShuffle();
 
-    console::cursor::Position(console::GetRows() - 4, 1);
+    console::cursor::Position(console::GetRows() - 5, 1);
     console::text::mod::EraseInLine();
 
     UpdateLoop();
     UpdatePause();
 
+    console::cursor::Position(console::GetRows() - 1, 1);
+
+    PrintButton('s');
+    printf(" Skip");
+    console::text::mod::EraseInLine();
+
     console::cursor::Position(console::GetRows(), 1);
 
-    printf("[s] Skip | [q] Quit.");
+    PrintButton('q');
+    printf(" Quit.");
+    console::text::mod::EraseInLine();
+
+    for(size_t row = 4; row < console::GetRows() - 5; row++) {
+        console::cursor::Position(row, 1);
+        console::text::mod::EraseInLine();
+    }
+
+    size_t row = 1;
+    while(row <= console::GetRows()) {
+        console::cursor::Position(row, console::GetColumns() / 2);
+        printf("|");
+        ++row;
+    }
 }
 
 void KeyCallback(int code) {
