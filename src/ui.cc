@@ -71,6 +71,7 @@ void KeyCallback(int code) {
 
     if(code == 's') {
         mpbreak = true;
+        _internal_pause = false;
     }
 
     if(code == 'q') {
