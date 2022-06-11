@@ -35,7 +35,7 @@ void NewSongCallback(std::string s) {
     SetTextColor(console::text::VALUE::BFG_YELLOW);
     printf(":");
     SetTextColor();
-    s.resize(console::GetColumns(), ' ');
+    s.resize(console::GetColumns() - 10, ' ');
     printf(" %s", s.c_str());
     console::text::mod::EraseInLine();
 }
