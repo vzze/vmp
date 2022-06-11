@@ -171,9 +171,21 @@ void KeyCallback(int code) {
     }
 }
 
+std::atomic<bool> resize_timeout = true;
+
 void ResizeCallback(int col, int rows) {
-    NewSongCallback(currently_playing);
-    DrawUi();
+    if(rows >= 9 && resize_timeout) {
+        NewSongCallback(currently_playing);
+        DrawUi();
+        resize_timeout = false;
+        async_q.push_back(std::async(std::launch::async, [&]() -> void {
+            std::this_thread::sleep_for(std::chrono::milliseconds(128));
+            std::lock_guard<decltype(mut)> lck(mut);
+            NewSongCallback(currently_playing);
+            DrawUi();
+            resize_timeout = true;
+        }));
+    }
 }
 
 void initUi(std::vector<std::string> & args) {
