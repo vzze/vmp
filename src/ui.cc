@@ -219,6 +219,7 @@ void initUi(std::vector<std::string> & args) {
                 std::mt19937 mt(rd());
                 auto cpy = qs.at(x);  // copy
                 qs.at(x).removed = true;
+                cpy.removed = true;
                 while(true) { // permanent loop for any selection
                     {
                         if(_shuffleEnabled) {
