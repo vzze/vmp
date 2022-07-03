@@ -7,6 +7,9 @@
 
 extern std::vector<std::future<void>> async_q;
 
+extern Queue _current_q;
+extern std::size_t _q_offset;
+
 void SetTextColor(console::text::VALUE val = console::text::VALUE::FG_DEFAULT);
 void PrintButton(char button);
 

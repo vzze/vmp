@@ -2,6 +2,9 @@
 
 std::vector<std::future<void>> async_q = {};
 
+Queue _current_q;
+std::size_t _q_offset = 0;
+
 bool _brkEvLoop = false;
 bool _internal_pause = false;
 bool _shuffleEnabled = false;
@@ -202,11 +205,15 @@ void initUi(std::vector<std::string> & args) {
 
     if(args[0] == "queue") {
         args.erase(args.begin());
+
         std::string x = "";
+
         for(auto & ar : args) x += ar + " ";
+
         x.pop_back();
+
         try {
-            auto l = qs.at(x);
+            auto & l = qs.at(x);
 
             if(l.pFiles.size() == 0) {
                 console::Exit();
@@ -214,65 +221,28 @@ void initUi(std::vector<std::string> & args) {
                 return;
             }
 
-            auto lam = [&]() -> void {
-                std::random_device rd;
-                std::mt19937 mt(rd());
-                auto cpy = qs.at(x);  // copy
-                qs.at(x).removed = true;
-                cpy.removed = true;
-                while(true) { // permanent loop for any selection
-                    {
-                        if(_shuffleEnabled) {
-                            std::lock_guard<decltype(mut)> lck(mut);
-                            std::shuffle(cpy.pFiles.begin(), cpy.pFiles.end(), mt);
-                        }
-                    }
-                    for(auto & m : cpy.pFiles) {
-                        loaded_file = false;
-                        playMP3(files[m.string()]);
-                        std::lock_guard<decltype(mut)> lck(mut);
-                        if(_shuffleEnabled && !_internal_FirstShuffle) {
-                            _internal_FirstShuffle = true;
-                            std::shuffle(cpy.pFiles.begin(), cpy.pFiles.end(), mt);
-                        }
-                        if(_brkEvLoop) break;
-                    }
-                    if(_brkEvLoop) break;
-                }
-            };
+            l.removed = true;
 
-            async_q.push_back(std::async(std::launch::async, lam));
+            _current_q = l;
         } catch(...) {
             console::Exit();
             return;
         }
     } else if(args[0] == "all") {
+        if(mp3_list.size() == 0) {
+            console::Exit();
+            std::cout << "No songs installed.";
+            return;
+        }
 
-        auto lam = [&]() -> void {
-            std::random_device rd;
-            std::mt19937 mt(rd());
-            while(true) { // permanent loop
-                {
-                    if(_shuffleEnabled) {
-                        std::lock_guard<decltype(mut)> lck(mut);
-                        std::shuffle(mp3_list.begin(), mp3_list.end(), mt);
-                    }
-                }
-                for(auto & m : mp3_list) {
-                    loaded_file = false;
-                    playMP3(files[m]);
-                    std::lock_guard<decltype(mut)> lck(mut);
-                    if(_shuffleEnabled && !_internal_FirstShuffle) {
-                        _internal_FirstShuffle = true;
-                        std::shuffle(mp3_list.begin(), mp3_list.end(), mt);
-                    }
-                    if(_brkEvLoop) break;
-                }
-                if(_brkEvLoop) break;
-            }
-        };
+        Queue cpy;
 
-        async_q.push_back(std::async(std::launch::async, lam));
+        cpy.removed = true;
+
+        for(auto & s : mp3_list)
+            cpy.pFiles.push_back(s);
+
+        _current_q = cpy;
     } else {
         try {
             std::string range = args.at(0);
@@ -284,37 +254,51 @@ void initUi(std::vector<std::string> & args) {
             mp3_list.resize(upper);
             mp3_list.erase(mp3_list.begin(), mp3_list.begin() + lower - 1);
 
-            auto lam = [&]() -> void {
-                std::random_device rd;
-                std::mt19937 mt(rd());
-                while(true) { // permanent loop
-                    {
-                        if(_shuffleEnabled) {
-                            std::lock_guard<decltype(mut)> lck(mut);
-                            std::shuffle(mp3_list.begin(), mp3_list.end(), mt);
-                        }
-                    }
-                    for(auto & m : mp3_list) {
-                        loaded_file = false;
-                        playMP3(files[m]);
-                        std::lock_guard<decltype(mut)> lck(mut);
-                        if(_shuffleEnabled && !_internal_FirstShuffle) {
-                            _internal_FirstShuffle = true;
-                            std::shuffle(mp3_list.begin(), mp3_list.end(), mt);
-                        }
-                        if(_brkEvLoop) break;
-                    }
-                    if(_brkEvLoop) break;
-                }
-            };
+            Queue cpy;
 
-            async_q.push_back(std::async(std::launch::async, lam));
+            cpy.removed = true;
 
+            for(auto & s : mp3_list)
+                cpy.pFiles.push_back(s);
+
+            _current_q = cpy;
         } catch (...) {
             console::Exit();
+            std::cout << "Probably a malformed range.";
             return;
         }
     }
+
+    auto lam = [&]() -> void {
+        std::random_device rd;
+        std::mt19937 mt(rd());
+        auto cpy = _current_q;
+        _current_q.removed = true;
+        cpy.removed = true;
+        while(true) {
+            {
+                if(_shuffleEnabled) {
+                    std::lock_guard<decltype(mut)> lck(mut);
+                    std::shuffle(cpy.pFiles.begin(), cpy.pFiles.end(), mt);
+                }
+            }
+            for(auto & m : cpy.pFiles) {
+                loaded_file = false;
+                playMP3(files[m.string()]);
+                std::lock_guard<decltype(mut)> lck(mut);
+                if(_shuffleEnabled && !_internal_FirstShuffle) {
+                    _internal_FirstShuffle = true;
+                    std::shuffle(cpy.pFiles.begin(), cpy.pFiles.end(), mt);
+                }
+                if(_brkEvLoop) break;
+                ++_q_offset;
+            }
+            _q_offset = 0;
+            if(_brkEvLoop) break;
+        }
+    };
+
+    async_q.push_back(std::async(std::launch::async, lam));
 
     new_song_callback = NewSongCallback;
 
