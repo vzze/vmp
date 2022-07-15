@@ -207,9 +207,7 @@ void initUi(std::vector<std::string> & args) {
         args.erase(args.begin());
 
         std::string x = "";
-
         for(auto & ar : args) x += ar + " ";
-
         x.pop_back();
 
         try {
@@ -272,7 +270,9 @@ void initUi(std::vector<std::string> & args) {
     auto lam = [&]() -> void {
         std::random_device rd;
         std::mt19937 mt(rd());
+
         auto cpy = _current_q;
+
         _current_q.removed = true;
         cpy.removed = true;
         while(true) {
@@ -299,7 +299,6 @@ void initUi(std::vector<std::string> & args) {
     };
 
     async_q.push_back(std::async(std::launch::async, lam));
-
     new_song_callback = NewSongCallback;
 
     while(!loaded_file) {
