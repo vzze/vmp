@@ -15,6 +15,9 @@ void vmp::ui::queues_prev_page() {
     if(queues_offset - sub < instance.queues.size()) {
         queues_offset -= sub;
         draw_queues();
+    } else if(queues_offset != 0) {
+        queues_offset = 0;
+        draw_queues();
     }
 }
 

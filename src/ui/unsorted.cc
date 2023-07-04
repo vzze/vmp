@@ -15,6 +15,9 @@ void vmp::ui::unsorted_prev_page() {
     if(unsorted_songs_offset - sub < instance.unsorted.songs.size()) {
         unsorted_songs_offset -= sub;
         draw_unsorted_songs();
+    } else if(unsorted_songs_offset != 0) {
+        unsorted_songs_offset = 0;
+        draw_unsorted_songs();
     }
 }
 

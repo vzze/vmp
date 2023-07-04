@@ -37,7 +37,7 @@ if($compiler -eq [Toolset]::NONE) {
     if($check_dir -eq $false) {
         Write-Host "Please generate a build type."
     } else {
-        Invoke-Expression "cmake --build ./build"
+        Invoke-Expression "cmake --build ./build --parallel"
     }
 
     return;
