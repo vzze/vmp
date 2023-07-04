@@ -1,36 +1,40 @@
 #include <util.hh>
 
 void vmp::util::version() {
-    std::cout << "VMP Copyright (C) 2023 vzze\n";
-    std::cout << "This program comes with ABSOLUTELY NO WARRANTY.\n";
-    std::cout << "This is free software, and you are welcome to redistribute it\n";
-    std::cout << "under certain conditions; type `vmp conditions` for details.\n\n";
-    std::cout << "Version 0.0.2\n";
+    write_console(R"(VMP  Version 0.1.2  Copyright (C) 2023  vzze
+
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `vmp conditions' for details.
+)");
 }
 
 void vmp::util::conditions() {
-    std::cout << "VMP Music Player\n";
-    std::cout << "Copyright (C) 2023 vzze\n\n";
+    write_console(R"(VMP CLI Music Player
+Copyright (C) 2023  vzze
 
-    std::cout << "This program is free software: you can redistribute it and/or modify\n";
-    std::cout << "it under the terms of the GNU General Public License as published by\n";
-    std::cout << "the Free Software Foundation, either version 3 of the License, or\n";
-    std::cout << "(at your option) any later version.\n\n";
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    std::cout << "This program is distributed in the hope that it will be useful,\n";
-    std::cout << "but WITHOUT ANY WARRANTY; without even the implied warranty of\n";
-    std::cout << "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n";
-    std::cout << "GNU General Public License for more details.\n\n";
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    std::cout << "You should have received a copy of the GNU General Public License\n";
-    std::cout << "along with this program.  If not, see <https://www.gnu.org/licenses/>.\n";
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+)");
 }
 
-int vmp::util::check_args(const std::string & arg) {
+std::span<char*> vmp::util::parse_args(int argc, char ** argv) {
+    return { argv, static_cast<std::size_t>(argc) };
+}
+
+void vmp::util::check_args(const std::string & arg) {
     if(arg == "version")
         version();
     else if(arg == "conditions")
         conditions();
-
-    return 0;
 }

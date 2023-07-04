@@ -9,6 +9,7 @@
 #include <string>
 #include <ranges>
 #include <array>
+#include <span>
 
 namespace vmp::util {
     template<typename Key, typename Value, std::size_t Size>
@@ -28,10 +29,26 @@ namespace vmp::util {
         }
     };
 
+    template<typename ... Args>
+    void write_console(Args && ... args) noexcept {
+        try {
+            ((std::cout << std::forward<Args>(args)), ...);
+        } catch(...) {}
+    }
+
+    template<typename ... Args>
+    void write_wconsole(Args && ... args) noexcept {
+        try {
+            ((std::wcout << std::forward<Args>(args)), ...);
+        } catch(...) {}
+    }
+
     void version();
     void conditions();
 
-    int check_args(const std::string &);
+    std::span<char*> parse_args(int, char **);
+
+    void check_args(const std::string &);
 }
 
 #endif

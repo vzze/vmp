@@ -3,22 +3,16 @@
 void vmp::ui::draw_borders() {
     dec_mode();
 
-    erase_in_display(2);
+    erase_in_display(display_opts::ENTIRE_DISPLAY);
 
-    print_at_pos(2, 1, std::string(current_dimensions.x, dec_chars["ho"]));
+    print_at_pos(TOP_BAR, std::string(current_dimensions.x, dec_chars["ho"]));
 
-    print_at_pos(2, sidebar_width, dec_chars["t4"]);
+    print_at_pos({ sidebar_width, TOP_BAR.y }, dec_chars["t4"]);
 
-    for(std::uint32_t x = 1; x < sidebar_width; ++x)
-        print_at_pos(sidebar_stopping_point, x, dec_chars["ho"]);
+    print_at_pos({ 1, sidebar_stopping_point }, std::string(sidebar_width - 1, dec_chars["ho"]));
 
-    for(std::uint32_t y = 3; y <= current_dimensions.y; ++y)
-        print_at_pos(y, sidebar_width, dec_chars["ve"]);
+    for(u32 line = TOP_BAR.y + 1; line <= current_dimensions.y; ++line)
+        print_at_pos({ sidebar_width, line }, dec_chars["ve"]);
 
-    print_at_pos(sidebar_stopping_point, sidebar_width, dec_chars["t2"]);
-
-    print_at_pos(2, 5, dec_chars["t3"]);
-    print_at_pos(1, 5, dec_chars["ve"]);
-
-    ascii_mode();
+    print_at_pos({ sidebar_width, sidebar_stopping_point }, dec_chars["t2"]);
 }

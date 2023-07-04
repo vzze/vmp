@@ -3,18 +3,32 @@
 #include <util.hh>
 #include <ui.hh>
 
+bool key_cb(char key) {
+    return key != 'q';
+}
+
 int main(int argc, char ** argv) {
-    if(argc == 2) return vmp::util::check_args(argv[1]);
-    if(!vmp::con::init()) return 0;
+    const auto args = vmp::util::parse_args(argc, argv);
 
-    vmp::player player{*argv};
+    switch(args.size()) {
+        case 1: {
+            vmp::player player{*argv};
+            vmp::console console{};
+            vmp::ui console_ui{player, {vmp::ui::DEFAULT_SIDEBAR_WIDTH, vmp::ui::DEFAULT_SIDEBAR_STOPPING_POINT}};
 
-    vmp::con::key_callbacks.emplace_back(vmp::ui::on_keypress);
-    vmp::con::resize_callbacks.emplace_back(vmp::ui::on_resize);
+            console.add_key_callback([&](const auto data) -> bool {
+                return console_ui.key_callback(data);
+            });
 
-    vmp::ui::init(player);
-    vmp::con::process_events();
-    vmp::ui::exit();
+            console.add_resize_callback([&](const auto data) -> bool {
+                return console_ui.resize_callback(data);
+            });
 
-    return vmp::con::exit_code();
+            console.main_loop();
+        } break;
+
+        default: vmp::util::check_args(args[1]); break;
+    }
+
+    return 0;
 }

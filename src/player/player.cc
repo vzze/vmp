@@ -24,18 +24,20 @@ vmp::player::player(const fs::path & cwd) {
     queues.shrink_to_fit();
 
 #ifdef VMP_DEBUG
-    std::wcout << L"LOADED QUEUES:\n\n";
+    util::write_wconsole(L"LOADED QUEUES:\n");
 
-    for(const auto & q : queues) {
-        std::wcout << q.name() << L'\n';
-        for(const auto & s : q.songs)
-            std::wcout << L"  " << s.name() << L'\n';
-        std::wcout << L'\n';
+    for(const auto & queue : queues) {
+        util::write_wconsole(queue.name(), L'\n');
+
+        for(const auto & song : queue.songs)
+            util::write_wconsole(L"  ", song.name(), L'\n');
+
+        util::write_wconsole(L'\n');
     }
 
-    std::wcout << L"UNSORTED SONGS:\n";
+    util::write_wconsole(L"UNSORTED SONGS:\n");
 
-    for(const auto & s : unsorted.songs)
-        std::wcout << L"  " << s.name() << L'\n';
+    for(const auto & song : unsorted.songs)
+        util::write_wconsole(L"  ", song.name(), L'\n');
 #endif
 }

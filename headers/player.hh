@@ -3,9 +3,11 @@
 
 #include <filesystem>
 #include <iostream>
+#include <vector>
 #include <string>
 
 #include <queue.hh>
+#include <util.hh>
 
 namespace vmp {
     struct player {
