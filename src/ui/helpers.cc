@@ -1,5 +1,18 @@
 #include <ui.hh>
 
+std::wstring vmp::ui::format_sidebar_row(std::wstring name) const {
+    static constexpr std::wstring_view filler = L"...";
+
+    if(name.length() >= sidebar_width - SIDEBAR_ROW_START) {
+        name.resize(sidebar_width - SIDEBAR_ROW_START - filler.size());
+        name += filler;
+    } else {
+        name.resize(sidebar_width - SIDEBAR_ROW_START, L' ');
+    }
+
+    return name;
+}
+
 void vmp::ui::set_cursor_pos(const coord coords) {
     util::write_console(std::format("\x1b[{};{}H", coords.y, coords.x));
 }

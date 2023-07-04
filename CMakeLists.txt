@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.2)
 
 project(vmp)
 
+cmake_host_system_information(RESULT cores QUERY NUMBER_OF_PHYSICAL_CORES)
+
+if(NOT ${cores} EQUAL 0)
+    set(CMAKE_BUILD_PARALLEL_LEVEL ${cores})
+endif()
+
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)

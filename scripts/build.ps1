@@ -51,4 +51,4 @@ if($check_dir -eq $false) {
 }
 
 Invoke-Expression "cmake -DCMAKE_BUILD_TYPE=$($build_opts[$build]) -S . -B build -G `"$($toolset_opts[$compiler])`""
-Invoke-Expression "cmake --build ./build"
+Invoke-Expression "cmake --build ./build --parallel"

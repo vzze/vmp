@@ -8,7 +8,7 @@ int main(int argc, char ** argv) {
 
     switch(args.size()) {
         case 1: {
-            vmp::player player{*argv};
+            vmp::player player{args[0]};
             vmp::console console{};
             vmp::ui console_ui{player, {vmp::ui::DEFAULT_SIDEBAR_WIDTH, vmp::ui::DEFAULT_SIDEBAR_STOPPING_POINT}};
 
