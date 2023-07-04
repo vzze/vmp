@@ -7,7 +7,8 @@ vmp::console::console() noexcept
     : should_exit{true}, in_handle{GetStdHandle(STD_INPUT_HANDLE)}, out_handle{GetStdHandle(STD_OUTPUT_HANDLE)} ,
       old_in_mode{0}, old_out_mode{0}
 {
-    if(out_handle == INVALID_HANDLE_VALUE) return; // NOLINT (WIN API)
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast, performance-no-int-to-ptr)
+    if(out_handle == INVALID_HANDLE_VALUE) return;
 
     using unsigned_t = std::make_unsigned_t<DWORD>;
 
@@ -23,7 +24,8 @@ vmp::console::console() noexcept
 
     if(SetConsoleMode(out_handle, mode) == 0) return;
 
-    if(in_handle == INVALID_HANDLE_VALUE) return; // NOLINT (WIN API)
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast, performance-no-int-to-ptr)
+    if(in_handle == INVALID_HANDLE_VALUE) return;
 
     if(GetConsoleMode(in_handle, &mode) == 0) return;
 
@@ -48,31 +50,35 @@ void vmp::console::process_events() noexcept {
 
     GetNumberOfConsoleInputEvents(in_handle, &read);
 
-    std::unique_ptr<INPUT_RECORD[]> event_buffer{nullptr}; // NOLINT (INPUT_RECORD[] is not a C-style array)
+    // NOLINTNEXTLINE(hicpp-avoid-c-arrays, modernize-avoid-c-arrays, cppcoreguidelines-avoid-c-arrays)
+    std::unique_ptr<INPUT_RECORD[]> event_buffer{nullptr};
 
     try {
-        event_buffer = std::make_unique<INPUT_RECORD[]>(read); // NOLINT (INPUT_RECORD[] is not a C-style array)
-    } catch(...) { should_exit = true; }
+        // NOLINTNEXTLINE(hicpp-avoid-c-arrays, modernize-avoid-c-arrays, cppcoreguidelines-avoid-c-arrays)
+        event_buffer = std::make_unique<INPUT_RECORD[]>(read);
+    } catch(...) { should_exit = true; return; }
 
 
     ReadConsoleInput(in_handle, event_buffer.get(), read, &read);
 
+    // NOLINTBEGIN(cppcoreguidelines-pro-type-union-access)
     for(DWORD i = 0; i < read; ++i)
         switch(event_buffer[i].EventType) {
             case KEY_EVENT:
-                if(event_buffer[i].Event.KeyEvent.bKeyDown != 0) // NOLINT (WIN API)
+                if(event_buffer[i].Event.KeyEvent.bKeyDown != 0)
                     for(const auto & callback : key_callbacks)
-                        if(!callback(event_buffer[i].Event.KeyEvent.uChar.AsciiChar)) should_exit = true; // NOLINT (WIN API)
+                        if(!callback(event_buffer[i].Event.KeyEvent.uChar.AsciiChar)) should_exit = true;
             break;
 
             case WINDOW_BUFFER_SIZE_EVENT:
                 for(const auto & callback : resize_callbacks)
                     if(!callback({
-                        static_cast<std::uint32_t>(event_buffer[i].Event.WindowBufferSizeEvent.dwSize.X), // NOLINT (WIN API)
-                        static_cast<std::uint32_t>(event_buffer[i].Event.WindowBufferSizeEvent.dwSize.Y)  // NOLINT (WIN API)
+                        static_cast<std::uint32_t>(event_buffer[i].Event.WindowBufferSizeEvent.dwSize.X),
+                        static_cast<std::uint32_t>(event_buffer[i].Event.WindowBufferSizeEvent.dwSize.Y)
                     })) should_exit = true;
             break;
         }
+    // NOLINTEND(cppcoreguidelines-pro-type-union-access)
 }
 
 void vmp::console::main_loop() noexcept {
@@ -88,9 +94,11 @@ vmp::console::~console() noexcept {
     util::write_console("\x1b[!p");
     util::write_console("\x1b[?25h");
 
-    if(in_handle != INVALID_HANDLE_VALUE) // NOLINT (WIN API)
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast, performance-no-int-to-ptr)
+    if(in_handle != INVALID_HANDLE_VALUE)
         SetConsoleMode(in_handle, old_in_mode);
 
-    if(out_handle != INVALID_HANDLE_VALUE) // NOLINT (WIN API)
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast, performance-no-int-to-ptr)
+    if(out_handle != INVALID_HANDLE_VALUE)
         SetConsoleMode(out_handle, old_out_mode);
 }
