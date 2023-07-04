@@ -2,6 +2,7 @@
 #define UI_HH
 
 #include <format>
+#include <ranges>
 
 #include <console.hh>
 #include <player.hh>
@@ -21,6 +22,8 @@ namespace vmp {
 
             inline static constexpr u32 DEFAULT_SIDEBAR_STOPPING_POINT = 12;
             inline static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 28;
+            inline static constexpr u32 QUEUE_LIST_STARTING_POINT = 3;
+
             inline static constexpr coord TOP_BAR = { 1, 2 };
 
             static constexpr vmp::util::map<std::string_view, std::string_view, 17> fg_colors{{{
@@ -84,6 +87,7 @@ namespace vmp {
             vmp::coord current_dimensions;
             u32 sidebar_width;
             u32 sidebar_stopping_point;
+            u32 queue_offset;
 
             player & instance;
         public:
@@ -92,7 +96,14 @@ namespace vmp {
             bool key_callback(const char);
             bool resize_callback(const coord);
 
+            [[nodiscard]] std::wstring format_queue_name(std::wstring) const;
+            std::vector<std::wstring> get_queues();
+
             void draw_borders();
+            void draw_queues();
+
+            void queues_next_page();
+            void queues_prev_page();
 
             static void set_cursor_pos(const coord);
             static void print_at_pos  (const coord, const std::wstring_view);

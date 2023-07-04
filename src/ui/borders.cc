@@ -15,4 +15,6 @@ void vmp::ui::draw_borders() {
         print_at_pos({ sidebar_width, line }, dec_chars["ve"]);
 
     print_at_pos({ sidebar_width, sidebar_stopping_point }, dec_chars["t2"]);
+
+    ascii_mode();
 }

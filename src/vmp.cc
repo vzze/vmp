@@ -3,10 +3,6 @@
 #include <util.hh>
 #include <ui.hh>
 
-bool key_cb(char key) {
-    return key != 'q';
-}
-
 int main(int argc, char ** argv) {
     const auto args = vmp::util::parse_args(argc, argv);
 

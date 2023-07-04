@@ -1,7 +1,7 @@
 #include <util.hh>
 
 void vmp::util::version() {
-    write_console(R"(VMP  Version 0.1.2  Copyright (C) 2023  vzze
+    write_console(R"(VMP  Version 0.1.7  Copyright (C) 2023  vzze
 
 This program comes with ABSOLUTELY NO WARRANTY;
 This is free software, and you are welcome to redistribute it
