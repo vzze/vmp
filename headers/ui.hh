@@ -1,6 +1,7 @@
 #ifndef UI_HH
 #define UI_HH
 
+#include <vector>
 #include <format>
 #include <ranges>
 
@@ -15,14 +16,53 @@ namespace vmp {
             using u32  = std::uint32_t;
             using cu32 = const std::uint32_t;
 
+            bool screen_is_too_small;
+
             struct ui_opts {
                 u32 sidebar_width;
                 u32 sidebar_stopping_point;
             };
 
+            enum class ZONE : char {
+                QUEUE_TITLE,
+                QUEUE_LIST,
+                UNSORTED_TITLE,
+                UNSORTED_LIST,
+                MAIN_LIST,
+                ZONE_NUMBER
+            };
+
+            struct button {
+                u32 id;
+            };
+
+            struct zone {
+                coord hl_start_pos;
+                u32 currently_selected;
+
+                std::vector<button> buttons;
+
+                explicit zone(const coord = {0, 0});
+
+                button & current();
+            };
+
+            void button_add_highlight();
+            void button_remove_highlight();
+
+            struct zones {
+                ZONE current_zone = ZONE::QUEUE_TITLE;
+                std::array<zone, static_cast<std::size_t>(ZONE::ZONE_NUMBER)> zones;
+
+                zone & operator [] (const ZONE) noexcept;
+            } zones;
+
+            void update_zones_hl_start_pos();
+            void set_zone(const ZONE);
+
             inline static constexpr u32 DEFAULT_SIDEBAR_STOPPING_POINT = 12;
             inline static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 28;
-            inline static constexpr u32 SIDEBAR_ROW_START = 3;
+            inline static constexpr u32 ROW_START = 3;
 
             inline static constexpr coord TOP_BAR = { 1, 2 };
 
@@ -127,21 +167,21 @@ namespace vmp {
             static void dec_mode();
             static void ascii_mode();
 
-            enum class display_opts : u32 {
+            enum class DISPLAY : u32 {
                 CURSOR_TO_EOD  = 0,
                 BEG_TO_CURSOR  = 1,
                 ENTIRE_DISPLAY = 2,
             };
 
-            static void erase_in_display(const display_opts);
+            static void erase_in_display(const DISPLAY);
 
-            enum class line_opts : u32 {
+            enum class LINE : u32 {
                 CURSOR_TO_EOL = 0,
                 BEG_TO_CURSOR = 1,
                 ENTIRE_LINE   = 2
             };
 
-            static void erase_in_line(const line_opts);
+            static void erase_in_line(const LINE);
     };
 }
 

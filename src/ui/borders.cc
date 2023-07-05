@@ -3,7 +3,7 @@
 void vmp::ui::draw_borders() {
     dec_mode();
 
-    erase_in_display(display_opts::ENTIRE_DISPLAY);
+    erase_in_display(DISPLAY::ENTIRE_DISPLAY);
 
     print_at_pos(TOP_BAR, std::string(current_dimensions.x, dec_chars["ho"]));
 

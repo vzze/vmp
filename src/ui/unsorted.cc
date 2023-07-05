@@ -38,7 +38,7 @@ std::vector<std::wstring> vmp::ui::get_unsorted_songs() {
     }
 
     while(space <= current_dimensions.y) {
-        ret.emplace_back(sidebar_width - SIDEBAR_ROW_START, L' ');
+        ret.emplace_back(sidebar_width - ROW_START, L' ');
         ++space;
     }
 
@@ -51,5 +51,5 @@ void vmp::ui::draw_unsorted_songs() {
     const auto u_songs = get_unsorted_songs();
 
     for(auto start = sidebar_stopping_point + 2; const auto & song : u_songs)
-        print_at_pos({ SIDEBAR_ROW_START, start++ }, song);
+        print_at_pos({ ROW_START, start++ }, song);
 }

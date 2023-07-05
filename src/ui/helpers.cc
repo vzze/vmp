@@ -3,11 +3,11 @@
 std::wstring vmp::ui::format_sidebar_row(std::wstring name) const {
     static constexpr std::wstring_view filler = L"...";
 
-    if(name.length() >= sidebar_width - SIDEBAR_ROW_START) {
-        name.resize(sidebar_width - SIDEBAR_ROW_START - filler.size());
+    if(name.length() >= sidebar_width - ROW_START) {
+        name.resize(sidebar_width - ROW_START - filler.size());
         name += filler;
     } else {
-        name.resize(sidebar_width - SIDEBAR_ROW_START, L' ');
+        name.resize(sidebar_width - ROW_START, L' ');
     }
 
     return name;
@@ -49,11 +49,11 @@ void vmp::ui::delete_line(cu32 count) {
     util::write_console(std::format("\x1b[{}M", count));
 }
 
-void vmp::ui::erase_in_display(const display_opts mode) {
+void vmp::ui::erase_in_display(const DISPLAY mode) {
     util::write_console(std::format("\x1b[{}J", static_cast<u32>(mode)));
 }
 
-void vmp::ui::erase_in_line(const line_opts mode) {
+void vmp::ui::erase_in_line(const LINE mode) {
     util::write_console(std::format("\x1b[{}K", static_cast<u32>(mode)));
 }
 

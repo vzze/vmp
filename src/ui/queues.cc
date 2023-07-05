@@ -35,7 +35,7 @@ std::vector<std::wstring> vmp::ui::get_queues() {
     }
 
     while(space != sidebar_stopping_point) { // fill up the remaining rows with blank strings
-        ret.emplace_back(sidebar_width - SIDEBAR_ROW_START, L' ');
+        ret.emplace_back(sidebar_width - ROW_START, L' ');
         ++space;
     }
 
@@ -48,5 +48,5 @@ void vmp::ui::draw_queues() {
     const auto queues = get_queues();
 
     for(auto start = TOP_BAR.y + 2; const auto & queue : queues)
-        print_at_pos({ SIDEBAR_ROW_START, start++ }, queue);
+        print_at_pos({ ROW_START, start++ }, queue);
 }
