@@ -2,7 +2,6 @@
 #define CMAKE_HH
 
 #include <string_view>
-#include <cstddef>
 
 namespace cmake {
     inline constexpr std::string_view project_name        = "${PROJECT_NAME}";

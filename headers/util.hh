@@ -1,12 +1,14 @@
 #ifndef UTIL_HH
 #define UTIL_HH
 
+#include <string_view>
 #include <algorithm>
 #include <stdexcept>
 #include <iostream>
 #include <utility>
 #include <cstddef>
 #include <string>
+#include <vector>
 #include <ranges>
 #include <array>
 #include <span>
@@ -71,7 +73,7 @@ namespace vmp::util {
 
     std::span<char*> parse_args(int, char **);
 
-    void check_args(const std::string &);
+    void check_args(const std::string_view);
 }
 
 #endif

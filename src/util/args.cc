@@ -16,7 +16,7 @@ std::span<char*> vmp::util::parse_args(int argc, char ** argv) {
     return { argv, static_cast<std::size_t>(argc) };
 }
 
-void vmp::util::check_args(const std::string & arg) {
+void vmp::util::check_args(const std::string_view arg) {
     if(arg == "version")
         version();
     else if(arg == "conditions")

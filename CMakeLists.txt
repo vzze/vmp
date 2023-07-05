@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 
 project(
     VMP
-    VERSION 0.2.7
+    VERSION 0.2.8
     DESCRIPTION "VMP CLI Music Player"
 )
 
