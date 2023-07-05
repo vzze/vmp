@@ -6,6 +6,7 @@
 #include <numeric>
 #include <utility>
 #include <string>
+#include <vector>
 
 #include <song.hh>
 

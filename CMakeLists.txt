@@ -1,6 +1,10 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.26)
 
-project(vmp)
+project(
+    VMP
+    VERSION 0.2.7
+    DESCRIPTION "VMP CLI Music Player"
+)
 
 cmake_host_system_information(RESULT cores QUERY NUMBER_OF_PHYSICAL_CORES)
 
@@ -13,7 +17,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include_directories(headers)
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+
+include_directories(
+    headers
+    "${CMAKE_BINARY_DIR}/internal"
+)
 
 if(MSVC)
     if(POLICY CMP0141)
@@ -40,4 +49,5 @@ add_compile_definitions(
 
 set(CMAKE_CXX_CLANG_TIDY clang-tidy -p build)
 
+add_subdirectory(config)
 add_subdirectory(src)

@@ -1,7 +1,4 @@
 #include <console.hh>
-#include <consoleapi.h>
-#include <handleapi.h>
-#include <winbase.h>
 
 vmp::console::console() noexcept
     : should_exit{true}, in_handle{GetStdHandle(STD_INPUT_HANDLE)}, out_handle{GetStdHandle(STD_OUTPUT_HANDLE)} ,
