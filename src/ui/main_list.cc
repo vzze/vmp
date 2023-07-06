@@ -59,3 +59,10 @@ void vmp::ui::draw_main_list(cu32 queue_id) {
         erase_in_line(LINE::CURSOR_TO_EOL);
     }
 }
+
+void vmp::ui::hide_main_list() const {
+    for(auto start = TOP_BAR.y + 1; start <= current_dimensions.y; ++start) {
+        set_cursor_pos({ ROW_START + sidebar_width, start });
+        erase_in_line(LINE::CURSOR_TO_EOL);
+    }
+}

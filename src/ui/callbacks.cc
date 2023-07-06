@@ -36,6 +36,7 @@ bool vmp::ui::resize_callback(const coord coords) {
         draw_borders();
         draw_queues();
         draw_unsorted_songs();
+        draw_player_info();
 
         set_zone(ZONE::QUEUE_TITLE);
     }

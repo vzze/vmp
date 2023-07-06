@@ -18,7 +18,11 @@ bool vmp::ui::w() {
 
 bool vmp::ui::a() {
     switch(current_zone) {
-        case ZONE::QUEUE_LIST   : set_zone(ZONE::QUEUE_TITLE); break;
+        case ZONE::QUEUE_LIST:
+            set_zone(ZONE::QUEUE_TITLE);
+            hide_main_list();
+            draw_player_info();
+        break;
         case ZONE::UNSORTED_LIST: set_zone(ZONE::UNSORTED_TITLE); break;
         case ZONE::MAIN_LIST    : set_zone(ZONE::QUEUE_LIST); break;
 

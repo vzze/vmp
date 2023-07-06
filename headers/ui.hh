@@ -7,6 +7,7 @@
 
 #include <console.hh>
 #include <player.hh>
+#include <cmake.hh>
 #include <util.hh>
 
 namespace vmp {
@@ -150,8 +151,11 @@ namespace vmp {
             bool key_callback(const char);
             bool resize_callback(const coord);
 
+            void draw_player_info();
+
             std::vector<std::wstring> get_main_list(cu32);
             void draw_main_list(cu32);
+            void hide_main_list() const;
 
             void main_next_page(cu32);
             void main_prev_page(cu32);

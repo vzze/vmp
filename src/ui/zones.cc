@@ -39,7 +39,7 @@ void vmp::ui::button_add_highlight() {
     static constexpr auto col = bg_colors["BRIGHT_YELLOW"];
     static constexpr auto def = bg_colors["DEFAULT"];
 
-    const auto prnt = std::string(col.begin(), col.end()) + " " + std::string(def.begin(), def.end());
+    const auto prnt = std::string(col) + " " + std::string(def);
 
     print_at_pos(pos, prnt);
 }
@@ -52,7 +52,7 @@ void vmp::ui::button_remove_highlight() {
 
     static constexpr auto def = bg_colors["DEFAULT"];
 
-    const auto prnt = std::string(def.begin(), def.end()) + " " + std::string(def.begin(), def.end());
+    const auto prnt = std::string(def) + " " + std::string(def);
 
     print_at_pos(pos, prnt);
 }
