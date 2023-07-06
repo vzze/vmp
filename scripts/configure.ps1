@@ -7,11 +7,8 @@ param(
 
 $check_dir = Test-Path ./build -PathType Container
 
-if($check_dir -eq $false) {
-    New-Item build -ItemType Directory
-} else {
+if($check_dir -eq $true) {
     Remove-Item build -Recurse
-    New-Item build -ItemType Directory
 }
 
 switch($compiler) {
@@ -24,6 +21,6 @@ switch($compiler) {
     }
 
     "ANY" {
-        Invoke-Expression "cmake -DCMAKE_BUILD_TYPE=$build -S ."
+        Invoke-Expression "cmake -DCMAKE_BUILD_TYPE=$build -S . -B build"
     }
 }
