@@ -1,16 +1,18 @@
 #ifndef PLAYER_HH
 #define PLAYER_HH
 
+#include <string_view>
 #include <filesystem>
 #include <algorithm>
 #include <vector>
-#include <string>
 
 #include <queue.hh>
 #include <util.hh>
 
 namespace vmp {
     struct player {
+        static constexpr std::string_view data = "vmp-data";
+
         std::vector<queue> queues;
         queue unsorted;
 

@@ -5,7 +5,7 @@ namespace fs = std::filesystem;
 vmp::player::player(const fs::path & cwd) {
     fs::current_path(cwd.parent_path());
 
-    const fs::path new_cwd = fs::current_path() / "vmp-data";
+    const fs::path new_cwd = fs::current_path() / player::data;
 
     if(!fs::exists(new_cwd))
         fs::create_directory(new_cwd);
