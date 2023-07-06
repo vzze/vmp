@@ -44,7 +44,7 @@ std::vector<std::wstring> vmp::ui::get_main_list(cu32 queue_id) {
     }
 
     while(space <= current_dimensions.y) {
-        ret.emplace_back(L"");
+        ret.emplace_back(1, L' ');
         ++space;
     }
 

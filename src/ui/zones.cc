@@ -83,7 +83,7 @@ void vmp::ui::button_down() {
     auto & location = zones[current_zone];
 
     ++location.currently_selected;
-    location.currently_selected %= location.buttons.size();
+    location.currently_selected %= static_cast<u32>(location.buttons.size());
 
     button_add_highlight();
 }
