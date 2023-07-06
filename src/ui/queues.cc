@@ -36,7 +36,7 @@ std::vector<std::wstring> vmp::ui::get_queues() {
 
         zones[ZONE::QUEUE_LIST].buttons.push_back(button{button_id++});
 
-        ret.push_back(format_sidebar_row(queue.name()));
+        ret.push_back(format_row(queue.name(), sidebar_width - ROW_START));
         ++space;
     }
 

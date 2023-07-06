@@ -5,56 +5,13 @@ bool vmp::ui::key_callback(const char key) {
 
     switch(key) {
         case 'q': return false; break;
-        case 'w':
-            switch(current_zone) {
-                case ZONE::QUEUE_TITLE   : return true; break;
-                case ZONE::UNSORTED_TITLE: set_zone(ZONE::QUEUE_TITLE); break;
-                default: button_up(); break;
-            }
-        break;
-        case 'a':
-            switch(current_zone) {
-                case ZONE::QUEUE_LIST   : set_zone(ZONE::QUEUE_TITLE); break;
-                case ZONE::UNSORTED_LIST: set_zone(ZONE::UNSORTED_TITLE); break;
-                default: return true; break;
-            }
-        break;
-        case 's':
-            switch(current_zone) {
-                case ZONE::UNSORTED_TITLE: return true; break;
-                case ZONE::QUEUE_TITLE   : set_zone(ZONE::UNSORTED_TITLE); break;
-                default: button_down(); break;
-            }
-        break;
-        case 'd':
-            switch(current_zone) {
-                case ZONE::QUEUE_TITLE:
-                    if(!zones[ZONE::QUEUE_LIST].buttons.empty())
-                        set_zone(ZONE::QUEUE_LIST);
-                break;
-                case ZONE::UNSORTED_TITLE:
-                    if(!zones[ZONE::UNSORTED_LIST].buttons.empty())
-                        set_zone(ZONE::UNSORTED_LIST);
-                break;
-                default: return true; break;
-            }
-        break;
-        case 'n':
-            switch(current_zone) {
-                case ZONE::QUEUE_TITLE   : queues_prev_page(); break;
-                case ZONE::UNSORTED_TITLE: unsorted_prev_page(); break;
+        case 'w': return w(); break;
+        case 'a': return a(); break;
+        case 's': return s(); break;
+        case 'd': return d(); break;
+        case 'n': return n(); break;
+        case 'm': return m(); break;
 
-                default: return true; break;
-            }
-        break;
-        case 'm':
-            switch(current_zone) {
-                case ZONE::QUEUE_TITLE   : queues_next_page(); break;
-                case ZONE::UNSORTED_TITLE: unsorted_next_page(); break;
-
-                default: return true; break;
-            }
-        break;
         default: return true; break;
     }
 

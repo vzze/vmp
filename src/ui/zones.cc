@@ -16,6 +16,8 @@ void vmp::ui::update_zones_hl_start_pos() {
         zones[ZONE::UNSORTED_TITLE].hl_start_pos.x + 1 ,
         zones[ZONE::UNSORTED_TITLE].hl_start_pos.y + 1
     };
+
+    zones[ZONE::MAIN_LIST].hl_start_pos = { sidebar_width + ROW_START - 1, TOP_BAR.y + 1 };
 }
 
 vmp::ui::zone::zone(const coord pos) : hl_start_pos{pos}, currently_selected{0} {}

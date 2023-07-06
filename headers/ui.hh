@@ -131,17 +131,30 @@ namespace vmp {
             vmp::coord current_dimensions;
             u32 sidebar_width;
             u32 sidebar_stopping_point;
+
             u32 queues_offset;
             u32 unsorted_songs_offset;
+            u32 main_offset;
 
             player & instance;
         public:
             ui(player &, const ui_opts);
 
+            bool w();
+            bool a();
+            bool s();
+            bool d();
+            bool n();
+            bool m();
+
             bool key_callback(const char);
             bool resize_callback(const coord);
 
-            [[nodiscard]] std::wstring format_sidebar_row(std::wstring) const;
+            std::vector<std::wstring> get_main_list(cu32);
+            void draw_main_list(cu32);
+
+            void main_next_page(cu32);
+            void main_prev_page(cu32);
 
             std::vector<std::wstring> get_queues();
             void draw_queues();
@@ -156,6 +169,8 @@ namespace vmp {
             void unsorted_prev_page();
 
             void draw_borders();
+
+            [[nodiscard]] static std::wstring format_row(std::wstring, cu32, bool = true);
 
             static void set_cursor_pos(const coord);
             static void print_at_pos  (const coord, const std::wstring_view);

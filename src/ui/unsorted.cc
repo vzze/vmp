@@ -39,7 +39,7 @@ std::vector<std::wstring> vmp::ui::get_unsorted_songs() {
 
         zones[ZONE::UNSORTED_LIST].buttons.push_back(button{button_id++});
 
-        ret.push_back(format_sidebar_row(song.name()));
+        ret.push_back(format_row(song.name(), sidebar_width - ROW_START));
         ++space;
     }
 
