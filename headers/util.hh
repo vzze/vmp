@@ -37,8 +37,6 @@ namespace vmp::util {
     void write_console(Args && ... args) noexcept {
         try {
             ((std::cout << std::forward<Args>(args)), ...);
-
-            std::cout.flush();
         } catch(...) {}
     }
 
@@ -46,8 +44,6 @@ namespace vmp::util {
     void write_wconsole(Args && ... args) noexcept {
         try {
             ((std::wcout << std::forward<Args>(args)), ...);
-
-            std::wcout.flush();
         } catch(...) {}
     }
 

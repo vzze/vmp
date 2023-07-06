@@ -39,7 +39,7 @@ std::vector<std::wstring> vmp::ui::get_main_list(cu32 queue_id) {
 
         zones[ZONE::MAIN_LIST].buttons.push_back(button{button_id++});
 
-        ret.push_back(format_row(song.name(), current_dimensions.x - ROW_START - sidebar_width, false));
+        ret.push_back(format_row(song.name(), current_dimensions.x - ROW_START - sidebar_width + 1, false));
         ++space;
     }
 

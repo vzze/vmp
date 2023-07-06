@@ -11,8 +11,6 @@
 
 namespace vmp {
     struct player {
-        inline static constexpr std::string cwd = "vmp-data";
-
         std::vector<queue> queues;
         queue unsorted;
 

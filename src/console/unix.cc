@@ -1,8 +1,9 @@
-#include <iostream>
-
 #include <console.hh>
 
 vmp::console::console() noexcept : should_exit{false}, old_sets{} {
+    std::cout.setf(std::ios::unitbuf);
+    std::wcout.setf(std::ios::unitbuf);
+
     struct termios new_sets{};
 
     tcgetattr(fileno(stdin), &new_sets);

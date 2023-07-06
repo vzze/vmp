@@ -5,7 +5,7 @@ namespace fs = std::filesystem;
 vmp::player::player(const fs::path & cwd) {
     fs::current_path(cwd.parent_path());
 
-    const auto new_cwd = fs::current_path() / player::cwd;
+    const fs::path new_cwd = fs::current_path() / "vmp-data";
 
     if(!fs::exists(new_cwd))
         fs::create_directory(new_cwd);
@@ -62,5 +62,10 @@ vmp::player::info vmp::player::get_info() {
 
 std::string vmp::player::location() {
     return fs::current_path().is_absolute() ?
-        fs::current_path().string() : fs::absolute(fs::current_path()).string();
+            fs::current_path()
+                .parent_path().string()
+        :
+            fs::absolute(
+                fs::current_path()
+            ).parent_path().string();
 }

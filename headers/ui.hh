@@ -65,11 +65,11 @@ namespace vmp {
             void button_up();
             void button_down();
 
-            inline static constexpr u32 DEFAULT_SIDEBAR_STOPPING_POINT = 12;
-            inline static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 28;
-            inline static constexpr u32 ROW_START = 3;
+            static constexpr u32 DEFAULT_SIDEBAR_STOPPING_POINT = 12;
+            static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 28;
+            static constexpr u32 ROW_START = 3;
 
-            inline static constexpr coord TOP_BAR = { 1, 2 };
+            static constexpr coord TOP_BAR = { 1, 2 };
 
             static constexpr vmp::util::map<std::string_view, std::string_view, 17> fg_colors{{{
                 { "BLACK"  , "\x1b[30m" },
@@ -141,12 +141,12 @@ namespace vmp {
         public:
             ui(player &, const ui_opts);
 
-            bool w();
-            bool a();
-            bool s();
-            bool d();
-            bool n();
-            bool m();
+            void w();
+            void a();
+            void s();
+            void d();
+            void n();
+            void m();
 
             bool key_callback(const char);
             bool resize_callback(const coord);
@@ -174,6 +174,7 @@ namespace vmp {
 
             void draw_borders();
 
+            static void format_row(std::string &, cu32, bool = true);
             [[nodiscard]] static std::wstring format_row(std::wstring, cu32, bool = true);
 
             static void set_cursor_pos(const coord);

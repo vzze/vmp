@@ -4,6 +4,9 @@ vmp::console::console() noexcept
     : should_exit{true}, in_handle{GetStdHandle(STD_INPUT_HANDLE)}, out_handle{GetStdHandle(STD_OUTPUT_HANDLE)} ,
       old_in_mode{0}, old_out_mode{0}
 {
+    std::cout.setf(std::ios::unitbuf);
+    std::wcout.setf(std::ios::unitbuf);
+
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast, performance-no-int-to-ptr)
     if(out_handle == INVALID_HANDLE_VALUE) return;
 

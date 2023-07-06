@@ -3,7 +3,7 @@
 void vmp::ui::draw_player_info() {
     const auto info = instance.get_info();
 
-    const std::array text{
+    std::array text{
         std::string("Player Information"),
 
         std::string(""),
@@ -30,6 +30,9 @@ void vmp::ui::draw_player_info() {
 
         std::string("Version ") + std::string(cmake::project_version),
     };
+
+    for(auto & line : text)
+        format_row(line, current_dimensions.x - sidebar_width - ROW_START + 1, false);
 
     for(coord location = { sidebar_width + ROW_START, TOP_BAR.y + 1 }; const auto & line : text) {
         if(location.y > current_dimensions.y) break;

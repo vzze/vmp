@@ -5,14 +5,14 @@ bool vmp::ui::key_callback(const char key) {
 
     switch(key) {
         case 'q': return false; break;
-        case 'w': return w(); break;
-        case 'a': return a(); break;
-        case 's': return s(); break;
-        case 'd': return d(); break;
-        case 'n': return n(); break;
-        case 'm': return m(); break;
+        case 'w': w(); break;
+        case 'a': a(); break;
+        case 's': s(); break;
+        case 'd': d(); break;
+        case 'n': n(); break;
+        case 'm': m(); break;
 
-        default: return true; break;
+        default: break;
     }
 
     return true;
