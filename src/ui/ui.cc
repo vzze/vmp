@@ -2,6 +2,7 @@
 
 vmp::ui::ui(player & current, const ui_opts opts)
     : screen_is_too_small{false},
+      current_zone{ZONE::QUEUE_TITLE},
       current_dimensions{},
       sidebar_width{opts.sidebar_width},
       sidebar_stopping_point{opts.sidebar_stopping_point},

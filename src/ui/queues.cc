@@ -28,8 +28,14 @@ std::vector<std::wstring> vmp::ui::get_queues() {
 
     u32 space = TOP_BAR.y + 2;
 
-    for(const auto & queue : queues) {
+    zones[ZONE::QUEUE_LIST].buttons.clear();
+    zones[ZONE::QUEUE_LIST].currently_selected = 0;
+
+    for(u32 button_id = queues_offset; const auto & queue : queues) {
         if(space == sidebar_stopping_point) break;
+
+        zones[ZONE::QUEUE_LIST].buttons.push_back(button{button_id++});
+
         ret.push_back(format_sidebar_row(queue.name()));
         ++space;
     }

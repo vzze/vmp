@@ -32,6 +32,8 @@ namespace vmp {
                 ZONE_NUMBER
             };
 
+            ZONE current_zone;
+
             struct button {
                 u32 id;
             };
@@ -51,7 +53,6 @@ namespace vmp {
             void button_remove_highlight();
 
             struct zones {
-                ZONE current_zone = ZONE::QUEUE_TITLE;
                 std::array<zone, static_cast<std::size_t>(ZONE::ZONE_NUMBER)> zones;
 
                 zone & operator [] (const ZONE) noexcept;
@@ -59,6 +60,9 @@ namespace vmp {
 
             void update_zones_hl_start_pos();
             void set_zone(const ZONE);
+
+            void button_up();
+            void button_down();
 
             inline static constexpr u32 DEFAULT_SIDEBAR_STOPPING_POINT = 12;
             inline static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 28;

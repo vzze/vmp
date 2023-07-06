@@ -31,8 +31,14 @@ std::vector<std::wstring> vmp::ui::get_unsorted_songs() {
 
     u32 space = sidebar_stopping_point + 2;
 
-    for(const auto & song : unsorted_songs) {
+    zones[ZONE::UNSORTED_LIST].buttons.clear();
+    zones[ZONE::UNSORTED_LIST].currently_selected = 0;
+
+    for(u32 button_id = unsorted_songs_offset; const auto & song : unsorted_songs) {
         if(space > current_dimensions.y) break;
+
+        zones[ZONE::UNSORTED_LIST].buttons.push_back(button{button_id++});
+
         ret.push_back(format_sidebar_row(song.name()));
         ++space;
     }

@@ -1,10 +1,21 @@
 #include <ui.hh>
 
 void vmp::ui::update_zones_hl_start_pos() {
-    zones.current_zone = ZONE::QUEUE_TITLE;
+    current_zone = ZONE::QUEUE_TITLE;
 
     zones[ZONE::QUEUE_TITLE].hl_start_pos = { TOP_BAR.x, TOP_BAR.y + 1 };
+
+    zones[ZONE::QUEUE_LIST].hl_start_pos = {
+        zones[ZONE::QUEUE_TITLE].hl_start_pos.x + 1 ,
+        zones[ZONE::QUEUE_TITLE].hl_start_pos.y + 1
+    };
+
     zones[ZONE::UNSORTED_TITLE].hl_start_pos = { 1, sidebar_stopping_point + 1 };
+
+    zones[ZONE::UNSORTED_LIST].hl_start_pos = {
+        zones[ZONE::UNSORTED_TITLE].hl_start_pos.x + 1 ,
+        zones[ZONE::UNSORTED_TITLE].hl_start_pos.y + 1
+    };
 }
 
 vmp::ui::zone::zone(const coord pos) : hl_start_pos{pos}, currently_selected{0} {}
@@ -14,10 +25,14 @@ vmp::ui::button & vmp::ui::zone::current() {
 }
 
 void vmp::ui::button_add_highlight() {
-    auto pos = zones[zones.current_zone].hl_start_pos;
+    auto pos = zones[current_zone].hl_start_pos;
 
-    if(zones.current_zone == ZONE::MAIN_LIST || zones.current_zone == ZONE::UNSORTED_LIST || zones.current_zone == ZONE::QUEUE_LIST)
-        pos.y += zones[zones.current_zone].currently_selected;
+    if(current_zone == ZONE::MAIN_LIST || current_zone == ZONE::UNSORTED_LIST || current_zone == ZONE::QUEUE_LIST)
+        pos.y += zones[current_zone].currently_selected;
+
+#ifdef VMP_DEBUG
+    print_at_pos({ 1, 1 }, std::format("B({:<3} {:<3})", pos.x, pos.y));
+#endif
 
     static constexpr auto col = bg_colors["BRIGHT_YELLOW"];
     static constexpr auto def = bg_colors["DEFAULT"];
@@ -28,10 +43,10 @@ void vmp::ui::button_add_highlight() {
 }
 
 void vmp::ui::button_remove_highlight() {
-    auto pos = zones[zones.current_zone].hl_start_pos;
+    auto pos = zones[current_zone].hl_start_pos;
 
-    if(zones.current_zone == ZONE::MAIN_LIST || zones.current_zone == ZONE::UNSORTED_LIST || zones.current_zone == ZONE::QUEUE_LIST)
-        pos.y += zones[zones.current_zone].currently_selected;
+    if(current_zone == ZONE::MAIN_LIST || current_zone == ZONE::UNSORTED_LIST || current_zone == ZONE::QUEUE_LIST)
+        pos.y += zones[current_zone].currently_selected;
 
     static constexpr auto def = bg_colors["DEFAULT"];
 
@@ -42,7 +57,32 @@ void vmp::ui::button_remove_highlight() {
 
 void vmp::ui::set_zone(const ZONE zone) {
     button_remove_highlight();
-    zones.current_zone = zone;
+    current_zone = zone;
+    button_add_highlight();
+}
+
+void vmp::ui::button_up() {
+    button_remove_highlight();
+
+    auto & location = zones[current_zone];
+
+    if(location.currently_selected != 0) {
+        --location.currently_selected;
+    } else {
+        location.currently_selected = static_cast<u32>(location.buttons.size()) - 1U;
+    }
+
+    button_add_highlight();
+}
+
+void vmp::ui::button_down() {
+    button_remove_highlight();
+
+    auto & location = zones[current_zone];
+
+    ++location.currently_selected;
+    location.currently_selected %= location.buttons.size();
+
     button_add_highlight();
 }
 
