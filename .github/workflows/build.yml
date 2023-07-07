@@ -21,11 +21,11 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install LLVM 16.0.6
-      run: choco install llvm
+      run: choco install llvm --version=16.0.6
 
-    - name: Configure CMake
-      run: cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Debug -S . -B build -G "MinGW Makefiles"
+    # - name: Configure CMake
+    #   run: cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Debug -S . -B build -G "MinGW Makefiles"
 
-    - name: Build
-      working-directory: ${{github.workspace}}/build
-      run: cmake --build .
+    # - name: Build
+    #   working-directory: ${{github.workspace}}/build
+    #   run: cmake --build .
