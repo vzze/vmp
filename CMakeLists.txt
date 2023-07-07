@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 
 project(
     VMP
-    VERSION 0.5.1
+    VERSION 0.5.2
     DESCRIPTION "VMP CLI Music Player"
 )
 
@@ -47,7 +47,7 @@ add_compile_definitions(
     $<$<CONFIG:Debug>:VMP_DEBUG>
 )
 
-# set(CMAKE_CXX_CLANG_TIDY clang-tidy -p build)
+set(CMAKE_CXX_CLANG_TIDY clang-tidy -p build)
 
 add_subdirectory(config)
 add_subdirectory(src)

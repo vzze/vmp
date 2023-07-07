@@ -32,10 +32,6 @@ void vmp::ui::button_add_highlight() {
     if(current_zone == ZONE::MAIN_LIST || current_zone == ZONE::UNSORTED_LIST || current_zone == ZONE::QUEUE_LIST)
         pos.y += zones[current_zone].currently_selected;
 
-#ifdef VMP_DEBUG
-    print_at_pos({ 1, 1 }, std::format("B({:<3} {:<3})", pos.x, pos.y));
-#endif
-
     static constexpr auto col = bg_colors["BRIGHT_YELLOW"];
     static constexpr auto def = bg_colors["DEFAULT"];
 

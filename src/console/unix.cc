@@ -1,9 +1,6 @@
 #include <console.hh>
 
 vmp::console::console() noexcept : should_exit{false}, old_sets{} {
-    std::cout.setf(std::ios::unitbuf);
-    std::wcout.setf(std::ios::unitbuf);
-
     struct termios new_sets{};
 
     tcgetattr(fileno(stdin), &new_sets);
@@ -13,12 +10,9 @@ vmp::console::console() noexcept : should_exit{false}, old_sets{} {
     new_sets.c_lflag &= static_cast<unsigned>(~ICANON & ~ECHO); // NOLINT(hicpp-signed-bitwise)
 
     tcsetattr(fileno(stdin), TCSANOW, &new_sets);
-
-    util::write_console("\x1b[?1049h");
-    util::write_console("\x1b[?25l");
 }
 
-void vmp::console::process_events() noexcept { // NOLINT
+void vmp::console::process_events() noexcept {
     struct winsize window{};
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &window); // NOLINT(cppcoreguidelines-pro-type-vararg, hicpp-vararg)
@@ -44,18 +38,6 @@ void vmp::console::process_events() noexcept { // NOLINT
     }
 }
 
-void vmp::console::main_loop() noexcept {
-    while(!should_exit) {
-        process_events();
-
-        std::this_thread::sleep_for(std::chrono::milliseconds{1});
-    }
-}
-
 vmp::console::~console() noexcept {
     tcsetattr(fileno(stdin), TCSANOW, &old_sets);
-
-    util::write_console("\x1b[?1049l");
-    util::write_console("\x1b[!p");
-    util::write_console("\x1b[?25h");
 }

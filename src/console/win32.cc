@@ -4,9 +4,6 @@ vmp::console::console() noexcept
     : should_exit{true}, in_handle{GetStdHandle(STD_INPUT_HANDLE)}, out_handle{GetStdHandle(STD_OUTPUT_HANDLE)} ,
       old_in_mode{0}, old_out_mode{0}
 {
-    std::cout.setf(std::ios::unitbuf);
-    std::wcout.setf(std::ios::unitbuf);
-
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast, performance-no-int-to-ptr)
     if(out_handle == INVALID_HANDLE_VALUE) return;
 
@@ -40,9 +37,6 @@ vmp::console::console() noexcept
     if(SetConsoleMode(in_handle, mode) == 0) return;
 
     should_exit = false;
-
-    util::write_console("\x1b[?1049h");
-    util::write_console("\x1b[?25l");
 }
 
 void vmp::console::process_events() noexcept {
@@ -81,19 +75,7 @@ void vmp::console::process_events() noexcept {
     // NOLINTEND(cppcoreguidelines-pro-type-union-access)
 }
 
-void vmp::console::main_loop() noexcept {
-    while(!should_exit) {
-        process_events();
-
-        std::this_thread::sleep_for(std::chrono::milliseconds{1});
-    }
-}
-
 vmp::console::~console() noexcept {
-    util::write_console("\x1b[?1049l");
-    util::write_console("\x1b[!p");
-    util::write_console("\x1b[?25h");
-
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast, performance-no-int-to-ptr)
     if(in_handle != INVALID_HANDLE_VALUE)
         SetConsoleMode(in_handle, old_in_mode);
