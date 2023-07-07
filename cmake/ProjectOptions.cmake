@@ -11,12 +11,29 @@ macro(set_parallel_level)
     endif()
 endmacro()
 
-macro(set_ipo)
+macro(enable_ipo)
     check_ipo_supported(RESULT SUPPORTED OUTPUT ERROR)
 
     if(SUPPORTED)
-        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-        message(STATUS "IPO / LTO Enabled")
+        if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            find_program(GCC_AR gcc-ar)
+
+            if(GCC_AR)
+                message(STATUS "GCC detected: setting up CMake AR")
+
+                set(CMAKE_AR ${GCC_AR})
+                set(CMAKE_C_ARCHIVE_CREATE "<CMAKE_AR> qcs <TARGET> <LINK_FLAGS> <OBJECTS>")
+                set(CMAKE_C_ARCHIVE_FINISH true)
+
+                set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+                message(STATUS "IPO / LTO Enabled")
+            else()
+                message(SEND_ERROR "gcc-ar is needed for LTO optimization")
+            endif()
+        else()
+            set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+            message(STATUS "IPO / LTO Enabled")
+        endif()
     else()
         message(STATUS "IPO / LTO not supported: ${ERROR}")
     endif()
@@ -32,19 +49,13 @@ endmacro()
 
 macro(set_project_options)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-    set(CMAKE_CXX_CLANG_TIDY clang-tidy -p build)
 
     set_parallel_level()
-    set_ipo()
+    enable_ipo()
 
     if(MSVC AND POLICY CMP0141)
         set_cmp0141()
     endif()
-
-    add_compile_definitions(
-        $<$<CONFIG:RelWithDebInfo>:VMP_DEBUG>
-        $<$<CONFIG:Debug>:VMP_DEBUG>
-    )
 
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

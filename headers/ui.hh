@@ -47,16 +47,27 @@ namespace vmp {
 
                 explicit zone(const coord = {0, 0});
 
-                button & current();
+                [[nodiscard]] const button & current() const;
             };
+
+            [[nodiscard]] char w_available() const;
+            [[nodiscard]] char a_available() const;
+            [[nodiscard]] char s_available() const;
+            [[nodiscard]] char d_available() const;
+            [[nodiscard]] char n_available() const;
+            [[nodiscard]] char m_available() const;
+
+            void draw_available_moves() const;
 
             void button_add_highlight();
             void button_remove_highlight();
 
             struct zones {
-                std::array<zone, static_cast<std::size_t>(ZONE::ZONE_NUMBER)> zones;
-
-                zone & operator [] (const ZONE) noexcept;
+                private:
+                    std::array<zone, static_cast<std::size_t>(ZONE::ZONE_NUMBER)> zones;
+                public:
+                    zone & operator [] (const ZONE) noexcept;
+                    const zone & operator [] (const ZONE) const noexcept;
             } zones;
 
             void update_zones_hl_start_pos();

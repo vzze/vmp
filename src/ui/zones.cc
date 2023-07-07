@@ -22,7 +22,7 @@ void vmp::ui::update_zones_hl_start_pos() {
 
 vmp::ui::zone::zone(const coord pos) : hl_start_pos{pos}, currently_selected{0} {}
 
-vmp::ui::button & vmp::ui::zone::current() {
+const vmp::ui::button & vmp::ui::zone::current() const {
     return buttons[currently_selected];
 }
 
@@ -38,6 +38,11 @@ void vmp::ui::button_add_highlight() {
     const auto prnt = std::string(col) + " " + std::string(def);
 
     print_at_pos(pos, prnt);
+
+    if(current_zone == ZONE::QUEUE_LIST)
+        draw_main_list(zones[ZONE::QUEUE_LIST].current().id);
+
+    draw_available_moves();
 }
 
 void vmp::ui::button_remove_highlight() {
@@ -85,5 +90,9 @@ void vmp::ui::button_down() {
 }
 
 vmp::ui::zone & vmp::ui::zones::operator [] (const ZONE zone) noexcept {
+    return zones.at(static_cast<std::size_t>(zone));
+}
+
+const vmp::ui::zone & vmp::ui::zones::operator [] (const ZONE zone) const noexcept {
     return zones.at(static_cast<std::size_t>(zone));
 }

@@ -1,3 +1,8 @@
+add_compile_definitions(
+    $<$<CONFIG:RelWithDebInfo>:VMP_DEBUG>
+    $<$<CONFIG:Debug>:VMP_DEBUG>
+)
+
 set(CONSOLE "console/common.cc")
 
 if(WIN32)

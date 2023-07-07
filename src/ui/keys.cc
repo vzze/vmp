@@ -7,9 +7,6 @@ void vmp::ui::w() {
 
         default:
             button_up();
-
-            if(current_zone == ZONE::QUEUE_LIST)
-                draw_main_list(zones[current_zone].current().id);
         break;
     }
 }
@@ -35,9 +32,6 @@ void vmp::ui::s() {
 
         default:
             button_down();
-
-            if(current_zone == ZONE::QUEUE_LIST)
-                draw_main_list(zones[current_zone].current().id);
         break;
     }
 }
