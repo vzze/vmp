@@ -1,7 +1,7 @@
 macro(enable_clang_tidy)
     find_program(CLANG_TIDY clang-tidy)
 
-    if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
         if(CLANG_TIDY)
             set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY} -p build)
             message(STATUS "clang-tidy enabled")
@@ -14,7 +14,7 @@ macro(enable_clang_tidy)
     else()
         message(
             STATUS
-            "clang-tidy is disabled because it fails to handle GCC's PCH file"
+            "clang-tidy cannot be enabled with non-clang compiler"
         )
     endif()
 endmacro()
