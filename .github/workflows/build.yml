@@ -2,7 +2,7 @@ name: CMake
 
 on:
   push:
-    branches: [ "main" ]
+    # branches: [ "main" ]
     paths:
       - src/**
       - .github/workflows/cmake.yml
