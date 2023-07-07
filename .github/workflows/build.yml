@@ -5,7 +5,7 @@ on:
     # branches: [ "main" ]
     paths:
       - src/**
-      - .github/workflows/cmake.yml
+      - .github/workflows/build.yml
       - CMakeLists.txt
   pull_request:
     branches: [ "main" ]
