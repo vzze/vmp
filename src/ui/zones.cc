@@ -53,9 +53,9 @@ void vmp::ui::button_remove_highlight() {
     print_at_pos(pos, prnt);
 }
 
-void vmp::ui::set_zone(const ZONE zone) {
+void vmp::ui::set_zone(const ZONE new_zone) {
     button_remove_highlight();
-    current_zone = zone;
+    current_zone = new_zone;
     button_add_highlight();
 }
 
