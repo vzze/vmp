@@ -2,7 +2,7 @@ name: CMake
 
 on:
   push:
-    # branches: [ "main" ]
+    branches: [ "main" ]
     paths:
       - src/**
       - .github/workflows/clang-tidy.yml
@@ -31,4 +31,4 @@ jobs:
 
     - name: Build
       working-directory: ${{github.workspace}}/build
-      run: cmake --build .
+      run: cmake --build . --parallel
