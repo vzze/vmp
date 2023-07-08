@@ -65,6 +65,12 @@ function(set_compiler_warnings target)
 
     set(WARNINGS_C ${WARNINGS_CXX})
 
+    if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+        list(REMOVE_ITEM WARNINGS_C "-Wnon-virtual-dtor" "-Wold-style-cast" "-Woverloaded-virtual")
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        list(REMOVE_ITEM WARNINGS_C "-Wnon-virtual-dtor" "-Wold-style-cast" "-Woverloaded-virtual" "-Wuseless-cast")
+    endif()
+
     target_compile_options(
         ${target}
         INTERFACE
