@@ -11,23 +11,35 @@
 
 namespace vmp {
     struct player {
-        static constexpr std::string_view data = "vmp-data";
+        private:
+            engine * instance;
+        public:
 
-        std::vector<queue> queues;
-        queue unsorted;
+            static constexpr std::string_view data = "vmp-data";
 
-        explicit player(const std::filesystem::path &);
+            std::vector<queue> queues;
+            queue unsorted;
 
-        struct info {
-            std::size_t queues;
-            std::size_t songs_in_queues;
-            std::size_t unsorted_songs;
-            std::size_t total_songs;
-        };
+            explicit player(const std::filesystem::path &);
 
-        info get_info();
+            player(const player &) = default;
+            player(player &&) = default;
 
-        static std::string location();
+            player & operator = (const player &) = default;
+            player & operator = (player &&) = default;
+
+            struct info {
+                std::size_t queues;
+                std::size_t songs_in_queues;
+                std::size_t unsorted_songs;
+                std::size_t total_songs;
+            };
+
+            info get_info();
+
+            static std::string location();
+
+            ~player();
     };
 }
 

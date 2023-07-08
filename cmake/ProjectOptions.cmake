@@ -1,5 +1,9 @@
 include(CheckIPOSupported)
 
+include(cmake/CompilerWarnings.cmake)
+include(cmake/DependencySolver.cmake)
+include(cmake/StaticAnalyzers.cmake)
+
 macro(set_parallel_level)
     cmake_host_system_information(RESULT CORES QUERY NUMBER_OF_PHYSICAL_CORES)
 
@@ -56,6 +60,17 @@ macro(set_project_options)
     if(MSVC AND POLICY CMP0141)
         set_cmp0141()
     endif()
+
+    add_library(PROJECT_WARNINGS INTERFACE)
+    set_compiler_warnings(PROJECT_WARNINGS)
+
+    if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/dependencies")
+        solve_dependencies("${CMAKE_SOURCE_DIR}/dependencies")
+    endif()
+
+    enable_clang_tidy()
+
+    add_subdirectory(cmake/config)
 
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

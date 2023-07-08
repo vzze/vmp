@@ -2,7 +2,9 @@
 
 namespace fs = std::filesystem;
 
-vmp::player::player(const fs::path & cwd) {
+vmp::player::player([[maybe_unused]] const fs::path & cwd) : instance{nullptr} {
+    engine_init(&instance);
+
     fs::current_path(cwd.parent_path());
 
     const fs::path new_cwd = fs::current_path() / player::data;
@@ -12,10 +14,10 @@ vmp::player::player(const fs::path & cwd) {
 
     fs::current_path(new_cwd);
 
-    unsorted = queue{new_cwd};
-
     if(!fs::exists(fs::current_path()))
         fs::create_directory(fs::current_path());
+
+    unsorted = queue{new_cwd};
 
     for(const auto & queue : fs::directory_iterator(fs::current_path()))
         if(queue.is_directory())
@@ -50,4 +52,8 @@ std::string vmp::player::location() {
             fs::absolute(
                 fs::current_path()
             ).parent_path().string();
+}
+
+vmp::player::~player() {
+    engine_free(instance);
 }
