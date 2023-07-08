@@ -1,4 +1,4 @@
-macro(set_compiler_warnings)
+function(set_compiler_warnings target)
     set(MSVC_WARNINGS
         /W4          # Baseline reasonable warnings
         /w14242      # 'identifier': conversion from 'type1' to 'type1', possible loss of data
@@ -56,10 +56,19 @@ macro(set_compiler_warnings)
     )
 
     if(MSVC)
-        add_compile_options(${MSVC_WARNINGS})
+        set(WARNINGS_CXX ${MSVC_WARNINGS})
     elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-        add_compile_options(${CLANG_WARNINGS})
+        set(WARNINGS_CXX ${CLANG_WARNINGS})
     elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        add_compile_options(${GCC_WARNINGS})
+        set(WARNINGS_CXX ${GCC_WARNINGS})
     endif()
-endmacro()
+
+    set(WARNINGS_C ${WARNINGS_CXX})
+
+    target_compile_options(
+        ${target}
+        INTERFACE
+         $<$<COMPILE_LANGUAGE:CXX>:${WARNINGS_CXX}>
+         $<$<COMPILE_LANGUAGE:C>:${WARNINGS_C}>
+    )
+endfunction()

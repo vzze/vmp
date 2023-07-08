@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
 
-include(cmake/CompilerWarnings.cmake)
-include(cmake/StaticAnalyzers.cmake)
 include(cmake/ProjectOptions.cmake)
 
 project(
@@ -19,9 +17,5 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_EXTENSIONS OFF)
 
 set_project_options()
-set_compiler_warnings()
 
-enable_clang_tidy()
-
-add_subdirectory(cmake/config)
 add_subdirectory(src)
