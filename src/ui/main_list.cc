@@ -3,6 +3,8 @@
 void vmp::ui::main_next_page(cu32 queue_id) {
     const auto add = current_dimensions.y - TOP_BAR.y - 1;
 
+    auto & main_offset = instance.queues[queue_id].draw_offset;
+
     if(main_offset + add < instance.queues[queue_id].songs.size()) {
         main_offset += add;
         draw_main_list(queue_id);
@@ -11,6 +13,8 @@ void vmp::ui::main_next_page(cu32 queue_id) {
 
 void vmp::ui::main_prev_page(cu32 queue_id) {
     const auto sub = current_dimensions.y - TOP_BAR.y - 1;
+
+    auto & main_offset = instance.queues[queue_id].draw_offset;
 
     if(main_offset - sub < instance.queues[queue_id].songs.size()) {
         main_offset -= sub;
@@ -23,6 +27,8 @@ void vmp::ui::main_prev_page(cu32 queue_id) {
 
 std::vector<std::wstring> vmp::ui::get_main_list(cu32 queue_id) {
     std::vector<std::wstring> ret;
+
+    auto & main_offset = instance.queues[queue_id].draw_offset;
 
     const auto songs = std::ranges::subrange(
         instance.queues[queue_id].songs.begin() + main_offset,

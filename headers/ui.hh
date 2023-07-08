@@ -146,7 +146,6 @@ namespace vmp {
 
             u32 queues_offset;
             u32 unsorted_songs_offset;
-            u32 main_offset;
 
             player & instance;
         public:
@@ -158,6 +157,15 @@ namespace vmp {
             void d();
             void n();
             void m();
+
+            [[nodiscard]] bool queues_next_available() const;
+            [[nodiscard]] bool queues_prev_available() const;
+
+            [[nodiscard]] bool unsorted_next_available() const;
+            [[nodiscard]] bool unsorted_prev_available() const;
+
+            [[nodiscard]] bool main_next_available(cu32) const;
+            [[nodiscard]] bool main_prev_available(cu32) const;
 
             bool key_callback(const char);
             bool resize_callback(const coord);

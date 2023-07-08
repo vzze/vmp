@@ -2,7 +2,7 @@
 
 namespace fs = std::filesystem;
 
-vmp::queue::queue(fs::path q_path) : path{std::move(q_path)} {
+vmp::queue::queue(fs::path q_path) : path{std::move(q_path)}, draw_offset{0} {
     for(const auto & song : fs::directory_iterator(path))
         if(!song.is_directory())
             songs.emplace_back(song);
