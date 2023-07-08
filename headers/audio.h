@@ -1,6 +1,12 @@
 #ifndef AUDIO_H
 #define AUDIO_H
 
+/*
+    This header acts as a thin wrapper for miniaudio in order
+    to avoid namespace pollution and for the C++ side to only
+    manage state.
+*/
+
 #ifdef __cplusplus
 extern "C" {
 #endif

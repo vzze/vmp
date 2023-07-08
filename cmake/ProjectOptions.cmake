@@ -51,7 +51,7 @@ macro(set_cmp0141)
     )
 endmacro()
 
-macro(set_project_options)
+macro(set_project_options DEPENDENCY_DIR INCLUDE_DIRS)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
     set_parallel_level()
@@ -64,13 +64,26 @@ macro(set_project_options)
     add_library(PROJECT_WARNINGS INTERFACE)
     set_compiler_warnings(PROJECT_WARNINGS)
 
-    if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/dependencies")
-        solve_dependencies("${CMAKE_SOURCE_DIR}/dependencies")
+    if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/${DEPENDENCY_DIR}")
+        message(STATUS "Searching for dependencies in: ${CMAKE_SOURCE_DIR}/${DEPENDENCY_DIR}")
+        solve_dependencies("${CMAKE_SOURCE_DIR}/${DEPENDENCY_DIR}")
     endif()
+
+    # Everything after dependencies is only enabled
+    # for the project code, the user shouldn't worry
+    # about warnings from other libs
 
     enable_clang_tidy()
 
     add_subdirectory(cmake/config)
+
+    add_library(PROJECT_OPTIONS INTERFACE)
+
+    set(PROJECT_INCLUDE_DIRS ${INCLUDE_DIRS})
+    list(APPEND PROJECT_INCLUDE_DIRS "${CMAKE_BINARY_DIR}/internal")
+    message(STATUS "Include directories set to: ${PROJECT_INCLUDE_DIRS}")
+
+    target_include_directories(PROJECT_OPTIONS INTERFACE ${PROJECT_INCLUDE_DIRS})
 
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
