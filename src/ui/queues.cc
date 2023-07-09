@@ -21,8 +21,8 @@ void vmp::ui::queues_prev_page() {
     }
 }
 
-std::vector<std::wstring> vmp::ui::get_queues() {
-    std::vector<std::wstring> ret;
+std::vector<std::string> vmp::ui::get_queues() {
+    std::vector<std::string> ret;
 
     const auto queues = std::ranges::subrange(instance.queues.begin() + queues_offset, instance.queues.end());
 
@@ -41,7 +41,7 @@ std::vector<std::wstring> vmp::ui::get_queues() {
     }
 
     while(space != sidebar_stopping_point) { // fill up the remaining rows with blank strings
-        ret.emplace_back(sidebar_width - ROW_START, L' ');
+        ret.emplace_back(sidebar_width - ROW_START, ' ');
         ++space;
     }
 

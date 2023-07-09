@@ -59,10 +59,11 @@ void vmp::ui::d() {
 
 void vmp::ui::n() {
     switch(current_zone) {
-        case ZONE::QUEUE_TITLE   : queues_prev_page(); break;
-        case ZONE::UNSORTED_TITLE: unsorted_prev_page(); break;
+        case ZONE::QUEUE_TITLE   : queues_prev_page  (); draw_available_moves(); break;
+        case ZONE::UNSORTED_TITLE: unsorted_prev_page(); draw_available_moves(); break;
         case ZONE::QUEUE_LIST:
             main_prev_page(zones[current_zone].current().id);
+            draw_available_moves();
         break;
 
         default: break;
@@ -71,10 +72,11 @@ void vmp::ui::n() {
 
 void vmp::ui::m() {
     switch(current_zone) {
-        case ZONE::QUEUE_TITLE   : queues_next_page(); break;
-        case ZONE::UNSORTED_TITLE: unsorted_next_page(); break;
+        case ZONE::QUEUE_TITLE   : queues_next_page  (); draw_available_moves(); break;
+        case ZONE::UNSORTED_TITLE: unsorted_next_page(); draw_available_moves(); break;
         case ZONE::QUEUE_LIST:
             main_next_page(zones[current_zone].current().id);
+            draw_available_moves();
         break;
 
         default: break;

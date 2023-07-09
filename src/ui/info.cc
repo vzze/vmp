@@ -3,6 +3,17 @@
 void vmp::ui::draw_player_info() {
     const auto info = instance.get_info();
 
+    const auto fmt = [](std::string & name, cu32 max_len, bool elongate) {
+        static constexpr std::string_view filler = "...";
+
+        if(name.length() >= max_len) {
+            name.resize(max_len - filler.size());
+            name += filler;
+        } else if(elongate) {
+            name.resize(max_len, ' ');
+        }
+    };
+
     std::array text{
         std::string("Player Information"),
 
@@ -32,7 +43,7 @@ void vmp::ui::draw_player_info() {
     };
 
     for(auto & line : text)
-        format_row(line, current_dimensions.x - sidebar_width - ROW_START + 1, false);
+        fmt(line, current_dimensions.x - sidebar_width - ROW_START + 1, false);
 
     for(coord location = { sidebar_width + ROW_START, TOP_BAR.y + 1 }; const auto & line : text) {
         if(location.y > current_dimensions.y) break;

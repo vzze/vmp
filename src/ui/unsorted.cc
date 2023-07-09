@@ -21,8 +21,8 @@ void vmp::ui::unsorted_prev_page() {
     }
 }
 
-std::vector<std::wstring> vmp::ui::get_unsorted_songs() {
-    std::vector<std::wstring> ret;
+std::vector<std::string> vmp::ui::get_unsorted_songs() {
+    std::vector<std::string> ret;
 
     const auto unsorted_songs = std::ranges::subrange(
         instance.unsorted.songs.begin() + unsorted_songs_offset,
@@ -44,7 +44,7 @@ std::vector<std::wstring> vmp::ui::get_unsorted_songs() {
     }
 
     while(space <= current_dimensions.y) {
-        ret.emplace_back(sidebar_width - ROW_START, L' ');
+        ret.emplace_back(sidebar_width - ROW_START, ' ');
         ++space;
     }
 
