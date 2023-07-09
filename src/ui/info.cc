@@ -33,9 +33,11 @@ void vmp::ui::draw_player_info() {
 
         std::string(""),
 
-        std::format("Move keys: {}/{}/{}/{}", keys.up, keys.left, keys.down, keys.right),
-        std::format("Scroll keys: {}/{}", keys.scroll_up, keys.scroll_down),
-        std::format("Quit: {}", keys.quit),
+        std::format("Move keys: {}/{}/{}/{}", actions.up, actions.left, actions.down, actions.right),
+        std::format("Scroll keys: {}/{}", actions.scroll_up, actions.scroll_down),
+
+        std::format("Play: {}", actions.play),
+        std::format("Quit: {}", actions.quit),
 
         std::string(""),
 

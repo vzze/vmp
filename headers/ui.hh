@@ -50,7 +50,7 @@ namespace vmp {
                 [[nodiscard]] const button & current() const;
             };
 
-            static constexpr struct pressable_keys {
+            static constexpr struct possible_actions {
                 static constexpr char quit        = 'q';
 
                 static constexpr char up          = 'w'; // NOLINT(readability-identifier-length)
@@ -62,7 +62,9 @@ namespace vmp {
                 static constexpr char scroll_down = 'm';
 
                 static constexpr char play        = 'p';
-            } keys = {};
+
+                static constexpr char unavailable = ' ';
+            } actions = {};
 
             [[nodiscard]] char up_available() const;
             [[nodiscard]] char down_available() const;

@@ -5,9 +5,9 @@ namespace fs = std::filesystem;
 vmp::player::player([[maybe_unused]] const fs::path & cwd)
     : instance{nullptr},
       song_type{SONG_TYPE::NONE},
-      state{PLAYER_STATE::NOT_PLAYING},
       queue_id{0},
-      song_id{0}
+      song_id{0},
+      state{PLAYER_STATE::NOT_PLAYING}
 {
     engine_init(&instance);
 

@@ -23,14 +23,7 @@ namespace vmp {
                 NONE
             };
 
-            enum class PLAYER_STATE : char {
-                NOT_PLAYING,
-                PAUSED,
-                RESUMED
-            };
-
             std::atomic<SONG_TYPE> song_type;
-            std::atomic<PLAYER_STATE> state;
 
             std::atomic<std::uint32_t> queue_id, song_id;
 
@@ -40,6 +33,14 @@ namespace vmp {
 
             std::jthread audio_manager;
         public:
+            enum class PLAYER_STATE : char {
+                NOT_PLAYING,
+                PAUSED,
+                RESUMED
+            };
+
+            std::atomic<PLAYER_STATE> state;
+
             static constexpr std::string_view data = "vmp-data";
 
             std::vector<queue> queues;
