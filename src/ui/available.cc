@@ -1,5 +1,26 @@
 #include <ui.hh>
 
+bool vmp::ui::queues_prev_available() const { return queues_offset != 0; }
+bool vmp::ui::unsorted_prev_available() const { return unsorted_songs_offset != 0; }
+bool vmp::ui::main_prev_available(cu32 queue_id) const { return instance.queues[queue_id].draw_offset != 0; }
+
+bool vmp::ui::queues_next_available() const {
+    return
+        queues_offset + sidebar_stopping_point - TOP_BAR.y - 2 <
+        instance.queues.size();
+}
+
+bool vmp::ui::unsorted_next_available() const {
+    return
+        unsorted_songs_offset + current_dimensions.y - sidebar_stopping_point - 2 <
+        instance.unsorted.songs.size();
+}
+
+bool vmp::ui::main_next_available(cu32 queue_id) const {
+    return instance.queues[queue_id].draw_offset + current_dimensions.y - TOP_BAR.y - 1 <
+        instance.queues[queue_id].songs.size();
+}
+
 char vmp::ui::w_available() const {
     switch(current_zone) {
         case ZONE::QUEUE_TITLE: return ' '; break;
@@ -63,27 +84,39 @@ char vmp::ui::d_available() const {
 }
 
 char vmp::ui::n_available() const {
+    bool n_av{false};
+
     switch(current_zone) {
-        case ZONE::QUEUE_TITLE:
-        case ZONE::QUEUE_LIST:
-        case ZONE::UNSORTED_TITLE:
-            return 'n';
-        break;
+        case ZONE::QUEUE_TITLE   : n_av = queues_prev_available(); break;
+        case ZONE::QUEUE_LIST    : n_av = main_prev_available(zones[current_zone].current().id); break;
+        case ZONE::UNSORTED_TITLE: n_av = unsorted_prev_available(); break;
 
         default: return ' '; break;
     }
+
+    if(n_av) return 'n';
+    else return ' ';
 }
 
 char vmp::ui::m_available() const {
+    bool m_av{false};
+
     switch(current_zone) {
         case ZONE::QUEUE_TITLE:
+            m_av = queues_next_available();
+        break;
         case ZONE::QUEUE_LIST:
+            m_av = main_next_available(zones[current_zone].current().id);
+        break;
         case ZONE::UNSORTED_TITLE:
-            return 'm';
+            m_av = unsorted_next_available();
         break;
 
         default: return ' '; break;
     }
+
+    if(m_av) return 'm';
+    else return ' ';
 }
 
 void vmp::ui::draw_available_moves() const {
@@ -97,4 +130,16 @@ void vmp::ui::draw_available_moves() const {
     available.push_back(m_available());
 
     print_at_pos({ 1, 1 }, available);
+
+    dec_mode();
+
+    static constexpr auto one_down = coord{
+        AVAILABLE_MOVES_CUTOFF.x,
+        AVAILABLE_MOVES_CUTOFF.y + 1
+    };
+
+    print_at_pos(AVAILABLE_MOVES_CUTOFF, dec_chars["ve"]);
+    print_at_pos(one_down, dec_chars["t3"]);
+
+    ascii_mode();
 }

@@ -4,7 +4,7 @@ include(cmake/ProjectOptions.cmake)
 
 project(
     VMP
-    VERSION 0.5.3
+    VERSION 0.5.7
     DESCRIPTION "VMP CLI Music Player"
 )
 
@@ -16,6 +16,6 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_EXTENSIONS OFF)
 
-set_project_options()
+set_project_options(dependencies headers)
 
 add_subdirectory(src)

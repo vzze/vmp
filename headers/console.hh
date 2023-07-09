@@ -64,6 +64,8 @@ namespace vmp {
 
             void process_events() noexcept;
 
+            static bool refresh() noexcept;
+
             void main_loop() noexcept;
 
             ~console() noexcept;

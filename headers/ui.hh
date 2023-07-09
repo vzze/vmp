@@ -81,6 +81,7 @@ namespace vmp {
             static constexpr u32 ROW_START = 3;
 
             static constexpr coord TOP_BAR = { 1, 2 };
+            static constexpr coord AVAILABLE_MOVES_CUTOFF = { 8, 1 };
 
             static constexpr vmp::util::map<std::string_view, std::string_view, 17> fg_colors{{{
                 { "BLACK"  , "\x1b[30m" },
@@ -146,7 +147,6 @@ namespace vmp {
 
             u32 queues_offset;
             u32 unsorted_songs_offset;
-            u32 main_offset;
 
             player & instance;
         public:
@@ -159,25 +159,34 @@ namespace vmp {
             void n();
             void m();
 
+            [[nodiscard]] bool queues_next_available() const;
+            [[nodiscard]] bool queues_prev_available() const;
+
+            [[nodiscard]] bool unsorted_next_available() const;
+            [[nodiscard]] bool unsorted_prev_available() const;
+
+            [[nodiscard]] bool main_next_available(cu32) const;
+            [[nodiscard]] bool main_prev_available(cu32) const;
+
             bool key_callback(const char);
             bool resize_callback(const coord);
 
             void draw_player_info();
 
-            std::vector<std::wstring> get_main_list(cu32);
+            std::vector<std::string> get_main_list(cu32);
             void draw_main_list(cu32);
             void hide_main_list() const;
 
             void main_next_page(cu32);
             void main_prev_page(cu32);
 
-            std::vector<std::wstring> get_queues();
+            std::vector<std::string> get_queues();
             void draw_queues();
 
             void queues_next_page();
             void queues_prev_page();
 
-            std::vector<std::wstring> get_unsorted_songs();
+            std::vector<std::string> get_unsorted_songs();
             void draw_unsorted_songs();
 
             void unsorted_next_page();
@@ -185,11 +194,9 @@ namespace vmp {
 
             void draw_borders();
 
-            static void format_row(std::string &, cu32, bool = true);
-            [[nodiscard]] static std::wstring format_row(std::wstring, cu32, bool = true);
+            [[nodiscard]] static std::string format_row(std::string, cu32, bool = true);
 
             static void set_cursor_pos(const coord);
-            static void print_at_pos  (const coord, const std::wstring_view);
             static void print_at_pos  (const coord, const std::string_view);
             static void print_at_pos  (const coord, const char);
 

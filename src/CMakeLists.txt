@@ -10,9 +10,7 @@ aux_source_directory(audio AUDIO)
 
 add_library(audio ${AUDIO})
 
-target_link_libraries(audio PRIVATE PROJECT_WARNINGS miniaudio)
-
-target_include_directories(audio PRIVATE "../headers")
+target_link_libraries(audio PRIVATE PROJECT_OPTIONS PROJECT_WARNINGS miniaudio)
 
 aux_source_directory(player PLAYER)
 aux_source_directory(queue QUEUE)
@@ -22,6 +20,4 @@ aux_source_directory(util UTIL)
 
 add_executable(vmp vmp.cc ${PLAYER} ${QUEUE} ${SONG} ${CONSOLE} ${UI} ${UTIL})
 
-target_link_libraries(vmp PRIVATE PROJECT_WARNINGS audio)
-
-target_include_directories(vmp PRIVATE "../headers" "${CMAKE_BINARY_DIR}/internal")
+target_link_libraries(vmp PRIVATE PROJECT_OPTIONS PROJECT_WARNINGS audio)

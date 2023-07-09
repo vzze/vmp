@@ -15,7 +15,7 @@ bool vmp::ui::key_callback(const char key) {
         default: break;
     }
 
-    return true;
+    return console::refresh();
 }
 
 bool vmp::ui::resize_callback(const coord coords) {
@@ -41,5 +41,5 @@ bool vmp::ui::resize_callback(const coord coords) {
         set_zone(ZONE::QUEUE_TITLE);
     }
 
-    return true;
+    return console::refresh();
 }

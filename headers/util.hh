@@ -40,13 +40,6 @@ namespace vmp::util {
         } catch(...) {}
     }
 
-    template<typename ... Args>
-    void write_wconsole(Args && ... args) noexcept {
-        try {
-            ((std::wcout << std::forward<Args>(args)), ...);
-        } catch(...) {}
-    }
-
     inline constexpr std::string_view version_text =
         "This program comes with ABSOLUTELY NO WARRANTY;\n"
         "This is free software, and you are welcome to redistribute it\n"
