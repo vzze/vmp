@@ -15,6 +15,8 @@ bool vmp::ui::key_callback(const char key) {
         default: break;
     }
 
+    std::cout.flush();
+
     return true;
 }
 
@@ -40,6 +42,8 @@ bool vmp::ui::resize_callback(const coord coords) {
 
         set_zone(ZONE::QUEUE_TITLE);
     }
+
+    std::cout.flush();
 
     return true;
 }

@@ -25,8 +25,8 @@ void vmp::ui::main_prev_page(cu32 queue_id) {
     }
 }
 
-std::vector<std::wstring> vmp::ui::get_main_list(cu32 queue_id) {
-    std::vector<std::wstring> ret;
+std::vector<std::string> vmp::ui::get_main_list(cu32 queue_id) {
+    std::vector<std::string> ret;
 
     auto & main_offset = instance.queues[queue_id].draw_offset;
 

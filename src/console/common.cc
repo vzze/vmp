@@ -1,8 +1,7 @@
 #include <console.hh>
 
 void vmp::console::main_loop() noexcept {
-    std::cout.setf(std::ios::unitbuf);
-    std::wcout.setf(std::ios::unitbuf);
+    std::ios_base::sync_with_stdio(false);
 
     util::write_console("\x1b[?1049h");
     util::write_console("\x1b[?25l");

@@ -18,7 +18,7 @@ namespace vmp {
         void play(ma_engine *);
         void free_resources() const;
 
-        [[nodiscard]] std::wstring name() const;
+        [[nodiscard]] std::string name() const;
     };
 }
 

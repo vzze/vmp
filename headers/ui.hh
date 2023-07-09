@@ -172,20 +172,20 @@ namespace vmp {
 
             void draw_player_info();
 
-            std::vector<std::wstring> get_main_list(cu32);
+            std::vector<std::string> get_main_list(cu32);
             void draw_main_list(cu32);
             void hide_main_list() const;
 
             void main_next_page(cu32);
             void main_prev_page(cu32);
 
-            std::vector<std::wstring> get_queues();
+            std::vector<std::string> get_queues();
             void draw_queues();
 
             void queues_next_page();
             void queues_prev_page();
 
-            std::vector<std::wstring> get_unsorted_songs();
+            std::vector<std::string> get_unsorted_songs();
             void draw_unsorted_songs();
 
             void unsorted_next_page();
@@ -193,11 +193,9 @@ namespace vmp {
 
             void draw_borders();
 
-            static void format_row(std::string &, cu32, bool = true);
-            [[nodiscard]] static std::wstring format_row(std::wstring, cu32, bool = true);
+            [[nodiscard]] static std::string format_row(std::string, cu32, bool = true);
 
             static void set_cursor_pos(const coord);
-            static void print_at_pos  (const coord, const std::wstring_view);
             static void print_at_pos  (const coord, const std::string_view);
             static void print_at_pos  (const coord, const char);
 

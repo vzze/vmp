@@ -6,12 +6,12 @@ namespace fs = std::filesystem;
 
 vmp::song::song(fs::path s_path) : path{std::move(s_path)}, resource{nullptr} {}
 
-std::wstring vmp::song::name() const {
-    return path.stem().wstring();
+std::string vmp::song::name() const {
+    return path.stem().string();
 }
 
 void vmp::song::play(engine * instance) {
-    sound_init_w(instance, path.wstring().c_str(), &resource);
+    sound_init(instance, path.string().c_str(), &resource);
     sound_play(resource);
 }
 

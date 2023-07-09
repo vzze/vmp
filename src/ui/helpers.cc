@@ -1,18 +1,7 @@
 #include <ui.hh>
 
-void vmp::ui::format_row(std::string & name, cu32 max_len, bool elongate) {
+std::string vmp::ui::format_row(std::string name, cu32 max_len, bool elongate) {
     static constexpr std::string_view filler = "...";
-
-    if(name.length() >= max_len) {
-        name.resize(max_len - filler.size());
-        name += filler;
-    } else if(elongate) {
-        name.resize(max_len, L' ');
-    }
-}
-
-std::wstring vmp::ui::format_row(std::wstring name, cu32 max_len, bool elongate) {
-    static constexpr std::wstring_view filler = L"...";
 
     if(name.length() >= max_len) {
         name.resize(max_len - filler.size());
@@ -26,10 +15,6 @@ std::wstring vmp::ui::format_row(std::wstring name, cu32 max_len, bool elongate)
 
 void vmp::ui::set_cursor_pos(const coord coords) {
     util::write_console(std::format("\x1b[{};{}H", coords.y, coords.x));
-}
-
-void vmp::ui::print_at_pos(const coord coords, const std::wstring_view txt) {
-    util::write_wconsole(std::format(L"\x1b[{};{}H{}", coords.y, coords.x, txt));
 }
 
 void vmp::ui::print_at_pos(const coord coords, const std::string_view txt) {

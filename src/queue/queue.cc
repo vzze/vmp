@@ -10,6 +10,6 @@ vmp::queue::queue(fs::path q_path) : path{std::move(q_path)}, draw_offset{0} {
     songs.shrink_to_fit();
 }
 
-std::wstring vmp::queue::name() const {
-    return path.filename().wstring();
+std::string vmp::queue::name() const {
+    return path.filename().string();
 }

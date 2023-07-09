@@ -19,7 +19,7 @@ namespace vmp {
         queue() = default;
         explicit queue(std::filesystem::path);
 
-        [[nodiscard]] std::wstring name() const;
+        [[nodiscard]] std::string name() const;
     };
 }
 
