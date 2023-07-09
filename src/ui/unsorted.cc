@@ -44,7 +44,7 @@ std::vector<std::string> vmp::ui::get_unsorted_songs() {
     }
 
     while(space <= current_dimensions.y) {
-        ret.emplace_back(sidebar_width - ROW_START, L' ');
+        ret.emplace_back(sidebar_width - ROW_START, ' ');
         ++space;
     }
 

@@ -50,7 +50,7 @@ std::vector<std::string> vmp::ui::get_main_list(cu32 queue_id) {
     }
 
     while(space <= current_dimensions.y) {
-        ret.emplace_back(1, L' ');
+        ret.emplace_back(1, ' ');
         ++space;
     }
 

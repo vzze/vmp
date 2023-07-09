@@ -41,7 +41,7 @@ std::vector<std::string> vmp::ui::get_queues() {
     }
 
     while(space != sidebar_stopping_point) { // fill up the remaining rows with blank strings
-        ret.emplace_back(sidebar_width - ROW_START, L' ');
+        ret.emplace_back(sidebar_width - ROW_START, ' ');
         ++space;
     }
 

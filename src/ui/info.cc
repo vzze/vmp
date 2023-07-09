@@ -10,7 +10,7 @@ void vmp::ui::draw_player_info() {
             name.resize(max_len - filler.size());
             name += filler;
         } else if(elongate) {
-            name.resize(max_len, L' ');
+            name.resize(max_len, ' ');
         }
     };
 

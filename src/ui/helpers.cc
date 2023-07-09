@@ -7,7 +7,7 @@ std::string vmp::ui::format_row(std::string name, cu32 max_len, bool elongate) {
         name.resize(max_len - filler.size());
         name += filler;
     } else if(elongate) {
-        name.resize(max_len, L' ');
+        name.resize(max_len, ' ');
     }
 
     return name;
