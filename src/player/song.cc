@@ -1,8 +1,6 @@
-#include <song.hh>
+#include <player.hh>
 
 namespace fs = std::filesystem;
-
-#include <iostream>
 
 vmp::song::song(fs::path s_path) : path{std::move(s_path)}, resource{nullptr} {}
 

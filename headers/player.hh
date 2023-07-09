@@ -4,15 +4,54 @@
 #include <string_view>
 #include <filesystem>
 #include <algorithm>
+#include <cstddef>
+#include <numeric>
+#include <utility>
+#include <string>
 #include <atomic>
 #include <vector>
 #include <thread>
 #include <mutex>
 
-#include <queue.hh>
 #include <util.hh>
+#include <audio.h>
 
 namespace vmp {
+    struct song {
+        std::filesystem::path path;
+        sound * resource;
+
+        explicit song(std::filesystem::path);
+
+        void play(engine *);
+
+        void stop() const;
+        void rewind() const;
+
+        void set_volume(float) const;
+        void loop(bool) const;
+
+        [[nodiscard]] bool is_playing() const;
+        [[nodiscard]] bool is_looping() const;
+
+        [[nodiscard]] bool is_at_end()  const;
+
+        void free_resources();
+
+        [[nodiscard]] std::string name() const;
+    };
+
+    struct queue {
+        std::filesystem::path path;
+        std::vector<song> songs;
+        std::uint32_t draw_offset{0};
+
+        queue() = default;
+        explicit queue(std::filesystem::path);
+
+        [[nodiscard]] std::string name() const;
+    };
+
     struct player {
         private:
             engine * instance;
