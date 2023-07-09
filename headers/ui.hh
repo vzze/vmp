@@ -81,6 +81,7 @@ namespace vmp {
             static constexpr u32 ROW_START = 3;
 
             static constexpr coord TOP_BAR = { 1, 2 };
+            static constexpr coord AVAILABLE_MOVES_CUTOFF = { 8, 1 };
 
             static constexpr vmp::util::map<std::string_view, std::string_view, 17> fg_colors{{{
                 { "BLACK"  , "\x1b[30m" },

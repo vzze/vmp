@@ -133,8 +133,13 @@ void vmp::ui::draw_available_moves() const {
 
     dec_mode();
 
-    print_at_pos({ static_cast<u32>(available.size()) + 1, 1 }, dec_chars["ve"]);
-    print_at_pos({ static_cast<u32>(available.size()) + 1, 2 }, dec_chars["t3"]);
+    static constexpr auto one_down = coord{
+        AVAILABLE_MOVES_CUTOFF.x,
+        AVAILABLE_MOVES_CUTOFF.y + 1
+    };
+
+    print_at_pos(AVAILABLE_MOVES_CUTOFF, dec_chars["ve"]);
+    print_at_pos(one_down, dec_chars["t3"]);
 
     ascii_mode();
 }

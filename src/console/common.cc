@@ -1,10 +1,19 @@
 #include <console.hh>
 
+bool vmp::console::refresh() noexcept {
+    try {
+        std::cout.flush();
+        return true;
+    } catch(...) { return false; }
+}
+
 void vmp::console::main_loop() noexcept {
     std::ios_base::sync_with_stdio(false);
 
     util::write_console("\x1b[?1049h");
     util::write_console("\x1b[?25l");
+
+    refresh();
 
     while(!should_exit) {
         process_events();
@@ -15,4 +24,6 @@ void vmp::console::main_loop() noexcept {
     util::write_console("\x1b[?1049l");
     util::write_console("\x1b[!p");
     util::write_console("\x1b[?25h");
+
+    refresh();
 }
