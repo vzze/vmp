@@ -14,7 +14,7 @@ namespace vmp {
     struct queue {
         std::filesystem::path path;
         std::vector<song> songs;
-        std::uint32_t draw_offset;
+        std::uint32_t draw_offset{0};
 
         queue() = default;
         explicit queue(std::filesystem::path);
