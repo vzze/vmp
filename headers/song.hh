@@ -15,8 +15,20 @@ namespace vmp {
 
         explicit song(std::filesystem::path);
 
-        void play(ma_engine *);
-        void free_resources() const;
+        void play(engine *);
+
+        void stop() const;
+        void rewind() const;
+
+        void set_volume(float) const;
+        void loop(bool) const;
+
+        [[nodiscard]] bool is_playing() const;
+        [[nodiscard]] bool is_looping() const;
+
+        [[nodiscard]] bool is_at_end()  const;
+
+        void free_resources();
 
         [[nodiscard]] std::string name() const;
     };

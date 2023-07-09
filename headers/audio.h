@@ -30,7 +30,6 @@ using sound  = struct ma_sound;
 bool engine_init(engine **);
 
 bool sound_init(engine *, const char *, sound **);
-bool sound_init_w(engine *, const wchar_t *, sound **);
 
 void sound_play       (sound *       );
 void sound_stop       (sound *       );
@@ -39,6 +38,7 @@ void sound_set_volume (sound *, float);
 bool sound_is_playing (sound *       );
 void sound_set_looping(sound *, bool );
 bool sound_is_looping (sound *       );
+bool sound_is_at_end  (sound *       );
 
 void sound_free(sound *);
 void engine_free(engine *);

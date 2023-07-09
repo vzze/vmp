@@ -11,6 +11,7 @@ bool vmp::ui::key_callback(const char key) {
         case 'd': d(); break;
         case 'n': n(); break;
         case 'm': m(); break;
+        case 'p': p(); break;
 
         default: break;
     }

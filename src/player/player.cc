@@ -2,7 +2,13 @@
 
 namespace fs = std::filesystem;
 
-vmp::player::player([[maybe_unused]] const fs::path & cwd) : instance{nullptr} {
+vmp::player::player([[maybe_unused]] const fs::path & cwd)
+    : instance{nullptr},
+      song_type{SONG_TYPE::NONE},
+      state{PLAYER_STATE::NOT_PLAYING},
+      queue_id{0},
+      song_id{0}
+{
     engine_init(&instance);
 
     fs::current_path(cwd.parent_path());
@@ -24,6 +30,12 @@ vmp::player::player([[maybe_unused]] const fs::path & cwd) : instance{nullptr} {
             queues.emplace_back(queue);
 
     queues.shrink_to_fit();
+
+    audio_manager = std::jthread([&](const std::stop_token & token, engine * current) {
+        manage(token, current);
+    }, instance);
+
+    audio_manager.detach();
 }
 
 vmp::player::info vmp::player::get_info() {
@@ -55,5 +67,8 @@ std::string vmp::player::location() {
 }
 
 vmp::player::~player() {
+    state = PLAYER_STATE::NOT_PLAYING;
+    song_type = SONG_TYPE::NONE;
+
     engine_free(instance);
 }

@@ -158,6 +158,7 @@ namespace vmp {
             void d();
             void n();
             void m();
+            void p();
 
             [[nodiscard]] bool queues_next_available() const;
             [[nodiscard]] bool queues_prev_available() const;

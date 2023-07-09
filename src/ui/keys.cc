@@ -82,3 +82,22 @@ void vmp::ui::m() {
         default: break;
     }
 }
+
+void vmp::ui::p() {
+    switch(current_zone) {
+        case ZONE::MAIN_LIST:
+            instance.play_song_from_queue(
+                zones[ZONE::QUEUE_LIST].current().id,
+                zones[ZONE::MAIN_LIST].current().id
+            );
+        break;
+
+        case ZONE::UNSORTED_LIST:
+            instance.play_song_from_unsorted(
+                zones[ZONE::UNSORTED_LIST].current().id
+            );
+        break;
+
+        default: break;
+    }
+}
