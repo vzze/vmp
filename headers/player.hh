@@ -66,6 +66,10 @@ namespace vmp {
 
             void play_song_from_queue(const std::uint32_t, const std::uint32_t);
             void play_song_from_unsorted(const std::uint32_t);
+
+            void pause();
+            void resume();
+
             void stop_current_audio();
 
             ~player();

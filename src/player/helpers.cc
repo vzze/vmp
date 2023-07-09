@@ -40,3 +40,45 @@ void vmp::player::play_song_from_unsorted(const std::uint32_t s_id) {
 
     unsorted.songs[song_id].play(instance);
 }
+
+void vmp::player::pause() {
+    if(state == PLAYER_STATE::NOT_PLAYING) return;
+    if(state == PLAYER_STATE::PAUSED) return;
+
+    const std::scoped_lock lck{audio};
+
+    switch(song_type) {
+        case SONG_TYPE::UNSORTED:
+            unsorted.songs[song_id].stop();
+            state = PLAYER_STATE::PAUSED;
+        break;
+
+        case SONG_TYPE::IN_QUEUE:
+            queues[queue_id].songs[song_id].stop();
+            state = PLAYER_STATE::PAUSED;
+        break;
+
+        default: break;
+    }
+}
+
+void vmp::player::resume() {
+    if(state == PLAYER_STATE::NOT_PLAYING) return;
+    if(state == PLAYER_STATE::RESUMED) return;
+
+    const std::scoped_lock lck{audio};
+
+    switch(song_type) {
+        case SONG_TYPE::UNSORTED:
+            unsorted.songs[song_id].play(instance);
+            state = PLAYER_STATE::RESUMED;
+        break;
+
+        case SONG_TYPE::IN_QUEUE:
+            queues[queue_id].songs[song_id].play(instance);
+            state = PLAYER_STATE::RESUMED;
+        break;
+
+        default: break;
+    }
+}
