@@ -50,12 +50,28 @@ namespace vmp {
                 [[nodiscard]] const button & current() const;
             };
 
-            [[nodiscard]] char w_available() const;
-            [[nodiscard]] char a_available() const;
-            [[nodiscard]] char s_available() const;
-            [[nodiscard]] char d_available() const;
-            [[nodiscard]] char n_available() const;
-            [[nodiscard]] char m_available() const;
+            static constexpr struct possible_actions {
+                static constexpr char quit        = 'q';
+
+                static constexpr char up          = 'w'; // NOLINT(readability-identifier-length)
+                static constexpr char down        = 's';
+                static constexpr char left        = 'a';
+                static constexpr char right       = 'd';
+
+                static constexpr char scroll_up   = 'n';
+                static constexpr char scroll_down = 'm';
+
+                static constexpr char play        = 'p';
+
+                static constexpr char unavailable = ' ';
+            } actions = {};
+
+            [[nodiscard]] char up_available() const;
+            [[nodiscard]] char down_available() const;
+            [[nodiscard]] char left_available() const;
+            [[nodiscard]] char right_available() const;
+            [[nodiscard]] char scroll_up_available() const;
+            [[nodiscard]] char scroll_down_available() const;
 
             void draw_available_moves() const;
 
@@ -152,12 +168,13 @@ namespace vmp {
         public:
             ui(player &, const ui_opts);
 
-            void w();
-            void a();
-            void s();
-            void d();
-            void n();
-            void m();
+            void up();
+            void left();
+            void down();
+            void right();
+            void scroll_up();
+            void scroll_down();
+            void play();
 
             [[nodiscard]] bool queues_next_available() const;
             [[nodiscard]] bool queues_prev_available() const;

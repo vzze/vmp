@@ -21,69 +21,69 @@ bool vmp::ui::main_next_available(cu32 queue_id) const {
         instance.queues[queue_id].songs.size();
 }
 
-char vmp::ui::w_available() const {
+char vmp::ui::up_available() const {
     switch(current_zone) {
-        case ZONE::QUEUE_TITLE: return ' '; break;
+        case ZONE::QUEUE_TITLE: return actions.unavailable; break;
 
         case ZONE::QUEUE_LIST:
         case ZONE::UNSORTED_LIST:
         case ZONE::MAIN_LIST:
-            if(zones[current_zone].buttons.size() == 1) return ' ';
-            else return 'w';
+            if(zones[current_zone].buttons.size() == 1) return actions.unavailable;
+            else return actions.up;
         break;
 
-        default: return 'w'; break;
+        default: return actions.up; break;
     }
 }
 
-char vmp::ui::a_available() const {
+char vmp::ui::left_available() const {
     switch(current_zone) {
         case ZONE::QUEUE_TITLE:
         case ZONE::UNSORTED_TITLE:
-            return ' ';
+            return actions.unavailable;
         break;
 
-        default: return 'a'; break;
+        default: return actions.left; break;
     }
 }
 
-char vmp::ui::s_available() const {
+char vmp::ui::down_available() const {
     switch(current_zone) {
-        case ZONE::UNSORTED_TITLE: return ' '; break;
+        case ZONE::UNSORTED_TITLE: return actions.unavailable; break;
 
         case ZONE::QUEUE_LIST:
         case ZONE::UNSORTED_LIST:
         case ZONE::MAIN_LIST:
-            if(zones[current_zone].buttons.size() == 1) return ' ';
-            else return 's';
+            if(zones[current_zone].buttons.size() == 1) return actions.unavailable;
+            else return actions.down;
         break;
 
-        default: return 's'; break;
+        default: return actions.down; break;
     }
 }
 
-char vmp::ui::d_available() const {
+char vmp::ui::right_available() const {
     switch(current_zone) {
         case ZONE::QUEUE_TITLE:
-            if(zones[ZONE::QUEUE_LIST].buttons.empty()) return ' ';
-            else return 'd';
+            if(zones[ZONE::QUEUE_LIST].buttons.empty()) return actions.unavailable;
+            else return actions.right;
         break;
 
         case ZONE::QUEUE_LIST:
-            if(zones[ZONE::MAIN_LIST].buttons.empty()) return ' ';
-            else return 'd';
+            if(zones[ZONE::MAIN_LIST].buttons.empty()) return actions.unavailable;
+            else return actions.right;
         break;
 
         case ZONE::UNSORTED_TITLE:
-            if(zones[ZONE::UNSORTED_LIST].buttons.empty()) return ' ';
-            else return 'd';
+            if(zones[ZONE::UNSORTED_LIST].buttons.empty()) return actions.unavailable;
+            else return actions.right;
         break;
 
-        default: return ' '; break;
+        default: return actions.unavailable; break;
     }
 }
 
-char vmp::ui::n_available() const {
+char vmp::ui::scroll_up_available() const {
     bool n_av{false};
 
     switch(current_zone) {
@@ -91,14 +91,14 @@ char vmp::ui::n_available() const {
         case ZONE::QUEUE_LIST    : n_av = main_prev_available(zones[current_zone].current().id); break;
         case ZONE::UNSORTED_TITLE: n_av = unsorted_prev_available(); break;
 
-        default: return ' '; break;
+        default: return actions.unavailable; break;
     }
 
-    if(n_av) return 'n';
-    else return ' ';
+    if(n_av) return actions.scroll_up;
+    else return actions.unavailable;
 }
 
-char vmp::ui::m_available() const {
+char vmp::ui::scroll_down_available() const {
     bool m_av{false};
 
     switch(current_zone) {
@@ -112,22 +112,22 @@ char vmp::ui::m_available() const {
             m_av = unsorted_next_available();
         break;
 
-        default: return ' '; break;
+        default: return actions.unavailable; break;
     }
 
-    if(m_av) return 'm';
-    else return ' ';
+    if(m_av) return actions.scroll_down;
+    else return actions.unavailable;
 }
 
 void vmp::ui::draw_available_moves() const {
     std::string available;
 
-    available.push_back(w_available());
-    available.push_back(a_available());
-    available.push_back(s_available());
-    available.push_back(d_available());
-    available.push_back(n_available());
-    available.push_back(m_available());
+    available.push_back(up_available());
+    available.push_back(left_available());
+    available.push_back(down_available());
+    available.push_back(right_available());
+    available.push_back(scroll_up_available());
+    available.push_back(scroll_down_available());
 
     print_at_pos({ 1, 1 }, available);
 

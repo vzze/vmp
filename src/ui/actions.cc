@@ -1,6 +1,6 @@
 #include <ui.hh>
 
-void vmp::ui::w() {
+void vmp::ui::up() {
     switch(current_zone) {
         case ZONE::QUEUE_TITLE   : break;
         case ZONE::UNSORTED_TITLE: set_zone(ZONE::QUEUE_TITLE); break;
@@ -11,7 +11,7 @@ void vmp::ui::w() {
     }
 }
 
-void vmp::ui::a() {
+void vmp::ui::left() {
     switch(current_zone) {
         case ZONE::QUEUE_LIST:
             set_zone(ZONE::QUEUE_TITLE);
@@ -25,7 +25,7 @@ void vmp::ui::a() {
     }
 }
 
-void vmp::ui::s() {
+void vmp::ui::down() {
     switch(current_zone) {
         case ZONE::UNSORTED_TITLE: break;
         case ZONE::QUEUE_TITLE   : set_zone(ZONE::UNSORTED_TITLE); break;
@@ -36,7 +36,7 @@ void vmp::ui::s() {
     }
 }
 
-void vmp::ui::d() {
+void vmp::ui::right() {
     switch(current_zone) {
         case ZONE::QUEUE_TITLE:
             if(!zones[ZONE::QUEUE_LIST].buttons.empty()) {
@@ -57,7 +57,7 @@ void vmp::ui::d() {
     }
 }
 
-void vmp::ui::n() {
+void vmp::ui::scroll_up() {
     switch(current_zone) {
         case ZONE::QUEUE_TITLE   : queues_prev_page  (); draw_available_moves(); break;
         case ZONE::UNSORTED_TITLE: unsorted_prev_page(); draw_available_moves(); break;
@@ -70,13 +70,32 @@ void vmp::ui::n() {
     }
 }
 
-void vmp::ui::m() {
+void vmp::ui::scroll_down() {
     switch(current_zone) {
         case ZONE::QUEUE_TITLE   : queues_next_page  (); draw_available_moves(); break;
         case ZONE::UNSORTED_TITLE: unsorted_next_page(); draw_available_moves(); break;
         case ZONE::QUEUE_LIST:
             main_next_page(zones[current_zone].current().id);
             draw_available_moves();
+        break;
+
+        default: break;
+    }
+}
+
+void vmp::ui::play() {
+    switch(current_zone) {
+        case ZONE::MAIN_LIST:
+            instance.play_song_from_queue(
+                zones[ZONE::QUEUE_LIST].current().id,
+                zones[ZONE::MAIN_LIST].current().id
+            );
+        break;
+
+        case ZONE::UNSORTED_LIST:
+            instance.play_song_from_unsorted(
+                zones[ZONE::UNSORTED_LIST].current().id
+            );
         break;
 
         default: break;

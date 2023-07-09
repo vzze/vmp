@@ -4,13 +4,14 @@ bool vmp::ui::key_callback(const char key) {
     if(screen_is_too_small) return true;
 
     switch(key) {
-        case 'q': return false; break;
-        case 'w': w(); break;
-        case 'a': a(); break;
-        case 's': s(); break;
-        case 'd': d(); break;
-        case 'n': n(); break;
-        case 'm': m(); break;
+        case actions.quit       : return  false; break;
+        case actions.up         : up         (); break;
+        case actions.left       : left       (); break;
+        case actions.down       : down       (); break;
+        case actions.right      : right      (); break;
+        case actions.scroll_up  : scroll_up  (); break;
+        case actions.scroll_down: scroll_down(); break;
+        case actions.play       : play       (); break;
 
         default: break;
     }
