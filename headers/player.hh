@@ -56,6 +56,22 @@ namespace vmp {
         private:
             engine * instance;
 
+            std::atomic<std::uint32_t> queue_id, song_id;
+
+            std::mutex audio;
+
+            void manage(const std::stop_token &, engine *);
+
+            std::jthread audio_manager;
+
+            std::atomic<std::uint32_t> volume;
+
+            static constexpr std::uint32_t VOLUME_MODIFIER = 5;
+            static constexpr std::uint32_t VOLUME_DEFAULT  = 100;
+
+            static constexpr std::uint32_t VOLUME_MIN = 0;
+            static constexpr std::uint32_t VOLUME_MAX = 300;
+        public:
             enum class SONG_TYPE : char {
                 UNSORTED,
                 IN_QUEUE,
@@ -64,14 +80,6 @@ namespace vmp {
 
             std::atomic<SONG_TYPE> song_type;
 
-            std::atomic<std::uint32_t> queue_id, song_id;
-
-            std::mutex audio;
-
-            void manage(const std::stop_token &, engine *);
-
-            std::jthread audio_manager;
-        public:
             enum class PLAYER_STATE : char {
                 NOT_PLAYING,
                 PAUSED,
@@ -110,7 +118,16 @@ namespace vmp {
             void pause();
             void resume();
 
+            void volume_up();
+            void volume_down();
+
+            void update_track_volume();
+
+            std::string current_song();
+
             void stop_current_audio();
+
+            std::uint32_t get_volume() const;
 
             ~player();
     };

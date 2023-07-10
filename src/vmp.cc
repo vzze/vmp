@@ -11,7 +11,7 @@ int main(int argc, char ** argv) {
             vmp::player player{args[0]};
             vmp::ui tui{player, {vmp::ui::DEFAULT_SIDEBAR_WIDTH, vmp::ui::DEFAULT_SIDEBAR_STOPPING_POINT}};
 
-            tui.handler.main_loop();
+            tui.handler.main_loop(vmp::ui::HEARTBEAT);
         } break;
 
         default: vmp::util::check_args(args[1]); break;

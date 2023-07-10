@@ -4,9 +4,10 @@ namespace fs = std::filesystem;
 
 vmp::player::player([[maybe_unused]] const fs::path & cwd)
     : instance{nullptr},
-      song_type{SONG_TYPE::NONE},
       queue_id{0},
       song_id{0},
+      volume{VOLUME_DEFAULT},
+      song_type{SONG_TYPE::NONE},
       state{PLAYER_STATE::NOT_PLAYING}
 {
     engine_init(&instance);
@@ -64,6 +65,15 @@ std::string vmp::player::location() {
             fs::absolute(
                 fs::current_path()
             ).parent_path().string();
+}
+
+std::string vmp::player::current_song() {
+    switch(song_type) {
+        case SONG_TYPE::UNSORTED: return unsorted.songs[song_id].name(); break;
+        case SONG_TYPE::IN_QUEUE: return queues[queue_id].songs[song_id].name(); break;
+
+        default: return ""; break;
+    }
 }
 
 vmp::player::~player() {

@@ -90,14 +90,36 @@ void vmp::ui::play() {
                 zones[ZONE::QUEUE_LIST].current().id,
                 zones[ZONE::MAIN_LIST].current().id
             );
+
+            draw_player_status();
         break;
 
         case ZONE::UNSORTED_LIST:
             instance.play_song_from_unsorted(
                 zones[ZONE::UNSORTED_LIST].current().id
             );
+
+            draw_player_status();
         break;
 
         default: break;
     }
+}
+
+void vmp::ui::toggle_pause_resume() {
+    switch(instance.state) {
+        case player::PLAYER_STATE::PAUSED: instance.resume(); break;
+        case player::PLAYER_STATE::RESUMED: instance.pause(); break;
+        default: break;
+    }
+}
+
+void vmp::ui::volume_up() {
+    instance.volume_up();
+    draw_player_volume();
+}
+
+void vmp::ui::volume_down() {
+    instance.volume_down();
+    draw_player_volume();
 }

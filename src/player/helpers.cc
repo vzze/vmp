@@ -27,6 +27,7 @@ void vmp::player::play_song_from_queue(const std::uint32_t q_id, const std::uint
     song_type = SONG_TYPE::IN_QUEUE;
 
     queues[queue_id].songs[song_id].play(instance);
+    queues[queue_id].songs[song_id].set_volume(static_cast<float>(volume) / 100.0F);
 }
 
 void vmp::player::play_song_from_unsorted(const std::uint32_t s_id) {
@@ -39,6 +40,7 @@ void vmp::player::play_song_from_unsorted(const std::uint32_t s_id) {
     song_type = SONG_TYPE::UNSORTED;
 
     unsorted.songs[song_id].play(instance);
+    unsorted.songs[song_id].set_volume(static_cast<float>(volume) / 100.0F);
 }
 
 void vmp::player::pause() {
@@ -82,3 +84,36 @@ void vmp::player::resume() {
         default: break;
     }
 }
+
+void vmp::player::update_track_volume() {
+    if(state == PLAYER_STATE::NOT_PLAYING) return;
+
+    const std::scoped_lock lck{audio};
+
+    switch(song_type) {
+        case SONG_TYPE::IN_QUEUE: queues[queue_id].songs[song_id].set_volume(static_cast<float>(volume) / 100.0F); break;
+        case SONG_TYPE::UNSORTED: unsorted.songs[song_id].set_volume(static_cast<float>(volume) / 100.0F); break;
+
+        default: break;
+    }
+
+}
+
+void vmp::player::volume_up() {
+    if(volume == VOLUME_MAX) return;
+
+    volume += VOLUME_MODIFIER;
+
+    update_track_volume();
+}
+
+void vmp::player::volume_down() {
+    if(volume == VOLUME_MIN) return;
+
+    volume -= VOLUME_MODIFIER;
+
+    update_track_volume();
+}
+
+// helper to convert atomic<uint32> to uint32
+std::uint32_t vmp::player::get_volume() const { return volume; }

@@ -5,7 +5,7 @@ include(cmake/DownloadCPM.cmake)
 
 project(
     VMP
-    VERSION 0.6.0
+    VERSION 0.6.9
     DESCRIPTION "VMP CLI Music Player"
 )
 
@@ -22,7 +22,7 @@ download_cpm(0.38.1)
 CPMAddPackage(
     NAME console
     GITHUB_REPOSITORY "vzze/console"
-    GIT_TAG "v0.0.1"
+    GIT_TAG "v0.0.3"
 )
 
 set_project_options("headers" "dependencies")

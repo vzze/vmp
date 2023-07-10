@@ -19,5 +19,9 @@ vmp::ui::ui(player & current, const ui_opts opts)
         return resize_callback(data);
     });
 
+    handler.add_notify_alive_callback([&]() -> bool {
+        return notify_alive_callback();
+    });
+
     update_zones_hl_start_pos();
 }

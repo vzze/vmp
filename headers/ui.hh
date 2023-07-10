@@ -66,6 +66,12 @@ namespace vmp {
 
                 static constexpr char play        = 'p';
 
+                static constexpr char toggle_pause_resume
+                    = 'v';
+
+                static constexpr char volume_up   = 'C';
+                static constexpr char volume_down = 'c';
+
                 static constexpr char unavailable = ' ';
             } actions = {};
 
@@ -101,6 +107,9 @@ namespace vmp {
 
             static constexpr coord TOP_BAR = { 1, 2 };
             static constexpr coord AVAILABLE_MOVES_CUTOFF = { 8, 1 };
+            static constexpr coord VOLUME_CUTOFF          = { AVAILABLE_MOVES_CUTOFF.column + 14, 1 };
+
+            static constexpr auto HEARTBEAT = std::chrono::milliseconds{200};
         private:
             coord current_dimensions;
             u32 sidebar_width;
@@ -117,9 +126,16 @@ namespace vmp {
             void left();
             void down();
             void right();
+
             void scroll_up();
             void scroll_down();
+
             void play();
+
+            void volume_up();
+            void volume_down();
+
+            void toggle_pause_resume();
 
             [[nodiscard]] bool queues_next_available() const;
             [[nodiscard]] bool queues_prev_available() const;
@@ -132,7 +148,10 @@ namespace vmp {
 
             bool key_callback(const char);
             bool resize_callback(const coord);
+            bool notify_alive_callback();
 
+            void draw_player_volume();
+            void draw_player_status();
             void draw_player_info();
 
             std::vector<std::string> get_main_list(cu32);
@@ -157,6 +176,7 @@ namespace vmp {
             void draw_borders();
 
             [[nodiscard]] static std::string format_row(std::string, cu32, bool = true);
+            static void format_str_len(std::string &, cu32, bool = true);
     };
 }
 
