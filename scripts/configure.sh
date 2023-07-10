@@ -1,5 +1,5 @@
 if [ -d "build" ]; then
-    rm -r "build"
+    rm -r "build" -f
 fi
 
 if [ -z $1 ]; then

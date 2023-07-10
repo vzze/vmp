@@ -8,7 +8,7 @@ param(
 $check_dir = Test-Path ./build -PathType Container
 
 if($check_dir -eq $true) {
-    Remove-Item build -Recurse
+    Remove-Item build -Recurse -Force
 }
 
 switch($compiler) {

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 
 include(cmake/ProjectOptions.cmake)
-include(cmake/CPM.cmake)
+include(cmake/DownloadCPM.cmake)
 
 project(
     VMP
@@ -16,6 +16,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_EXTENSIONS OFF)
+
+download_cpm(0.38.1)
 
 CPMAddPackage(
     NAME console

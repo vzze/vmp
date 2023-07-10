@@ -1,5 +1,5 @@
 if [ -d "build" ]; then
-    rm -r "build"
+    rm -r "build" -f
 fi
 
 export CXX=clang++
