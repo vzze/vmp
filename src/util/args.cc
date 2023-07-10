@@ -1,13 +1,13 @@
 #include <util.hh>
 
 void vmp::util::version() {
-    write_console(cmake::project_fmt, version_text);
+    write_console(cmake::VMP::fmt, version_text);
 }
 
 void vmp::util::conditions() {
     write_console(
-        cmake::project_description, '\n',
-        cmake::project_copyright, "\n\n",
+        cmake::VMP::description, '\n',
+        cmake::VMP::copyright, "\n\n",
         conditions_text
     );
 }

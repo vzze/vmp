@@ -3,21 +3,21 @@
 void vmp::ui::update_zones_hl_start_pos() {
     current_zone = ZONE::QUEUE_TITLE;
 
-    zones[ZONE::QUEUE_TITLE].hl_start_pos = { TOP_BAR.x, TOP_BAR.y + 1 };
+    zones[ZONE::QUEUE_TITLE].hl_start_pos = { TOP_BAR.column, TOP_BAR.row + 1 };
 
     zones[ZONE::QUEUE_LIST].hl_start_pos = {
-        zones[ZONE::QUEUE_TITLE].hl_start_pos.x + 1 ,
-        zones[ZONE::QUEUE_TITLE].hl_start_pos.y + 1
+        zones[ZONE::QUEUE_TITLE].hl_start_pos.column + 1 ,
+        zones[ZONE::QUEUE_TITLE].hl_start_pos.row + 1
     };
 
     zones[ZONE::UNSORTED_TITLE].hl_start_pos = { 1, sidebar_stopping_point + 1 };
 
     zones[ZONE::UNSORTED_LIST].hl_start_pos = {
-        zones[ZONE::UNSORTED_TITLE].hl_start_pos.x + 1 ,
-        zones[ZONE::UNSORTED_TITLE].hl_start_pos.y + 1
+        zones[ZONE::UNSORTED_TITLE].hl_start_pos.column + 1 ,
+        zones[ZONE::UNSORTED_TITLE].hl_start_pos.row + 1
     };
 
-    zones[ZONE::MAIN_LIST].hl_start_pos = { sidebar_width + ROW_START - 1, TOP_BAR.y + 1 };
+    zones[ZONE::MAIN_LIST].hl_start_pos = { sidebar_width + ROW_START - 1, TOP_BAR.row + 1 };
 }
 
 vmp::ui::zone::zone(const coord pos) : hl_start_pos{pos}, currently_selected{0} {}
@@ -30,14 +30,14 @@ void vmp::ui::button_add_highlight() {
     auto pos = zones[current_zone].hl_start_pos;
 
     if(current_zone == ZONE::MAIN_LIST || current_zone == ZONE::UNSORTED_LIST || current_zone == ZONE::QUEUE_LIST)
-        pos.y += zones[current_zone].currently_selected;
+        pos.row += zones[current_zone].currently_selected;
 
-    static constexpr auto col = bg_colors["BRIGHT_YELLOW"];
-    static constexpr auto def = bg_colors["DEFAULT"];
+    static constexpr auto col = console::BG["BRIGHT_YELLOW"];
+    static constexpr auto def = console::BG["DEFAULT"];
 
     const auto prnt = std::string(col) + " " + std::string(def);
 
-    print_at_pos(pos, prnt);
+    handler.print_at_pos(pos, prnt);
 
     if(current_zone == ZONE::QUEUE_LIST)
         draw_main_list(zones[ZONE::QUEUE_LIST].current().id);
@@ -49,13 +49,13 @@ void vmp::ui::button_remove_highlight() {
     auto pos = zones[current_zone].hl_start_pos;
 
     if(current_zone == ZONE::MAIN_LIST || current_zone == ZONE::UNSORTED_LIST || current_zone == ZONE::QUEUE_LIST)
-        pos.y += zones[current_zone].currently_selected;
+        pos.row += zones[current_zone].currently_selected;
 
-    static constexpr auto def = bg_colors["DEFAULT"];
+    static constexpr auto def = console::BG["DEFAULT"];
 
     const auto prnt = std::string(def) + " " + std::string(def);
 
-    print_at_pos(pos, prnt);
+    handler.print_at_pos(pos, prnt);
 }
 
 void vmp::ui::set_zone(const ZONE new_zone) {

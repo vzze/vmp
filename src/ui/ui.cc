@@ -10,5 +10,14 @@ vmp::ui::ui(player & current, const ui_opts opts)
       unsorted_songs_offset{0},
       instance{current}
 {
+    handler.add_key_callback([&](const auto data) -> bool {
+            return key_callback(data);
+        }
+    );
+
+    handler.add_resize_callback([&](const auto data) -> bool {
+        return resize_callback(data);
+    });
+
     update_zones_hl_start_pos();
 }

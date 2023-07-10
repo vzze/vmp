@@ -13,7 +13,7 @@
 #include <array>
 #include <span>
 
-#include <cmake.hh>
+#include <VMP_cmake.hh>
 
 namespace vmp::util {
     template<typename Key, typename Value, std::size_t Size>

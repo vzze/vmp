@@ -1,0 +1,3 @@
+[submodule "dependencies/console"]
+	path = dependencies/console
+	url = https://github.com/vzze/console.git

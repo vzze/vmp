@@ -16,7 +16,7 @@ bool vmp::ui::key_callback(const char key) {
         default: break;
     }
 
-    return console::refresh();
+    return handler.refresh();
 }
 
 bool vmp::ui::resize_callback(const coord coords) {
@@ -25,12 +25,12 @@ bool vmp::ui::resize_callback(const coord coords) {
 
     current_dimensions = coords;
 
-    if(current_dimensions.y <= sidebar_stopping_point + 1 || current_dimensions.x <= sidebar_width + ROW_START) {
+    if(current_dimensions.row <= sidebar_stopping_point + 1 || current_dimensions.column <= sidebar_width + ROW_START) {
         screen_is_too_small = true;
 
-        erase_in_display(DISPLAY::ENTIRE_DISPLAY);
+        handler.erase_in_display(console::DISPLAY::ENTIRE_DISPLAY);
 
-        print_at_pos({ 1, 1 }, "Please make terminal bigger!");
+        handler.print_at_pos({ 1, 1 }, "Please make terminal bigger!");
     } else {
         screen_is_too_small = false;
 
@@ -42,5 +42,5 @@ bool vmp::ui::resize_callback(const coord coords) {
         set_zone(ZONE::QUEUE_TITLE);
     }
 
-    return console::refresh();
+    return handler.refresh();
 }

@@ -16,6 +16,6 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_EXTENSIONS OFF)
 
-set_project_options(dependencies headers)
+set_project_options("headers" "dependencies")
 
 add_subdirectory(src)

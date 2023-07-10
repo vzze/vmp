@@ -1,7 +1,7 @@
 #include <ui.hh>
 
 void vmp::ui::unsorted_next_page() {
-    const auto add = current_dimensions.y - sidebar_stopping_point - 2;
+    const auto add = current_dimensions.row - sidebar_stopping_point - 2;
 
     if(unsorted_songs_offset + add < instance.unsorted.songs.size()) {
         unsorted_songs_offset += add;
@@ -10,7 +10,7 @@ void vmp::ui::unsorted_next_page() {
 }
 
 void vmp::ui::unsorted_prev_page() {
-    const auto sub = current_dimensions.y - sidebar_stopping_point - 2;
+    const auto sub = current_dimensions.row - sidebar_stopping_point - 2;
     //                       v due to integer underflow
     if(unsorted_songs_offset - sub < instance.unsorted.songs.size()) {
         unsorted_songs_offset -= sub;
@@ -35,7 +35,7 @@ std::vector<std::string> vmp::ui::get_unsorted_songs() {
     zones[ZONE::UNSORTED_LIST].currently_selected = 0;
 
     for(u32 button_id = unsorted_songs_offset; const auto & song : unsorted_songs) {
-        if(space > current_dimensions.y) break;
+        if(space > current_dimensions.row) break;
 
         zones[ZONE::UNSORTED_LIST].buttons.push_back(button{button_id++});
 
@@ -43,7 +43,7 @@ std::vector<std::string> vmp::ui::get_unsorted_songs() {
         ++space;
     }
 
-    while(space <= current_dimensions.y) {
+    while(space <= current_dimensions.row) {
         ret.emplace_back(sidebar_width - ROW_START, ' ');
         ++space;
     }
@@ -52,10 +52,10 @@ std::vector<std::string> vmp::ui::get_unsorted_songs() {
 }
 
 void vmp::ui::draw_unsorted_songs() {
-    print_at_pos({ 2, sidebar_stopping_point + 1 }, "Unsorted Songs");
+    handler.print_at_pos({ 2, sidebar_stopping_point + 1 }, "Unsorted Songs");
 
     const auto u_songs = get_unsorted_songs();
 
     for(auto start = sidebar_stopping_point + 2; const auto & song : u_songs)
-        print_at_pos({ ROW_START, start++ }, song);
+        handler.print_at_pos({ ROW_START, start++ }, song);
 }

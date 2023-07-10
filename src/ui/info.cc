@@ -41,17 +41,17 @@ void vmp::ui::draw_player_info() {
 
         std::string(""),
 
-        std::string("Version ") + std::string(cmake::project_version),
+        std::string("Version ") + std::string(cmake::VMP::version),
     };
 
     for(auto & line : text)
-        fmt(line, current_dimensions.x - sidebar_width - ROW_START + 1, false);
+        fmt(line, current_dimensions.column - sidebar_width - ROW_START + 1, false);
 
-    for(coord location = { sidebar_width + ROW_START, TOP_BAR.y + 1 }; const auto & line : text) {
-        if(location.y > current_dimensions.y) break;
+    for(coord location = { sidebar_width + ROW_START, TOP_BAR.row + 1 }; const auto & line : text) {
+        if(location.row > current_dimensions.row) break;
 
-        print_at_pos(location, line);
+        handler.print_at_pos(location, line);
 
-        ++location.y;
+        ++location.row;
     }
 }

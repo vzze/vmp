@@ -16,7 +16,7 @@ macro(solve_dependencies DIRECTORY)
     dir_list(SUBDIRS ${DIRECTORY})
 
     foreach(DIR ${SUBDIRS})
-        message(STATUS "Dependency: ${DIR}")
+        message(STATUS "${PROJECT_NAME}: Dependency: ${DIR}")
         add_subdirectory("${DIRECTORY}/${DIR}")
     endforeach()
 endmacro()

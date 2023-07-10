@@ -1,7 +1,7 @@
 #include <ui.hh>
 
 void vmp::ui::queues_next_page() {
-    const auto add = sidebar_stopping_point - TOP_BAR.y - 2;
+    const auto add = sidebar_stopping_point - TOP_BAR.row - 2;
 
     if(queues_offset + add < instance.queues.size()) {
         queues_offset += add;
@@ -10,7 +10,7 @@ void vmp::ui::queues_next_page() {
 }
 
 void vmp::ui::queues_prev_page() {
-    const auto sub = sidebar_stopping_point - TOP_BAR.y - 2;
+    const auto sub = sidebar_stopping_point - TOP_BAR.row - 2;
     //                     v due to integer underflow
     if(queues_offset - sub < instance.queues.size()) {
         queues_offset -= sub;
@@ -26,7 +26,7 @@ std::vector<std::string> vmp::ui::get_queues() {
 
     const auto queues = std::ranges::subrange(instance.queues.begin() + queues_offset, instance.queues.end());
 
-    u32 space = TOP_BAR.y + 2;
+    u32 space = TOP_BAR.row + 2;
 
     zones[ZONE::QUEUE_LIST].buttons.clear();
     zones[ZONE::QUEUE_LIST].currently_selected = 0;
@@ -49,10 +49,10 @@ std::vector<std::string> vmp::ui::get_queues() {
 }
 
 void vmp::ui::draw_queues() {
-    print_at_pos({ TOP_BAR.x + 1, TOP_BAR.y + 1 }, "Queues");
+    handler.print_at_pos({ TOP_BAR.column + 1, TOP_BAR.row + 1 }, "Queues");
 
     const auto queues = get_queues();
 
-    for(auto start = TOP_BAR.y + 2; const auto & queue : queues)
-        print_at_pos({ ROW_START, start++ }, queue);
+    for(auto start = TOP_BAR.row + 2; const auto & queue : queues)
+        handler.print_at_pos({ ROW_START, start++ }, queue);
 }

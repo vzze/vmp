@@ -6,17 +6,17 @@ macro(enable_clang_tidy)
             set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY} -p build)
             set(CMAKE_C_CLANG_TIDY   ${CLANG_TIDY} -p build)
 
-            message(STATUS "clang-tidy enabled")
+            message(STATUS "${PROJECT_NAME}: clang-tidy enabled")
         else()
             message(
                 SEND_ERROR
-                "clang-tidy request but executable not found"
+                "${PROJECT_NAME}: clang-tidy request but executable not found"
             )
         endif()
     else()
         message(
             STATUS
-            "clang-tidy cannot be enabled with non-clang compiler"
+            "${PROJECT_NAME}: clang-tidy cannot be enabled with non-clang compiler"
         )
     endif()
 endmacro()

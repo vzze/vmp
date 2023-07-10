@@ -9,9 +9,9 @@ macro(set_parallel_level)
 
     if(NOT ${CORES} EQUAL 0)
         set(CMAKE_BUILD_PARALLEL_LEVEL ${CORES})
-        message(STATUS "Build in parallel enabled with ${CORES} cores")
+        message(STATUS "${PROJECT_NAME}: Build in parallel enabled with ${CORES} cores")
     else()
-        message(STATUS "Build in parallel disabled")
+        message(STATUS "${PROJECT_NAME}: Build in parallel disabled")
     endif()
 endmacro()
 
@@ -23,23 +23,23 @@ macro(enable_ipo)
             find_program(GCC_AR gcc-ar)
 
             if(GCC_AR)
-                message(STATUS "GCC detected: setting up CMake AR")
+                message(STATUS "${PROJECT_NAME}: GCC detected: setting up CMake AR")
 
                 set(CMAKE_AR ${GCC_AR})
                 set(CMAKE_C_ARCHIVE_CREATE "<CMAKE_AR> qcs <TARGET> <LINK_FLAGS> <OBJECTS>")
                 set(CMAKE_C_ARCHIVE_FINISH true)
 
                 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-                message(STATUS "IPO / LTO Enabled")
+                message(STATUS "${PROJECT_NAME}: IPO / LTO Enabled")
             else()
-                message(SEND_ERROR "gcc-ar is needed for LTO optimization")
+                message(SEND_ERROR "${PROJECT_NAME}: gcc-ar is needed for LTO optimization")
             endif()
         else()
             set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-            message(STATUS "IPO / LTO Enabled")
+            message(STATUS "${PROJECT_NAME}: IPO / LTO Enabled")
         endif()
     else()
-        message(STATUS "IPO / LTO not supported: ${ERROR}")
+        message(STATUS "${PROJECT_NAME}: IPO / LTO not supported: ${ERROR}")
     endif()
 endmacro()
 
@@ -51,7 +51,7 @@ macro(set_cmp0141)
     )
 endmacro()
 
-macro(set_project_options DEPENDENCY_DIR INCLUDE_DIRS)
+macro(set_project_options INCLUDE_DIRS DEPENDENCY_DIR)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
     set_parallel_level()
@@ -61,11 +61,11 @@ macro(set_project_options DEPENDENCY_DIR INCLUDE_DIRS)
         set_cmp0141()
     endif()
 
-    add_library(PROJECT_WARNINGS INTERFACE)
-    set_compiler_warnings(PROJECT_WARNINGS)
+    add_library(${PROJECT_NAME}_PROJECT_WARNINGS INTERFACE)
+    set_compiler_warnings(${PROJECT_NAME}_PROJECT_WARNINGS)
 
-    if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/${DEPENDENCY_DIR}")
-        message(STATUS "Searching for dependencies in: ${CMAKE_SOURCE_DIR}/${DEPENDENCY_DIR}")
+    if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/${DEPENDENCY_DIR}" AND NOT ${DEPENDENCY_DIR} STREQUAL "")
+        message(STATUS "${PROJECT_NAME}: Searching for dependencies in: ${CMAKE_SOURCE_DIR}/${DEPENDENCY_DIR}")
         solve_dependencies("${CMAKE_SOURCE_DIR}/${DEPENDENCY_DIR}")
     endif()
 
@@ -77,13 +77,13 @@ macro(set_project_options DEPENDENCY_DIR INCLUDE_DIRS)
 
     add_subdirectory(cmake/config)
 
-    add_library(PROJECT_OPTIONS INTERFACE)
+    add_library(${PROJECT_NAME}_PROJECT_OPTIONS INTERFACE)
 
     set(PROJECT_INCLUDE_DIRS ${INCLUDE_DIRS})
     list(APPEND PROJECT_INCLUDE_DIRS "${CMAKE_BINARY_DIR}/internal")
-    message(STATUS "Include directories set to: ${PROJECT_INCLUDE_DIRS}")
+    message(STATUS "${PROJECT_NAME}: Include directories set to: ${PROJECT_INCLUDE_DIRS}")
 
-    target_include_directories(PROJECT_OPTIONS INTERFACE ${PROJECT_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME}_PROJECT_OPTIONS INTERFACE ${PROJECT_INCLUDE_DIRS})
 
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
