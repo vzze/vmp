@@ -8,7 +8,7 @@ vmp::player::player([[maybe_unused]] const fs::path & cwd)
       song_id{0},
       volume{VOLUME_DEFAULT},
       song_type{SONG_TYPE::NONE},
-      state{PLAYER_STATE::NOT_PLAYING}
+      state{STATE::NOT_PLAYING}
 {
     engine_init(&instance);
 
@@ -77,7 +77,7 @@ std::string vmp::player::current_song() {
 }
 
 vmp::player::~player() {
-    state = PLAYER_STATE::NOT_PLAYING;
+    state = STATE::NOT_PLAYING;
     song_type = SONG_TYPE::NONE;
 
     engine_free(instance);

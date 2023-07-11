@@ -71,7 +71,7 @@ namespace vmp {
 
             static constexpr std::uint32_t VOLUME_MIN = 0;
             static constexpr std::uint32_t VOLUME_MAX = 300;
-        public:
+
             enum class SONG_TYPE : char {
                 UNSORTED,
                 IN_QUEUE,
@@ -79,14 +79,14 @@ namespace vmp {
             };
 
             std::atomic<SONG_TYPE> song_type;
-
-            enum class PLAYER_STATE : char {
+        public:
+            enum class STATE : char {
                 NOT_PLAYING,
                 PAUSED,
                 RESUMED
             };
 
-            std::atomic<PLAYER_STATE> state;
+            std::atomic<STATE> state;
 
             static constexpr std::string_view data = "vmp-data";
 

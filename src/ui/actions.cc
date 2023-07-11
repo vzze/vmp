@@ -108,8 +108,8 @@ void vmp::ui::play() {
 
 void vmp::ui::toggle_pause_resume() {
     switch(instance.state) {
-        case player::PLAYER_STATE::PAUSED: instance.resume(); break;
-        case player::PLAYER_STATE::RESUMED: instance.pause(); break;
+        case player::STATE::PAUSED: instance.resume(); break;
+        case player::STATE::RESUMED: instance.pause(); break;
         default: break;
     }
 }

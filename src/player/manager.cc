@@ -3,7 +3,7 @@
 void vmp::player::manage(const std::stop_token & token, engine * current) {
     while(!token.stop_requested()) {
         switch(state) {
-            case PLAYER_STATE::RESUMED: {
+            case STATE::RESUMED: {
                 const std::scoped_lock lck{audio};
 
                 switch(song_type) {

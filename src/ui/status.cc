@@ -28,11 +28,11 @@ void vmp::ui::draw_player_status() {
     };
 
     switch(instance.state) {
-        case player::PLAYER_STATE::NOT_PLAYING:
+        case player::STATE::NOT_PLAYING:
             handler.print_at_pos(after_keys, "Currently not playing.");
         break;
 
-        case player::PLAYER_STATE::PAUSED:
+        case player::STATE::PAUSED:
             handler.print_at_pos(
                 after_keys,
                 format_row(
@@ -42,7 +42,7 @@ void vmp::ui::draw_player_status() {
             );
         break;
 
-        case player::PLAYER_STATE::RESUMED:
+        case player::STATE::RESUMED:
             handler.print_at_pos(
                 after_keys,
                 format_row(
