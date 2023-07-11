@@ -160,11 +160,39 @@ void vmp::player::skip() {
 }
 
 void vmp::player::shuffle_queue(const std::uint32_t q_id) {
-    std::shuffle(queues[q_id].songs.begin(), queues[q_id].songs.end(), *mersenne);
+    if((state == STATE::RESUMED || state == STATE::PAUSED) && song_type == SONG_TYPE::IN_QUEUE && queue_id == q_id) {
+        const std::scoped_lock lck{audio};
+
+        const auto * current_song = queues[queue_id].songs[song_id].resource;
+
+        std::shuffle(queues[q_id].songs.begin(), queues[q_id].songs.end(), *mersenne);
+
+        const auto location = std::find_if(queues[q_id].songs.begin(), queues[q_id].songs.end(), [&](const auto & song) -> bool {
+            return song.resource == current_song;
+        });
+
+        song_id = static_cast<std::uint32_t>(std::distance(queues[queue_id].songs.begin(), location));
+    } else {
+        std::shuffle(queues[q_id].songs.begin(), queues[q_id].songs.end(), *mersenne);
+    }
 }
 
 void vmp::player::shuffle_unsorted() {
-    std::shuffle(unsorted.songs.begin(), unsorted.songs.end(), *mersenne);
+    if((state == STATE::RESUMED || state == STATE::PAUSED) && song_type == SONG_TYPE::UNSORTED) {
+        const std::scoped_lock lck{audio};
+
+        const auto * current_song = unsorted.songs[song_id].resource;
+
+        std::shuffle(unsorted.songs.begin(), unsorted.songs.end(), *mersenne);
+
+        const auto location = std::find_if(unsorted.songs.begin(), unsorted.songs.end(), [&](const auto & song) -> bool {
+            return song.resource == current_song;
+        });
+
+        song_id = static_cast<std::uint32_t>(std::distance(unsorted.songs.begin(), location));
+    } else {
+        std::shuffle(unsorted.songs.begin(), unsorted.songs.end(), *mersenne);
+    }
 }
 
 // helper to convert atomic<uint32> to uint32
