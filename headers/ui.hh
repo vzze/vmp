@@ -73,6 +73,10 @@ namespace vmp {
 
                 static constexpr char toggle_loop = 'l';
 
+                static constexpr char skip        = 'S';
+
+                static constexpr char shuffle     = 'e';
+
                 static constexpr char unavailable = ' ';
             } actions = {};
 
@@ -135,6 +139,9 @@ namespace vmp {
 
             void volume_up();
             void volume_down();
+
+            void skip();
+            void shuffle();
 
             void toggle_pause_resume();
             void toggle_loop();

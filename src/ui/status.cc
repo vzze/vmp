@@ -94,6 +94,11 @@ void vmp::ui::draw_player_info() {
 
         std::string(""),
 
+        std::format("Skip: {}", actions.skip),
+        std::format("Shuffle: {}", actions.shuffle),
+
+        std::string(""),
+
         std::format("Quit: {}", actions.quit),
 
         std::string(""),

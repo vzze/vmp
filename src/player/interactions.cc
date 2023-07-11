@@ -19,6 +19,8 @@ void vmp::player::stop_current_audio() {
 void vmp::player::play_song_from_queue(const std::uint32_t q_id, const std::uint32_t s_id) {
     const std::scoped_lock lck{audio};
 
+    const auto is_looping = current_track_looping();
+
     if(state == STATE::RESUMED) stop_current_audio();
     else state = STATE::RESUMED;
 
@@ -28,10 +30,13 @@ void vmp::player::play_song_from_queue(const std::uint32_t q_id, const std::uint
 
     queues[queue_id].songs[song_id].play(instance);
     queues[queue_id].songs[song_id].set_volume(static_cast<float>(volume) / 100.0F);
+    queues[queue_id].songs[song_id].loop(is_looping);
 }
 
 void vmp::player::play_song_from_unsorted(const std::uint32_t s_id) {
     const std::scoped_lock lck{audio};
+
+    const auto is_looping = current_track_looping();
 
     if(state == STATE::RESUMED) stop_current_audio();
     else state = STATE::RESUMED;
@@ -41,6 +46,7 @@ void vmp::player::play_song_from_unsorted(const std::uint32_t s_id) {
 
     unsorted.songs[song_id].play(instance);
     unsorted.songs[song_id].set_volume(static_cast<float>(volume) / 100.0F);
+    unsorted.songs[song_id].loop(is_looping);
 }
 
 void vmp::player::pause() {
@@ -135,6 +141,30 @@ void vmp::player::toggle_loop() {
 
         default: break;
     }
+}
+
+void vmp::player::skip() {
+    if(state == STATE::NOT_PLAYING) return;
+
+    switch(song_type) {
+        case SONG_TYPE::UNSORTED:
+            play_song_from_unsorted((song_id + 1) % static_cast<std::uint32_t>(unsorted.songs.size()));
+        break;
+
+        case SONG_TYPE::IN_QUEUE:
+            play_song_from_queue(queue_id, (song_id + 1) % static_cast<std::uint32_t>(queues[queue_id].songs.size()));
+        break;
+
+        default: break;
+    }
+}
+
+void vmp::player::shuffle_queue(const std::uint32_t q_id) {
+    std::shuffle(queues[q_id].songs.begin(), queues[q_id].songs.end(), *mersenne);
+}
+
+void vmp::player::shuffle_unsorted() {
+    std::shuffle(unsorted.songs.begin(), unsorted.songs.end(), *mersenne);
 }
 
 // helper to convert atomic<uint32> to uint32

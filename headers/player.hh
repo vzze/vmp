@@ -10,6 +10,8 @@
 #include <string>
 #include <atomic>
 #include <vector>
+#include <memory>
+#include <random>
 #include <thread>
 #include <mutex>
 
@@ -79,6 +81,12 @@ namespace vmp {
             };
 
             std::atomic<SONG_TYPE> song_type;
+
+            void update_track_volume();
+
+            void stop_current_audio();
+
+            std::unique_ptr<std::mt19937_64> mersenne;
         public:
             enum class STATE : char {
                 NOT_PLAYING,
@@ -123,15 +131,16 @@ namespace vmp {
             void volume_up();
             void volume_down();
 
-            void update_track_volume();
+            void skip();
 
             [[nodiscard]] std::string current_song() const;
 
             [[nodiscard]] bool current_track_looping() const;
 
-            void stop_current_audio();
-
             std::uint32_t get_volume() const;
+
+            void shuffle_queue(const std::uint32_t);
+            void shuffle_unsorted();
 
             ~player();
     };
