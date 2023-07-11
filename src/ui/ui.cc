@@ -25,3 +25,27 @@ vmp::ui::ui(player & current, const ui_opts opts)
 
     update_zones_hl_start_pos();
 }
+
+void vmp::ui::format_str_len(std::string & name, cu32 max_len, bool elongate) {
+    static constexpr std::string_view filler = "...";
+
+    if(name.length() >= max_len) {
+        name.resize(max_len - filler.size());
+        name += filler;
+    } else if(elongate) {
+        name.resize(max_len, ' ');
+    }
+}
+
+std::string vmp::ui::format_row(std::string name, cu32 max_len, bool elongate) {
+    static constexpr std::string_view filler = "...";
+
+    if(name.length() >= max_len) {
+        name.resize(max_len - filler.size());
+        name += filler;
+    } else if(elongate) {
+        name.resize(max_len, ' ');
+    }
+
+    return name;
+}

@@ -66,11 +66,16 @@ namespace vmp {
 
                 static constexpr char play        = 'p';
 
-                static constexpr char toggle_pause_resume
-                    = 'v';
+                static constexpr char toggle_pause_resume = 'v';
 
                 static constexpr char volume_up   = 'C';
                 static constexpr char volume_down = 'c';
+
+                static constexpr char toggle_loop = 'l';
+
+                static constexpr char skip        = 'S';
+
+                static constexpr char shuffle     = 'e';
 
                 static constexpr char unavailable = ' ';
             } actions = {};
@@ -135,7 +140,11 @@ namespace vmp {
             void volume_up();
             void volume_down();
 
+            void skip();
+            void shuffle();
+
             void toggle_pause_resume();
+            void toggle_loop();
 
             [[nodiscard]] bool queues_next_available() const;
             [[nodiscard]] bool queues_prev_available() const;

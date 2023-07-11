@@ -23,10 +23,14 @@ bool vmp::ui::key_callback(const char key) {
         case actions.play       : play       (); break;
         case actions.volume_up  : volume_up  (); break;
         case actions.volume_down: volume_down(); break;
+        case actions.skip       : skip       (); break;
+        case actions.shuffle    : shuffle    (); break;
 
         case actions.toggle_pause_resume:
             toggle_pause_resume();
         break;
+
+        case actions.toggle_loop: toggle_loop(); break;
 
         default: break;
     }

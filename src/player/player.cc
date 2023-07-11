@@ -8,7 +8,8 @@ vmp::player::player([[maybe_unused]] const fs::path & cwd)
       song_id{0},
       volume{VOLUME_DEFAULT},
       song_type{SONG_TYPE::NONE},
-      state{PLAYER_STATE::NOT_PLAYING}
+      mersenne{std::make_unique<std::mt19937_64>(std::random_device{}())},
+      state{STATE::NOT_PLAYING}
 {
     engine_init(&instance);
 
@@ -67,7 +68,7 @@ std::string vmp::player::location() {
             ).parent_path().string();
 }
 
-std::string vmp::player::current_song() {
+std::string vmp::player::current_song() const {
     switch(song_type) {
         case SONG_TYPE::UNSORTED: return unsorted.songs[song_id].name(); break;
         case SONG_TYPE::IN_QUEUE: return queues[queue_id].songs[song_id].name(); break;
@@ -76,8 +77,17 @@ std::string vmp::player::current_song() {
     }
 }
 
+bool vmp::player::current_track_looping() const {
+    switch(song_type) {
+        case SONG_TYPE::UNSORTED: return unsorted.songs[song_id].is_looping(); break;
+        case SONG_TYPE::IN_QUEUE: return queues[queue_id].songs[song_id].is_looping(); break;
+
+        default: return false; break;
+    }
+}
+
 vmp::player::~player() {
-    state = PLAYER_STATE::NOT_PLAYING;
+    state = STATE::NOT_PLAYING;
     song_type = SONG_TYPE::NONE;
 
     engine_free(instance);

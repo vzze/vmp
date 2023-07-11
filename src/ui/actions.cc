@@ -85,6 +85,10 @@ void vmp::ui::scroll_down() {
 
 void vmp::ui::play() {
     switch(current_zone) {
+        case ZONE::QUEUE_LIST:
+            if(!zones[ZONE::MAIN_LIST].buttons.empty())
+                instance.play_song_from_queue(zones[ZONE::QUEUE_LIST].current().id, 0);
+        break;
         case ZONE::MAIN_LIST:
             instance.play_song_from_queue(
                 zones[ZONE::QUEUE_LIST].current().id,
@@ -93,7 +97,9 @@ void vmp::ui::play() {
 
             draw_player_status();
         break;
-
+        case ZONE::UNSORTED_TITLE:
+            if(!zones[ZONE::UNSORTED_LIST].buttons.empty()) instance.play_song_from_unsorted(0);
+        break;
         case ZONE::UNSORTED_LIST:
             instance.play_song_from_unsorted(
                 zones[ZONE::UNSORTED_LIST].current().id
@@ -108,8 +114,8 @@ void vmp::ui::play() {
 
 void vmp::ui::toggle_pause_resume() {
     switch(instance.state) {
-        case player::PLAYER_STATE::PAUSED: instance.resume(); break;
-        case player::PLAYER_STATE::RESUMED: instance.pause(); break;
+        case player::STATE::PAUSED: instance.resume(); break;
+        case player::STATE::RESUMED: instance.pause(); break;
         default: break;
     }
 }
@@ -122,4 +128,30 @@ void vmp::ui::volume_up() {
 void vmp::ui::volume_down() {
     instance.volume_down();
     draw_player_volume();
+}
+
+void vmp::ui::skip() {
+    instance.skip();
+    draw_player_status();
+}
+
+void vmp::ui::shuffle() {
+    switch(current_zone) {
+        case ZONE::QUEUE_LIST:
+            instance.shuffle_queue(zones[ZONE::QUEUE_LIST].current().id);
+            draw_main_list(zones[ZONE::QUEUE_LIST].current().id);
+        break;
+
+        case ZONE::UNSORTED_TITLE:
+            instance.shuffle_unsorted();
+            draw_unsorted_songs();
+        break;
+
+        default: break;
+    }
+}
+
+void vmp::ui::toggle_loop() {
+    instance.toggle_loop();
+    draw_player_status();
 }

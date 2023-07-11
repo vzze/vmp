@@ -28,11 +28,11 @@ void vmp::ui::draw_player_status() {
     };
 
     switch(instance.state) {
-        case player::PLAYER_STATE::NOT_PLAYING:
+        case player::STATE::NOT_PLAYING:
             handler.print_at_pos(after_keys, "Currently not playing.");
         break;
 
-        case player::PLAYER_STATE::PAUSED:
+        case player::STATE::PAUSED:
             handler.print_at_pos(
                 after_keys,
                 format_row(
@@ -42,11 +42,14 @@ void vmp::ui::draw_player_status() {
             );
         break;
 
-        case player::PLAYER_STATE::RESUMED:
+        case player::STATE::RESUMED:
             handler.print_at_pos(
                 after_keys,
                 format_row(
-                    std::format("Playing: {}", instance.current_song()),
+                    (instance.current_track_looping()) ?
+                        std::format("Looping: {}", instance.current_song()) :
+                        std::format("Playing: {}", instance.current_song()),
+
                     current_dimensions.column - after_keys.column + 1
                 )
             );
@@ -82,8 +85,17 @@ void vmp::ui::draw_player_info() {
         std::string(""),
 
         std::format("Play: {}", actions.play),
+        std::format("Looping: {}", actions.toggle_loop),
+
+        std::string(""),
+
         std::format("Pause/Resume: {}", actions.toggle_pause_resume),
         std::format("Volume: {}/{}", actions.volume_down, actions.volume_up),
+
+        std::string(""),
+
+        std::format("Skip: {}", actions.skip),
+        std::format("Shuffle: {}", actions.shuffle),
 
         std::string(""),
 
