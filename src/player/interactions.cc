@@ -115,5 +115,27 @@ void vmp::player::volume_down() {
     update_track_volume();
 }
 
+void vmp::player::toggle_loop() {
+    if(state == STATE::NOT_PLAYING) return;
+
+    const std::scoped_lock lck{audio};
+
+    switch(song_type) {
+        case SONG_TYPE::IN_QUEUE:
+            queues[queue_id].songs[song_id].loop(
+                !queues[queue_id].songs[song_id].is_looping()
+            );
+        break;
+
+        case SONG_TYPE::UNSORTED:
+            unsorted.songs[song_id].loop(
+                !unsorted.songs[song_id].is_looping()
+            );
+        break;
+
+        default: break;
+    }
+}
+
 // helper to convert atomic<uint32> to uint32
 std::uint32_t vmp::player::get_volume() const { return volume; }

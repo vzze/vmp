@@ -8,7 +8,7 @@ void vmp::player::manage(const std::stop_token & token, engine * current) {
 
                 switch(song_type) {
                     case SONG_TYPE::UNSORTED:
-                        if(unsorted.songs[song_id].is_at_end()) {
+                        if(unsorted.songs[song_id].is_at_end() && !unsorted.songs[song_id].is_looping()) {
                             unsorted.songs[song_id].free_resources();
 
                             ++song_id;
@@ -20,7 +20,7 @@ void vmp::player::manage(const std::stop_token & token, engine * current) {
                     break;
 
                     case SONG_TYPE::IN_QUEUE:
-                        if(queues[queue_id].songs[song_id].is_at_end()) {
+                        if(queues[queue_id].songs[song_id].is_at_end() && !queues[queue_id].songs[song_id].is_looping()) {
                             queues[queue_id].songs[song_id].free_resources();
 
                             ++song_id;

@@ -123,3 +123,8 @@ void vmp::ui::volume_down() {
     instance.volume_down();
     draw_player_volume();
 }
+
+void vmp::ui::toggle_loop() {
+    instance.toggle_loop();
+    draw_player_status();
+}

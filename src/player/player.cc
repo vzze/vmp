@@ -67,12 +67,21 @@ std::string vmp::player::location() {
             ).parent_path().string();
 }
 
-std::string vmp::player::current_song() {
+std::string vmp::player::current_song() const {
     switch(song_type) {
         case SONG_TYPE::UNSORTED: return unsorted.songs[song_id].name(); break;
         case SONG_TYPE::IN_QUEUE: return queues[queue_id].songs[song_id].name(); break;
 
         default: return ""; break;
+    }
+}
+
+bool vmp::player::current_track_looping() const {
+    switch(song_type) {
+        case SONG_TYPE::UNSORTED: return unsorted.songs[song_id].is_looping(); break;
+        case SONG_TYPE::IN_QUEUE: return queues[queue_id].songs[song_id].is_looping(); break;
+
+        default: return false; break;
     }
 }
 

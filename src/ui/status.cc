@@ -46,7 +46,10 @@ void vmp::ui::draw_player_status() {
             handler.print_at_pos(
                 after_keys,
                 format_row(
-                    std::format("Playing: {}", instance.current_song()),
+                    (instance.current_track_looping()) ?
+                        std::format("Looping: {}", instance.current_song()) :
+                        std::format("Playing: {}", instance.current_song()),
+
                     current_dimensions.column - after_keys.column + 1
                 )
             );
@@ -82,6 +85,10 @@ void vmp::ui::draw_player_info() {
         std::string(""),
 
         std::format("Play: {}", actions.play),
+        std::format("Looping: {}", actions.toggle_loop),
+
+        std::string(""),
+
         std::format("Pause/Resume: {}", actions.toggle_pause_resume),
         std::format("Volume: {}/{}", actions.volume_down, actions.volume_up),
 

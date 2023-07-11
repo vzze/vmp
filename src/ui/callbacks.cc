@@ -28,6 +28,8 @@ bool vmp::ui::key_callback(const char key) {
             toggle_pause_resume();
         break;
 
+        case actions.toggle_loop: toggle_loop(); break;
+
         default: break;
     }
 

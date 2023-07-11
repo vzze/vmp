@@ -118,12 +118,16 @@ namespace vmp {
             void pause();
             void resume();
 
+            void toggle_loop();
+
             void volume_up();
             void volume_down();
 
             void update_track_volume();
 
-            std::string current_song();
+            [[nodiscard]] std::string current_song() const;
+
+            [[nodiscard]] bool current_track_looping() const;
 
             void stop_current_audio();
 
