@@ -137,7 +137,9 @@ namespace vmp {
 
             [[nodiscard]] bool current_track_looping() const;
 
-            std::uint32_t get_volume() const;
+            std::uint32_t current_volume() const;
+
+            bool has_started() const;
 
             void shuffle_queue(const std::uint32_t);
             void shuffle_unsorted();

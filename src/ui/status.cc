@@ -6,7 +6,7 @@ void vmp::ui::draw_player_volume() {
         .row    = AVAILABLE_MOVES_CUTOFF.row
     };
 
-    handler.print_at_pos(after_keys, std::format("Volume: {:<3}", instance.get_volume()));
+    handler.print_at_pos(after_keys, std::format("Volume: {:<3}", instance.current_volume()));
 
     handler.dec_mode();
 
