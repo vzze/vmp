@@ -74,6 +74,12 @@ namespace vmp {
             static constexpr std::uint32_t VOLUME_MIN = 0;
             static constexpr std::uint32_t VOLUME_MAX = 100;
 
+            void update_track_volume();
+
+            void stop_current_audio();
+
+            std::unique_ptr<std::mt19937_64> mersenne;
+        public:
             enum class SONG_TYPE : char {
                 UNSORTED,
                 IN_QUEUE,
@@ -82,12 +88,6 @@ namespace vmp {
 
             std::atomic<SONG_TYPE> song_type;
 
-            void update_track_volume();
-
-            void stop_current_audio();
-
-            std::unique_ptr<std::mt19937_64> mersenne;
-        public:
             enum class STATE : char {
                 NOT_PLAYING,
                 PAUSED,
@@ -138,6 +138,8 @@ namespace vmp {
             [[nodiscard]] bool current_track_looping() const;
 
             std::uint32_t current_volume() const;
+            std::uint32_t current_queue_id() const;
+            std::uint32_t current_song_id() const;
 
             bool has_started() const;
 

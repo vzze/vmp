@@ -46,10 +46,31 @@ void vmp::ui::draw_player_status() {
             handler.print_at_pos(
                 after_keys,
                 format_row(
-                    (instance.current_track_looping()) ?
-                        std::format("Looping: {}", instance.current_song()) :
-                        std::format("Playing: {}", instance.current_song()),
+                    [&]() -> std::string {
+                        if(instance.current_track_looping()) {
+                            switch(instance.song_type) {
+                                case player::SONG_TYPE::IN_QUEUE:
+                                    return std::format("Looping ({}/{}): {}", instance.current_queue_id(), instance.current_song_id(), instance.current_song());
+                                break;
+                                case player::SONG_TYPE::UNSORTED:
+                                    return std::format("Looping ({}): {}", instance.current_song_id(), instance.current_song());
+                                break;
 
+                                default: return ""; break;
+                            }
+                        } else {
+                            switch(instance.song_type) {
+                                case player::SONG_TYPE::IN_QUEUE:
+                                    return std::format("Playing ({}/{}): {}", instance.current_queue_id(), instance.current_song_id(), instance.current_song());
+                                break;
+                                case player::SONG_TYPE::UNSORTED:
+                                    return std::format("Playing ({}): {}", instance.current_song_id(), instance.current_song());
+                                break;
+
+                                default: return ""; break;
+                            }
+                        }
+                    }(),
                     current_dimensions.column - after_keys.column + 1
                 )
             );

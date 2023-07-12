@@ -198,4 +198,7 @@ void vmp::player::shuffle_unsorted() {
 }
 
 std::uint32_t vmp::player::current_volume() const { return volume; }
+std::uint32_t vmp::player::current_queue_id() const { return queue_id; }
+std::uint32_t vmp::player::current_song_id() const { return song_id; }
+
 bool vmp::player::has_started() const { return state == STATE::RESUMED || state == STATE::PAUSED; }

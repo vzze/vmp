@@ -22,7 +22,7 @@ download_cpm(0.38.1)
 CPMAddPackage(
     NAME console
     GITHUB_REPOSITORY "vzze/console"
-    GIT_TAG "v0.0.3"
+    GIT_TAG "v0.0.4"
 )
 
 set_project_options("headers" "dependencies")
