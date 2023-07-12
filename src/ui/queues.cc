@@ -49,7 +49,7 @@ std::vector<std::string> vmp::ui::get_queues() {
 }
 
 void vmp::ui::draw_queues() {
-    handler.print_at_pos({ TOP_BAR.column + 1, TOP_BAR.row + 1 }, "Queues");
+    handler.print_at_pos({ 1, TOP_BAR.row + 1 }, QUEUE_LIST_TITLE);
 
     const auto queues = get_queues();
 

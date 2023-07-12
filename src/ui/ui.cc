@@ -49,3 +49,48 @@ std::string vmp::ui::format_row(std::string name, cu32 max_len, bool elongate) {
 
     return name;
 }
+
+void vmp::ui::add_highlight_selected(const coord pos, const std::string_view start, const std::string_view end) {
+    handler.set_cursor_pos(pos);
+    handler.write(start);
+
+    switch(current_zone) {
+        case ZONE::QUEUE_TITLE:
+            handler.write(QUEUE_LIST_TITLE);
+        break;
+        case ZONE::UNSORTED_TITLE:
+            handler.write(UNSORTED_LIST_TITLE);
+        break;
+        case ZONE::QUEUE_LIST:
+            handler.write(
+                format_row(
+                    instance.queues[zones[ZONE::QUEUE_LIST].current().id].name(),
+                    sidebar_width - ROW_START,
+                    false
+                )
+            );
+        break;
+        case ZONE::UNSORTED_LIST:
+            handler.write(
+                format_row(
+                    instance.unsorted.songs[zones[ZONE::UNSORTED_LIST].current().id].name(),
+                    sidebar_width - ROW_START,
+                    false
+                )
+            );
+        break;
+        case ZONE::MAIN_LIST:
+            handler.write(
+                format_row(
+                    instance.queues[zones[ZONE::QUEUE_LIST].current().id].songs[zones[ZONE::MAIN_LIST].current().id].name(),
+                    current_dimensions.column - ROW_START - sidebar_width + 1,
+                    false
+                )
+            );
+        break;
+
+        default: break;
+    }
+
+    handler.write(end);
+}

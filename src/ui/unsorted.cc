@@ -52,7 +52,7 @@ std::vector<std::string> vmp::ui::get_unsorted_songs() {
 }
 
 void vmp::ui::draw_unsorted_songs() {
-    handler.print_at_pos({ 2, sidebar_stopping_point + 1 }, "Unsorted Songs");
+    handler.print_at_pos({ 1, sidebar_stopping_point + 1 }, UNSORTED_LIST_TITLE);
 
     const auto u_songs = get_unsorted_songs();
 

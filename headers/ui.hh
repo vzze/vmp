@@ -92,6 +92,8 @@ namespace vmp {
             void button_add_highlight();
             void button_remove_highlight();
 
+            void add_highlight_selected(const coord, const std::string_view, const std::string_view);
+
             struct zones {
                 private:
                     std::array<zone, static_cast<std::size_t>(ZONE::ZONE_NUMBER)> zones;
@@ -108,13 +110,16 @@ namespace vmp {
 
             static constexpr u32 DEFAULT_SIDEBAR_STOPPING_POINT = 12;
             static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 28;
-            static constexpr u32 ROW_START = 3;
+            static constexpr u32 ROW_START = 2;
 
             static constexpr coord TOP_BAR = { 1, 2 };
             static constexpr coord AVAILABLE_MOVES_CUTOFF = { 8, 1 };
             static constexpr coord VOLUME_CUTOFF          = { AVAILABLE_MOVES_CUTOFF.column + 14, 1 };
 
             static constexpr auto HEARTBEAT = std::chrono::milliseconds{200};
+
+            static constexpr auto QUEUE_LIST_TITLE = "Queues";
+            static constexpr auto UNSORTED_LIST_TITLE = "Unsorted Songs";
         private:
             coord current_dimensions;
             u32 sidebar_width;

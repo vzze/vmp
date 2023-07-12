@@ -69,9 +69,9 @@ void vmp::ui::draw_player_info() {
 
         std::string(""),
 
-        std::format("Number of Queues: {}", info.queues),
-        std::format("Number of Songs in Queues: {}", info.songs_in_queues),
-        std::format("Number of Unsorted Songs: {}", info.unsorted_songs),
+        std::format("Number of {}: {}", QUEUE_LIST_TITLE, info.queues),
+        std::format("Number of Songs in {}: {}", QUEUE_LIST_TITLE, info.songs_in_queues),
+        std::format("Number of {}: {}", UNSORTED_LIST_TITLE, info.unsorted_songs),
 
         std::string(""),
 
