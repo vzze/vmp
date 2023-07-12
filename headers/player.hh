@@ -72,7 +72,7 @@ namespace vmp {
             static constexpr std::uint32_t VOLUME_DEFAULT  = 100;
 
             static constexpr std::uint32_t VOLUME_MIN = 0;
-            static constexpr std::uint32_t VOLUME_MAX = 300;
+            static constexpr std::uint32_t VOLUME_MAX = 100;
 
             enum class SONG_TYPE : char {
                 UNSORTED,

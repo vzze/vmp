@@ -1,6 +1,8 @@
 #include <ui.hh>
 
 bool vmp::ui::notify_alive_callback() {
+    if(screen_is_too_small) return true;
+
     draw_player_status();
 
     return handler.refresh();
