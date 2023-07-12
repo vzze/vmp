@@ -1,11 +1,11 @@
 #include <ui.hh>
 
-vmp::ui::ui(player & current, const ui_opts opts)
+vmp::ui::ui(player & current)
     : screen_is_too_small{false},
       current_zone{ZONE::QUEUE_TITLE},
       current_dimensions{},
-      sidebar_width{opts.sidebar_width},
-      sidebar_stopping_point{opts.sidebar_stopping_point},
+      sidebar_width{DEFAULT_SIDEBAR_WIDTH},
+      sidebar_stopping_point{DEFAULT_SIDEBAR_STOPPING_POINT},
       queues_offset{0},
       unsorted_songs_offset{0},
       instance{current}
@@ -93,4 +93,35 @@ void vmp::ui::add_highlight_selected(const coord pos, const std::string_view sta
     }
 
     handler.write(end);
+}
+
+void vmp::ui::redraw_default() {
+    if(sidebar_width != DEFAULT_SIDEBAR_WIDTH) {
+        sidebar_width = DEFAULT_SIDEBAR_WIDTH;
+        update_zones_hl_start_pos();
+    }
+
+    draw_borders();
+    draw_queues(true);
+    draw_unsorted_songs(true);
+    draw_player_info();
+    draw_player_status();
+    draw_player_volume();
+
+    set_zone(ZONE::QUEUE_TITLE);
+}
+
+void vmp::ui::redraw_slim() {
+    if(sidebar_width != SLIM_SIDEBAR_WIDTH) {
+        sidebar_width = SLIM_SIDEBAR_WIDTH;
+        update_zones_hl_start_pos();
+    }
+
+    draw_borders();
+    draw_queues(true);
+    draw_unsorted_songs(true);
+    draw_player_status();
+    draw_player_volume();
+
+    set_zone(ZONE::QUEUE_LIST);
 }

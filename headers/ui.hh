@@ -22,11 +22,6 @@ namespace vmp {
 
             bool screen_is_too_small;
 
-            struct ui_opts {
-                u32 sidebar_width;
-                u32 sidebar_stopping_point;
-            };
-
             enum class ZONE : char {
                 QUEUE_TITLE,
                 QUEUE_LIST,
@@ -109,7 +104,8 @@ namespace vmp {
             void button_down();
 
             static constexpr u32 DEFAULT_SIDEBAR_STOPPING_POINT = 12;
-            static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 28;
+            static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 42;
+            static constexpr u32 SLIM_SIDEBAR_WIDTH    = 28;
             static constexpr u32 ROW_START = 2;
 
             static constexpr coord TOP_BAR = { 1, 2 };
@@ -130,7 +126,7 @@ namespace vmp {
 
             player & instance;
         public:
-            ui(player &, const ui_opts);
+            explicit ui(player &);
 
             void up();
             void left();
@@ -170,24 +166,26 @@ namespace vmp {
 
             std::vector<std::string> get_main_list(cu32);
             void draw_main_list(cu32);
-            void hide_main_list();
 
             void main_next_page(cu32);
             void main_prev_page(cu32);
 
             std::vector<std::string> get_queues();
-            void draw_queues();
+            void draw_queues(bool = false);
 
             void queues_next_page();
             void queues_prev_page();
 
             std::vector<std::string> get_unsorted_songs();
-            void draw_unsorted_songs();
+            void draw_unsorted_songs(bool = false);
 
             void unsorted_next_page();
             void unsorted_prev_page();
 
             void draw_borders();
+
+            void redraw_slim();
+            void redraw_default();
 
             [[nodiscard]] static std::string format_row(std::string, cu32, bool = true);
             static void format_str_len(std::string &, cu32, bool = true);

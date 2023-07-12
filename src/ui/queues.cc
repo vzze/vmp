@@ -48,8 +48,9 @@ std::vector<std::string> vmp::ui::get_queues() {
     return ret;
 }
 
-void vmp::ui::draw_queues() {
-    handler.print_at_pos({ 1, TOP_BAR.row + 1 }, QUEUE_LIST_TITLE);
+void vmp::ui::draw_queues(bool redraw_title) {
+    if(redraw_title)
+        handler.print_at_pos({ 1, TOP_BAR.row + 1 }, QUEUE_LIST_TITLE);
 
     const auto queues = get_queues();
 

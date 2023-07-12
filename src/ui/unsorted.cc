@@ -51,8 +51,9 @@ std::vector<std::string> vmp::ui::get_unsorted_songs() {
     return ret;
 }
 
-void vmp::ui::draw_unsorted_songs() {
-    handler.print_at_pos({ 1, sidebar_stopping_point + 1 }, UNSORTED_LIST_TITLE);
+void vmp::ui::draw_unsorted_songs(bool redraw_title) {
+    if(redraw_title)
+        handler.print_at_pos({ 1, sidebar_stopping_point + 1 }, UNSORTED_LIST_TITLE);
 
     const auto u_songs = get_unsorted_songs();
 

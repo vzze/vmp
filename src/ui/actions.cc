@@ -13,11 +13,7 @@ void vmp::ui::up() {
 
 void vmp::ui::left() {
     switch(current_zone) {
-        case ZONE::QUEUE_LIST:
-            set_zone(ZONE::QUEUE_TITLE);
-            hide_main_list();
-            draw_player_info();
-        break;
+        case ZONE::QUEUE_LIST   : redraw_default(); break;
         case ZONE::UNSORTED_LIST: set_zone(ZONE::UNSORTED_TITLE); break;
         case ZONE::MAIN_LIST    : set_zone(ZONE::QUEUE_LIST); break;
 
@@ -40,7 +36,7 @@ void vmp::ui::right() {
     switch(current_zone) {
         case ZONE::QUEUE_TITLE:
             if(!zones[ZONE::QUEUE_LIST].buttons.empty()) {
-                set_zone(ZONE::QUEUE_LIST);
+                redraw_slim();
                 draw_main_list(zones[current_zone].current().id);
             }
         break;
