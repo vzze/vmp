@@ -16,6 +16,7 @@ void vmp::player::manage(const std::stop_token & token, engine * current) {
                             song_id = song_id % static_cast<std::uint32_t>(unsorted.songs.size());
 
                             unsorted.songs[song_id].play(current);
+                            unsorted.songs[song_id].set_volume(static_cast<float>(volume) / 100.0F);
                         }
                     break;
 
@@ -28,6 +29,7 @@ void vmp::player::manage(const std::stop_token & token, engine * current) {
                             song_id = song_id % static_cast<std::uint32_t>(queues[queue_id].songs.size());
 
                             queues[queue_id].songs[song_id].play(current);
+                            queues[queue_id].songs[song_id].set_volume(static_cast<float>(volume) / 100.0F);
                         }
                     break;
 
