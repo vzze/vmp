@@ -21,7 +21,7 @@ void vmp::ui::unsorted_prev_page() {
     }
 }
 
-std::vector<std::string> vmp::ui::get_unsorted_songs() {
+std::vector<std::string> vmp::ui::get_unsorted_songs(bool reset_buttons) {
     std::vector<std::string> ret;
 
     const auto unsorted_songs = std::ranges::subrange(
@@ -31,17 +31,23 @@ std::vector<std::string> vmp::ui::get_unsorted_songs() {
 
     u32 space = sidebar_stopping_point + 2;
 
-    zones[ZONE::UNSORTED_LIST].buttons.clear();
-    zones[ZONE::UNSORTED_LIST].currently_selected = 0;
+    if(reset_buttons)
+        zones[ZONE::UNSORTED_LIST].buttons.clear();
 
     for(u32 button_id = unsorted_songs_offset; const auto & song : unsorted_songs) {
         if(space > current_dimensions.row) break;
 
-        zones[ZONE::UNSORTED_LIST].buttons.push_back(button{button_id++});
+        if(reset_buttons)
+            zones[ZONE::UNSORTED_LIST].buttons.push_back(button{button_id++});
 
         ret.push_back(format_row(song.name(), sidebar_width - ROW_START));
         ++space;
     }
+
+    if(reset_buttons)
+        zones[ZONE::UNSORTED_LIST].currently_selected %= static_cast<u32>(
+            (zones[ZONE::UNSORTED_LIST].buttons.empty()) ? 1 : zones[ZONE::UNSORTED_LIST].buttons.size()
+        );
 
     while(space <= current_dimensions.row) {
         ret.emplace_back(sidebar_width - ROW_START, ' ');
@@ -51,10 +57,11 @@ std::vector<std::string> vmp::ui::get_unsorted_songs() {
     return ret;
 }
 
-void vmp::ui::draw_unsorted_songs() {
-    handler.print_at_pos({ 2, sidebar_stopping_point + 1 }, "Unsorted Songs");
+void vmp::ui::draw_unsorted_songs(bool redraw_title, bool reset_buttons) {
+    if(redraw_title)
+        handler.print_at_pos({ 1, sidebar_stopping_point + 1 }, UNSORTED_LIST_TITLE);
 
-    const auto u_songs = get_unsorted_songs();
+    const auto u_songs = get_unsorted_songs(reset_buttons);
 
     for(auto start = sidebar_stopping_point + 2; const auto & song : u_songs)
         handler.print_at_pos({ ROW_START, start++ }, song);

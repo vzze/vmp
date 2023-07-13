@@ -1,6 +1,8 @@
 #include <ui.hh>
 
 bool vmp::ui::notify_alive_callback() {
+    if(screen_is_too_small) return true;
+
     draw_player_status();
 
     return handler.refresh();
@@ -53,14 +55,7 @@ bool vmp::ui::resize_callback(const coord coords) {
     } else {
         screen_is_too_small = false;
 
-        draw_borders();
-        draw_queues();
-        draw_unsorted_songs();
-        draw_player_info();
-        draw_player_status();
-        draw_player_volume();
-
-        set_zone(ZONE::QUEUE_TITLE);
+        redraw_default();
     }
 
     return handler.refresh();

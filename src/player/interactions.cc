@@ -21,8 +21,9 @@ void vmp::player::play_song_from_queue(const std::uint32_t q_id, const std::uint
 
     const auto is_looping = current_track_looping();
 
-    if(state == STATE::RESUMED) stop_current_audio();
-    else state = STATE::RESUMED;
+    if(has_started()) stop_current_audio();
+
+    state = STATE::RESUMED;
 
     queue_id  = q_id;
     song_id   = s_id;
@@ -38,8 +39,9 @@ void vmp::player::play_song_from_unsorted(const std::uint32_t s_id) {
 
     const auto is_looping = current_track_looping();
 
-    if(state == STATE::RESUMED) stop_current_audio();
-    else state = STATE::RESUMED;
+    if(has_started()) stop_current_audio();
+
+    state = STATE::RESUMED;
 
     song_id   = s_id;
     song_type = SONG_TYPE::UNSORTED;
@@ -160,7 +162,7 @@ void vmp::player::skip() {
 }
 
 void vmp::player::shuffle_queue(const std::uint32_t q_id) {
-    if((state == STATE::RESUMED || state == STATE::PAUSED) && song_type == SONG_TYPE::IN_QUEUE && queue_id == q_id) {
+    if(has_started() && song_type == SONG_TYPE::IN_QUEUE && queue_id == q_id) {
         const std::scoped_lock lck{audio};
 
         const auto * current_song = queues[queue_id].songs[song_id].resource;
@@ -178,7 +180,7 @@ void vmp::player::shuffle_queue(const std::uint32_t q_id) {
 }
 
 void vmp::player::shuffle_unsorted() {
-    if((state == STATE::RESUMED || state == STATE::PAUSED) && song_type == SONG_TYPE::UNSORTED) {
+    if(has_started() && song_type == SONG_TYPE::UNSORTED) {
         const std::scoped_lock lck{audio};
 
         const auto * current_song = unsorted.songs[song_id].resource;
@@ -195,5 +197,8 @@ void vmp::player::shuffle_unsorted() {
     }
 }
 
-// helper to convert atomic<uint32> to uint32
-std::uint32_t vmp::player::get_volume() const { return volume; }
+std::uint32_t vmp::player::current_volume() const { return volume; }
+std::uint32_t vmp::player::current_queue_id() const { return queue_id; }
+std::uint32_t vmp::player::current_song_id() const { return song_id; }
+
+bool vmp::player::has_started() const { return state == STATE::RESUMED || state == STATE::PAUSED; }

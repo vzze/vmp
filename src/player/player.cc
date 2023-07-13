@@ -7,8 +7,8 @@ vmp::player::player([[maybe_unused]] const fs::path & cwd)
       queue_id{0},
       song_id{0},
       volume{VOLUME_DEFAULT},
-      song_type{SONG_TYPE::NONE},
       mersenne{std::make_unique<std::mt19937_64>(std::random_device{}())},
+      song_type{SONG_TYPE::NONE},
       state{STATE::NOT_PLAYING}
 {
     engine_init(&instance);

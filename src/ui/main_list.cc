@@ -62,13 +62,7 @@ void vmp::ui::draw_main_list(cu32 queue_id) {
 
     for(auto start = TOP_BAR.row + 1; const auto & song : songs) {
         handler.print_at_pos({ ROW_START + sidebar_width, start++ }, song);
-        handler.erase_in_line(console::LINE::CURSOR_TO_EOL);
-    }
-}
-
-void vmp::ui::hide_main_list() {
-    for(auto start = TOP_BAR.row + 1; start <= current_dimensions.row; ++start) {
-        handler.set_cursor_pos({ ROW_START + sidebar_width, start });
-        handler.erase_in_line(console::LINE::CURSOR_TO_EOL);
+        if(song.length() < current_dimensions.column - ROW_START - sidebar_width + 1)
+            handler.erase_in_line(console::LINE::CURSOR_TO_EOL);
     }
 }

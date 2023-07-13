@@ -9,7 +9,7 @@ int main(int argc, char ** argv) {
     switch(args.size()) {
         case 1: {
             vmp::player player{args[0]};
-            vmp::ui tui{player, {vmp::ui::DEFAULT_SIDEBAR_WIDTH, vmp::ui::DEFAULT_SIDEBAR_STOPPING_POINT}};
+            vmp::ui tui{player};
 
             tui.handler.main_loop(vmp::ui::HEARTBEAT);
         } break;

@@ -6,7 +6,7 @@ void vmp::ui::draw_player_volume() {
         .row    = AVAILABLE_MOVES_CUTOFF.row
     };
 
-    handler.print_at_pos(after_keys, std::format("Volume: {:<3}", instance.get_volume()));
+    handler.print_at_pos(after_keys, std::format("Volume: {:<3}", instance.current_volume()));
 
     handler.dec_mode();
 
@@ -46,10 +46,34 @@ void vmp::ui::draw_player_status() {
             handler.print_at_pos(
                 after_keys,
                 format_row(
-                    (instance.current_track_looping()) ?
-                        std::format("Looping: {}", instance.current_song()) :
-                        std::format("Playing: {}", instance.current_song()),
+                    [&]() -> std::string {
+                        const auto queue_id = instance.current_queue_id() + 1;
+                        const auto song_id  = instance.current_song_id() + 1;
 
+                        if(instance.current_track_looping()) {
+                            switch(instance.song_type) {
+                                case player::SONG_TYPE::IN_QUEUE:
+                                    return std::format("Looping ({}/{}): {}", queue_id, song_id, instance.current_song());
+                                break;
+                                case player::SONG_TYPE::UNSORTED:
+                                    return std::format("Looping ({}): {}", song_id, instance.current_song());
+                                break;
+
+                                default: return ""; break;
+                            }
+                        } else {
+                            switch(instance.song_type) {
+                                case player::SONG_TYPE::IN_QUEUE:
+                                    return std::format("Playing ({}/{}): {}", queue_id, song_id, instance.current_song());
+                                break;
+                                case player::SONG_TYPE::UNSORTED:
+                                    return std::format("Playing ({}): {}", song_id, instance.current_song());
+                                break;
+
+                                default: return ""; break;
+                            }
+                        }
+                    }(),
                     current_dimensions.column - after_keys.column + 1
                 )
             );
@@ -69,9 +93,9 @@ void vmp::ui::draw_player_info() {
 
         std::string(""),
 
-        std::format("Number of Queues: {}", info.queues),
-        std::format("Number of Songs in Queues: {}", info.songs_in_queues),
-        std::format("Number of Unsorted Songs: {}", info.unsorted_songs),
+        std::format("Number of {}: {}", QUEUE_LIST_TITLE, info.queues),
+        std::format("Number of Songs in {}: {}", QUEUE_LIST_TITLE, info.songs_in_queues),
+        std::format("Number of {}: {}", UNSORTED_LIST_TITLE, info.unsorted_songs),
 
         std::string(""),
 

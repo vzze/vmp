@@ -22,11 +22,6 @@ namespace vmp {
 
             bool screen_is_too_small;
 
-            struct ui_opts {
-                u32 sidebar_width;
-                u32 sidebar_stopping_point;
-            };
-
             enum class ZONE : char {
                 QUEUE_TITLE,
                 QUEUE_LIST,
@@ -92,6 +87,8 @@ namespace vmp {
             void button_add_highlight();
             void button_remove_highlight();
 
+            void add_highlight_selected(const coord, const std::string_view, const std::string_view);
+
             struct zones {
                 private:
                     std::array<zone, static_cast<std::size_t>(ZONE::ZONE_NUMBER)> zones;
@@ -107,14 +104,18 @@ namespace vmp {
             void button_down();
 
             static constexpr u32 DEFAULT_SIDEBAR_STOPPING_POINT = 12;
-            static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 28;
-            static constexpr u32 ROW_START = 3;
+            static constexpr u32 DEFAULT_SIDEBAR_WIDTH = 42;
+            static constexpr u32 SLIM_SIDEBAR_WIDTH    = 28;
+            static constexpr u32 ROW_START = 2;
 
             static constexpr coord TOP_BAR = { 1, 2 };
             static constexpr coord AVAILABLE_MOVES_CUTOFF = { 8, 1 };
             static constexpr coord VOLUME_CUTOFF          = { AVAILABLE_MOVES_CUTOFF.column + 14, 1 };
 
             static constexpr auto HEARTBEAT = std::chrono::milliseconds{200};
+
+            static constexpr auto QUEUE_LIST_TITLE = "Queues";
+            static constexpr auto UNSORTED_LIST_TITLE = "Unsorted Songs";
         private:
             coord current_dimensions;
             u32 sidebar_width;
@@ -125,7 +126,7 @@ namespace vmp {
 
             player & instance;
         public:
-            ui(player &, const ui_opts);
+            explicit ui(player &);
 
             void up();
             void left();
@@ -165,24 +166,26 @@ namespace vmp {
 
             std::vector<std::string> get_main_list(cu32);
             void draw_main_list(cu32);
-            void hide_main_list();
 
             void main_next_page(cu32);
             void main_prev_page(cu32);
 
-            std::vector<std::string> get_queues();
-            void draw_queues();
+            std::vector<std::string> get_queues(bool = true);
+            void draw_queues(bool = false, bool = true);
 
             void queues_next_page();
             void queues_prev_page();
 
-            std::vector<std::string> get_unsorted_songs();
-            void draw_unsorted_songs();
+            std::vector<std::string> get_unsorted_songs(bool = true);
+            void draw_unsorted_songs(bool = false, bool = true);
 
             void unsorted_next_page();
             void unsorted_prev_page();
 
             void draw_borders();
+
+            void redraw_slim(bool = true);
+            void redraw_default(bool = true);
 
             [[nodiscard]] static std::string format_row(std::string, cu32, bool = true);
             static void format_str_len(std::string &, cu32, bool = true);
