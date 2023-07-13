@@ -47,13 +47,16 @@ void vmp::ui::draw_player_status() {
                 after_keys,
                 format_row(
                     [&]() -> std::string {
+                        const auto queue_id = instance.current_queue_id() + 1;
+                        const auto song_id  = instance.current_song_id() + 1;
+
                         if(instance.current_track_looping()) {
                             switch(instance.song_type) {
                                 case player::SONG_TYPE::IN_QUEUE:
-                                    return std::format("Looping ({}/{}): {}", instance.current_queue_id(), instance.current_song_id(), instance.current_song());
+                                    return std::format("Looping ({}/{}): {}", queue_id, song_id, instance.current_song());
                                 break;
                                 case player::SONG_TYPE::UNSORTED:
-                                    return std::format("Looping ({}): {}", instance.current_song_id(), instance.current_song());
+                                    return std::format("Looping ({}): {}", song_id, instance.current_song());
                                 break;
 
                                 default: return ""; break;
@@ -61,10 +64,10 @@ void vmp::ui::draw_player_status() {
                         } else {
                             switch(instance.song_type) {
                                 case player::SONG_TYPE::IN_QUEUE:
-                                    return std::format("Playing ({}/{}): {}", instance.current_queue_id(), instance.current_song_id(), instance.current_song());
+                                    return std::format("Playing ({}/{}): {}", queue_id, song_id, instance.current_song());
                                 break;
                                 case player::SONG_TYPE::UNSORTED:
-                                    return std::format("Playing ({}): {}", instance.current_song_id(), instance.current_song());
+                                    return std::format("Playing ({}): {}", song_id, instance.current_song());
                                 break;
 
                                 default: return ""; break;
