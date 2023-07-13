@@ -43,7 +43,7 @@ std::vector<std::string> vmp::ui::get_queues(bool reset_buttons) {
 
     if(reset_buttons)
         zones[ZONE::QUEUE_LIST].currently_selected %= static_cast<u32>(
-            zones[ZONE::QUEUE_LIST].buttons.size()
+            (zones[ZONE::QUEUE_LIST].buttons.empty()) ? 1 : zones[ZONE::QUEUE_LIST].buttons.size()
         );
 
     while(space != sidebar_stopping_point) { // fill up the remaining rows with blank strings

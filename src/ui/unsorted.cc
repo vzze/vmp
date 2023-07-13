@@ -46,7 +46,7 @@ std::vector<std::string> vmp::ui::get_unsorted_songs(bool reset_buttons) {
 
     if(reset_buttons)
         zones[ZONE::UNSORTED_LIST].currently_selected %= static_cast<u32>(
-            zones[ZONE::UNSORTED_LIST].buttons.size()
+            (zones[ZONE::UNSORTED_LIST].buttons.empty()) ? 1 : zones[ZONE::UNSORTED_LIST].buttons.size()
         );
 
     while(space <= current_dimensions.row) {
