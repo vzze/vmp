@@ -46,7 +46,7 @@ bool vmp::ui::resize_callback(const coord coords) {
 
     current_dimensions = coords;
 
-    if(current_dimensions.row <= sidebar_stopping_point + 1 || current_dimensions.column <= sidebar_width + ROW_START) {
+    if(current_dimensions.row <= sidebar_stopping_point + 1 || current_dimensions.column <= sidebar_width + ROW_START + 1) {
         screen_is_too_small = true;
 
         handler.erase_in_display(console::DISPLAY::ENTIRE_DISPLAY);
