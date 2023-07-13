@@ -95,15 +95,15 @@ void vmp::ui::add_highlight_selected(const coord pos, const std::string_view sta
     handler.write(end);
 }
 
-void vmp::ui::redraw_default() {
+void vmp::ui::redraw_default(bool reset_buttons) {
     if(sidebar_width != DEFAULT_SIDEBAR_WIDTH) {
         sidebar_width = DEFAULT_SIDEBAR_WIDTH;
         update_zones_hl_start_pos();
     }
 
     draw_borders();
-    draw_queues(true);
-    draw_unsorted_songs(true);
+    draw_queues(true, reset_buttons);
+    draw_unsorted_songs(true, reset_buttons);
     draw_player_info();
     draw_player_status();
     draw_player_volume();
@@ -111,15 +111,15 @@ void vmp::ui::redraw_default() {
     set_zone(ZONE::QUEUE_TITLE);
 }
 
-void vmp::ui::redraw_slim() {
+void vmp::ui::redraw_slim(bool reset_buttons) {
     if(sidebar_width != SLIM_SIDEBAR_WIDTH) {
         sidebar_width = SLIM_SIDEBAR_WIDTH;
         update_zones_hl_start_pos();
     }
 
     draw_borders();
-    draw_queues(true);
-    draw_unsorted_songs(true);
+    draw_queues(true, reset_buttons);
+    draw_unsorted_songs(true, reset_buttons);
     draw_player_status();
     draw_player_volume();
 

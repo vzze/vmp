@@ -170,22 +170,22 @@ namespace vmp {
             void main_next_page(cu32);
             void main_prev_page(cu32);
 
-            std::vector<std::string> get_queues();
-            void draw_queues(bool = false);
+            std::vector<std::string> get_queues(bool = true);
+            void draw_queues(bool = false, bool = true);
 
             void queues_next_page();
             void queues_prev_page();
 
-            std::vector<std::string> get_unsorted_songs();
-            void draw_unsorted_songs(bool = false);
+            std::vector<std::string> get_unsorted_songs(bool = true);
+            void draw_unsorted_songs(bool = false, bool = true);
 
             void unsorted_next_page();
             void unsorted_prev_page();
 
             void draw_borders();
 
-            void redraw_slim();
-            void redraw_default();
+            void redraw_slim(bool = true);
+            void redraw_default(bool = true);
 
             [[nodiscard]] static std::string format_row(std::string, cu32, bool = true);
             static void format_str_len(std::string &, cu32, bool = true);
