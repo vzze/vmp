@@ -1,5 +1,5 @@
 ## vmp
-A command-line utility for playing music
+A command-line utility for playing locally installed music
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/vzze/vmp/main/preview/player.gif">
